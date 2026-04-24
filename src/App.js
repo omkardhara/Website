@@ -19,36 +19,36 @@ import { useState, useEffect, useRef, useCallback } from "react";
 const CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap');
 
-  :root {
-    /* Core palette */
-    --bg:           #060605;
-    --bg-warm:      #0C0B09;
-    --surface:      #101009;
-    --surface-2:    #161510;
-    --surface-3:    #1D1C16;
+:root {
+  /* Core palette */
+  --bg:           #0A0F1C;
+  --bg-warm:      #0F172A;
+  --surface:      #131C2E;
+  --surface-2:    #1A2540;
+  --surface-3:    #222F52;
 
-    /* Gold family */
-    --gold:         #BF9B45;
-    --gold-bright:  #D4AF5C;
-    --gold-light:   #E8D49A;
-    --gold-dim:     #5C4A1E;
-    --gold-faint:   rgba(191,155,69,0.08);
+  /* Primary accent (Flow blue) */
+  --gold:         #00E5FF;
+  --gold-bright:  #5CF2FF;
+  --gold-light:   #A5F9FF;
+  --gold-dim:     #009FB3;
+  --gold-faint:   rgba(0,229,255,0.08);
 
-    /* Accent */
-    --ember:        #C85A2A;
-    --ember-dim:    rgba(200,90,42,0.12);
+  /* Secondary accent (energy pop) */
+  --ember:        #FF3B7A;
+  --ember-dim:    rgba(255,59,122,0.12);
 
-    /* Text scale */
-    --text:         #EAE4D8;
-    --text-2:       #A89E8E;
-    --text-3:       #6B6358;
-    --text-4:       #38362E;
+  /* Text scale */
+  --text:         #EAF4FF;
+  --text-2:       #A8C1D9;
+  --text-3:       #6E86A1;
+  --text-4:       #3E4E63;
 
-    /* Borders */
-    --line:         rgba(191,155,69,0.12);
-    --line-faint:   rgba(255,255,255,0.05);
-    --line-strong:  rgba(191,155,69,0.28);
-  }
+  /* Borders */
+  --line:         rgba(0,229,255,0.18);
+  --line-faint:   rgba(255,255,255,0.05);
+  --line-strong:  rgba(0,229,255,0.35);
+}
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
