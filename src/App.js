@@ -20,36 +20,22 @@ const CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap');
 
 :root {
-  /* Core palette */
-  --bg:           #0A0F1C;
-  --bg-warm:      #0F172A;
-  --surface:      #131C2E;
-  --surface-2:    #1A2540;
-  --surface-3:    #222F52;
+  --bg: #0A0A0A;
+  --surface: #141414;
+  --surface-2: #1F1F1F;
 
-  /* Primary accent (Flow blue) */
-  --gold:         #00E5FF;
-  --gold-bright:  #5CF2FF;
-  --gold-light:   #A5F9FF;
-  --gold-dim:     #009FB3;
-  --gold-faint:   rgba(0,229,255,0.08);
+  --gold: #00FF88;        /* neon green */
+  --gold-light: #66FFB2;
+  --gold-dim: #1DB954;
 
-  /* Secondary accent (energy pop) */
-  --ember:        #FF3B7A;
-  --ember-dim:    rgba(255,59,122,0.12);
+  --orange: #FF3B3B;      /* raw red accent */
 
-  /* Text scale */
-  --text:         #EAF4FF;
-  --text-2:       #A8C1D9;
-  --text-3:       #6E86A1;
-  --text-4:       #3E4E63;
+  --text: #F5F5F5;
+  --text-dim: #A3A3A3;
+  --text-muted: #666666;
 
-  /* Borders */
-  --line:         rgba(0,229,255,0.18);
-  --line-faint:   rgba(255,255,255,0.05);
-  --line-strong:  rgba(0,229,255,0.35);
+  --border: rgba(0,255,136,0.2);
 }
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
 
