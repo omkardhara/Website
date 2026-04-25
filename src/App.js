@@ -2998,27 +2998,46 @@ function BookMe() {
                     }}
                   />
                 </div>
-                <select
-                  className="field"
-                  value={form.type}
-                  onChange={u("type")}
-                  style={{
-                    padding: "14px 16px",
-                    appearance: "none",
-                    cursor: "pointer",
-                  }}
-                >
-                  <option value="" disabled>
-                    What kind of project?
-                  </option>
-                  <option value="performance">Live Performance</option>
-                  <option value="workshop">Corporate Workshop</option>
-                  <option value="brand">Brand Collaboration</option>
-                  <option value="installation">
-                    Installation / Exhibition
-                  </option>
-                  <option value="writing">Writing Commission</option>
-                  <option value="other">Something else — let me explain</option>
+               {/* Select wrapper — adds a custom arrow since appearance: none removes it */}
+                <div style={{ position: "relative" }}>
+                  <select
+                    className="field"
+                    value={form.type}
+                    onChange={u("type")}
+                    style={{
+                      padding: "14px 44px 14px 16px", /* right padding for arrow */
+                      appearance: "none",
+                      cursor: "pointer",
+                      width: "100%",
+                    }}
+                  >
+                    <option value="" disabled>
+                      What kind of project?
+                    </option>
+                    <option value="performance">Live Performance</option>
+                    <option value="workshop">Corporate Workshop</option>
+                    <option value="brand">Brand Collaboration</option>
+                    <option value="installation">Installation / Exhibition</option>
+                    <option value="writing">Writing Commission</option>
+                    <option value="other">Something else — let me explain</option>
+                  </select>
+                  {/* Custom dropdown arrow */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      right: "16px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      pointerEvents: "none",
+                      width: 0,
+                      height: 0,
+                      borderStyle: "solid",
+                      borderWidth: "5px 4px 0 4px",
+                      borderColor: "var(--text-3) transparent transparent transparent",
+                    }}
+                  />
+                </div>
+                 
                 </select>
                 <textarea
                   className="field"
@@ -3208,7 +3227,7 @@ function Footer() {
             gap: "16px",
           }}
         >
-          <span
+         <span
             style={{
               ...F.mono,
               fontSize: "9px",
@@ -3216,7 +3235,7 @@ function Footer() {
               letterSpacing: "0.12em",
             }}
           >
-            © 2025 Omkar Dhareshwar aka ManWith3Balls — All rights reserved
+            © {new Date().getFullYear()} Omkar Dhareshwar aka ManWith3Balls — All rights reserved
           </span>
           <a
             href="mailto:omkardhareshwar@gmail.com"
