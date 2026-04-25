@@ -371,6 +371,7 @@ const WORK = [
 const NOTES = [
   {
     id: 1,
+    image: " " , // ← add this
     title: "What flow arts actually taught me about being still",
     date: "March 2025",
     read: "5 min",
@@ -380,6 +381,7 @@ const NOTES = [
   },
   {
     id: 2,
+    image: " ", // ← add this
     title: "Gangtok to Kochi in a Rickshaw. Notes from the road.",
     date: "January 2025",
     read: "12 min",
@@ -389,6 +391,7 @@ const NOTES = [
   },
   {
     id: 3,
+    image: " " , // ← add this
     title:
       "Writing for Red Bull: what it means to translate something wordless",
     date: "November 2024",
@@ -2154,106 +2157,147 @@ function Adventures() {
             overflow: "hidden",
           }}
         >
-          {/* Visual */}
-          <div
-            style={{
-              position: "relative",
-              minHeight: "clamp(360px,55vw,620px)",
-              background: "var(--surface-3)",
-              overflow: "hidden",
-            }}
-          >
-            {/* Atmospheric gradient */}
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                background:
-                  "radial-gradient(ellipse at 25% 55%, rgba(200,90,42,0.22), rgba(191,155,69,0.06) 50%, transparent 75%)",
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                backgroundImage:
-                  "repeating-linear-gradient(0deg, transparent, transparent 48px, rgba(255,255,255,0.012) 48px, rgba(255,255,255,0.012) 49px), repeating-linear-gradient(90deg, transparent, transparent 48px, rgba(255,255,255,0.012) 48px, rgba(255,255,255,0.012) 49px)",
-              }}
-            />
-            {/* Map-like route line */}
-            <svg
-              style={{
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-                opacity: 0.15,
-              }}
-              viewBox="0 0 400 500"
-              preserveAspectRatio="none"
-            >
-              <path
-                d="M 80 80 Q 200 120 160 200 Q 120 280 220 340 Q 300 380 280 440"
-                stroke="var(--gold)"
-                strokeWidth="1.5"
-                fill="none"
-                strokeDasharray="6 4"
-              />
-              <circle cx="80" cy="80" r="5" fill="var(--gold)" />
-              <circle cx="280" cy="440" r="5" fill="var(--ember)" />
-            </svg>
-            {/* Central icon */}
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                zIndex: 1,
-              }}
-            >
+         {/* ── Visual panel ──────────────────────────────────────────
+              TO ADD YOUR RICKSHAW RUN PHOTO:
+              1. Put your image in /public/images/rickshaw-run.jpg
+              2. Change ADVENTURE_PHOTO below to "/images/rickshaw-run.jpg"
+              The route line, badge, and overlay stay automatically.
+          ─────────────────────────────────────────────────────────── */}
+          {(() => {
+            const ADVENTURE_PHOTO = null; // ← swap for e.g. "/images/rickshaw-run.jpg"
+            return (
               <div
                 style={{
-                  fontSize: "clamp(64px,13vw,108px)",
-                  lineHeight: 1,
-                  marginBottom: "14px",
+                  position: "relative",
+                  minHeight: "clamp(360px,55vw,620px)",
+                  background: "var(--surface-3)",
+                  overflow: "hidden",
                 }}
               >
-                🛺
+                {/* Real photo — shown when ADVENTURE_PHOTO is set */}
+                {ADVENTURE_PHOTO ? (
+                  <>
+                    <img
+                      src={ADVENTURE_PHOTO}
+                      alt="The Rickshaw Run — Gangtok to Kochi"
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        objectPosition: "center",
+                      }}
+                    />
+                    {/* Dark overlay so badge + route remain readable over photo */}
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        background: "rgba(15,15,13,0.38)",
+                      }}
+                    />
+                  </>
+                ) : (
+                  /* Placeholder — ember + forest green gradient, updated palette */
+                  <>
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        background:
+                          "radial-gradient(ellipse at 25% 55%, rgba(196,98,29,0.18), rgba(46,107,79,0.07) 50%, transparent 75%)",
+                      }}
+                    />
+                    {/* Subtle dot-grid texture visible on light bg */}
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        backgroundImage:
+                          "radial-gradient(circle, rgba(15,15,13,0.06) 1px, transparent 1px)",
+                        backgroundSize: "24px 24px",
+                      }}
+                    />
+                    {/* Central rickshaw icon + label */}
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        zIndex: 1,
+                        gap: "14px",
+                      }}
+                    >
+                      <div style={{ fontSize: "clamp(64px,13vw,108px)", lineHeight: 1 }}>
+                        🛺
+                      </div>
+                      <div
+                        style={{
+                          ...F.mono,
+                          fontSize: "9px",
+                          color: "var(--text-3)",
+                          letterSpacing: "0.22em",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        Photography from the run
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {/* Route SVG — always visible, opacity adjusts for photo vs placeholder */}
+                <svg
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    opacity: ADVENTURE_PHOTO ? 0.5 : 0.2,
+                    zIndex: 2,
+                  }}
+                  viewBox="0 0 400 500"
+                  preserveAspectRatio="none"
+                >
+                  <path
+                    d="M 80 80 Q 200 120 160 200 Q 120 280 220 340 Q 300 380 280 440"
+                    stroke={ADVENTURE_PHOTO ? "#ffffff" : "var(--gold)"}
+                    strokeWidth="1.5"
+                    fill="none"
+                    strokeDasharray="6 4"
+                  />
+                  <circle cx="80" cy="80" r="5" fill={ADVENTURE_PHOTO ? "#ffffff" : "var(--gold)"} />
+                  <circle cx="280" cy="440" r="5" fill="var(--ember)" />
+                </svg>
+
+                {/* Route badge — fixed palette, no hardcoded dark background */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "24px",
+                    left: "24px",
+                    zIndex: 3,
+                    ...F.mono,
+                    fontSize: "9px",
+                    color: ADVENTURE_PHOTO ? "rgba(255,255,255,0.9)" : "var(--ember)",
+                    letterSpacing: "0.18em",
+                    textTransform: "uppercase",
+                    padding: "6px 12px",
+                    border: "1px solid rgba(196,98,29,0.35)",
+                    background: ADVENTURE_PHOTO
+                      ? "rgba(15,15,13,0.55)"
+                      : "var(--surface)",
+                  }}
+                >
+                  Gangtok → Kochi · 3,000 km
+                </div>
               </div>
-              <div
-                style={{
-                  ...F.mono,
-                  fontSize: "9px",
-                  color: "var(--text-3)",
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                }}
-              >
-                Photography from the run
-              </div>
-            </div>
-            {/* Route badge */}
-            <div
-              style={{
-                position: "absolute",
-                bottom: "24px",
-                left: "24px",
-                ...F.mono,
-                fontSize: "9px",
-                color: "var(--ember)",
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                padding: "6px 12px",
-                border: "1px solid rgba(200,90,42,0.3)",
-                background: "rgba(6,6,5,0.8)",
-              }}
-            >
-              Gangtok → Kochi · 3,000 km
-            </div>
-          </div>
+            );
+          })()}
 
           {/* Text */}
           <div
