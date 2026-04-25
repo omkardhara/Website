@@ -91,22 +91,51 @@ const CSS = `
     background-size: 180px 180px;
   }
 
-  /* ── Custom cursor ── */
-  #cursor-dot {
-    position: fixed; top: 0; left: 0; z-index: 10000;
-    width: 10px; height: 10px; border-radius: 50%;
-    background: var(--gold);
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    transition: width 0.22s ease, height 0.22s ease, background 0.22s ease, opacity 0.22s ease;
-    mix-blend-mode: screen;
+ /* ── Three Balls Cursor — ManWith3Balls ── */
+  /* Hidden on touch devices */
+  #cursor-wrap { pointer-events: none; }
+  @media (hover: none) {
+    body { cursor: auto !important; }
+    #cursor-wrap { display: none; }
   }
-  #cursor-dot.hovered {
-    width: 38px; height: 38px;
-    background: rgba(191,155,69,0.25);
+
+  /* Each ball is a fixed circle that moves independently */
+  .cursor-ball {
+    position: fixed; top: 0; left: 0; z-index: 10000;
+    border-radius: 50%; pointer-events: none;
+    transform: translate(-50%, -50%);
+    will-change: left, top;
+  }
+
+  /* Ball 1 — largest, closest to cursor, primary green */
+  #ball-1 {
+    width: 11px; height: 11px;
+    background: var(--gold);
+    transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  }
+
+  /* Ball 2 — medium, slightly behind, softer green */
+  #ball-2 {
+    width: 7px; height: 7px;
+    background: var(--gold); opacity: 0.55;
+    transition: width 0.2s ease, height 0.2s ease;
+  }
+
+  /* Ball 3 — smallest, trails furthest, terracotta (MW3B ember) */
+  #ball-3 {
+    width: 5px; height: 5px;
+    background: var(--ember); opacity: 0.5;
+    transition: width 0.2s ease, height 0.2s ease;
+  }
+
+  /* Hover state — balls expand into a larger presence */
+  .cursor-hovered #ball-1 {
+    width: 36px; height: 36px;
+    background: var(--gold-faint);
     border: 1px solid var(--gold);
   }
-  #cursor-dot.pressed { width: 24px; height: 24px; }
+  .cursor-hovered #ball-2 { width: 11px; height: 11px; opacity: 0.7; }
+  .cursor-hovered #ball-3 { width: 8px; height: 8px; opacity: 0.6; }
 
   /* ── Scroll reveal ── */
   .reveal {
@@ -522,53 +551,92 @@ function SectionHeading({ children, style = {} }) {
 // ─────────────────────────────────────────────────────────────
 
 function Cursor() {
-  const dotRef = useRef(null);
+  // Three refs — one per ball
+  const ball1Ref = useRef(null);
+  const ball2Ref = useRef(null);
+  const ball3Ref = useRef(null);
+  const wrapRef  = useRef(null);
+
+  // Live mouse target
   const posRef = useRef({ x: -100, y: -100 });
-  const currRef = useRef({ x: -100, y: -100 });
+
+  // Each ball tracks its own smoothed position
+  const b1 = useRef({ x: -100, y: -100 });
+  const b2 = useRef({ x: -100, y: -100 });
+  const b3 = useRef({ x: -100, y: -100 });
+
   const rafRef = useRef(null);
 
   useEffect(() => {
+    // Don't run on touch screens
+    if (window.matchMedia("(hover: none)").matches) return;
+
+    const lerp = (a, b, t) => a + (b - a) * t;
+
     const onMove = (e) => {
       posRef.current = { x: e.clientX, y: e.clientY };
     };
-    const onDown = () => dotRef.current?.classList.add("pressed");
-    const onUp = () => dotRef.current?.classList.remove("pressed");
 
-    // Hover detection — add 'hovered' class
-    const addHover = () => dotRef.current?.classList.add("hovered");
-    const removeHover = () => dotRef.current?.classList.remove("hovered");
-    const TARGETS =
-      "a, button, .work-card, .note-card, .offer-card, .vid-card, .cred-tag";
-    document.querySelectorAll(TARGETS).forEach((el) => {
-      el.addEventListener("mouseenter", addHover);
-      el.addEventListener("mouseleave", removeHover);
-    });
+    // Use event delegation — much more performant than per-element listeners
+    const SELECTOR = "a, button, .work-card, .note-card, .offer-card, .vid-card, .cred-tag";
+    const onOver = (e) => {
+      if (e.target.closest(SELECTOR)) wrapRef.current?.classList.add("cursor-hovered");
+    };
+    const onOut = (e) => {
+      if (e.target.closest(SELECTOR)) wrapRef.current?.classList.remove("cursor-hovered");
+    };
+
+    document.addEventListener("mouseover", onOver);
+    document.addEventListener("mouseout", onOut);
 
     const loop = () => {
-      // Lerp for trailing feel
-      currRef.current.x += (posRef.current.x - currRef.current.x) * 0.14;
-      currRef.current.y += (posRef.current.y - currRef.current.y) * 0.14;
-      if (dotRef.current) {
-        dotRef.current.style.left = currRef.current.x + "px";
-        dotRef.current.style.top = currRef.current.y + "px";
+      // Ball 1 — snappiest, closest to real cursor position
+      b1.current.x = lerp(b1.current.x, posRef.current.x, 0.35);
+      b1.current.y = lerp(b1.current.y, posRef.current.y, 0.35);
+
+      // Ball 2 — follows ball 1, creating a cascade
+      b2.current.x = lerp(b2.current.x, b1.current.x, 0.22);
+      b2.current.y = lerp(b2.current.y, b1.current.y, 0.22);
+
+      // Ball 3 — trails furthest, the most juggle-like
+      b3.current.x = lerp(b3.current.x, b2.current.x, 0.14);
+      b3.current.y = lerp(b3.current.y, b2.current.y, 0.14);
+
+      // Apply positions directly to DOM (no React re-render = no lag)
+      if (ball1Ref.current) {
+        ball1Ref.current.style.left = b1.current.x + "px";
+        ball1Ref.current.style.top  = b1.current.y + "px";
       }
+      if (ball2Ref.current) {
+        ball2Ref.current.style.left = b2.current.x + "px";
+        ball2Ref.current.style.top  = b2.current.y + "px";
+      }
+      if (ball3Ref.current) {
+        ball3Ref.current.style.left = b3.current.x + "px";
+        ball3Ref.current.style.top  = b3.current.y + "px";
+      }
+
       rafRef.current = requestAnimationFrame(loop);
     };
 
     window.addEventListener("mousemove", onMove, { passive: true });
-    window.addEventListener("mousedown", onDown);
-    window.addEventListener("mouseup", onUp);
     rafRef.current = requestAnimationFrame(loop);
 
     return () => {
       window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mousedown", onDown);
-      window.removeEventListener("mouseup", onUp);
+      document.removeEventListener("mouseover", onOver);
+      document.removeEventListener("mouseout", onOut);
       cancelAnimationFrame(rafRef.current);
     };
   }, []);
 
-  return <div id="cursor-dot" ref={dotRef} />;
+  return (
+    <div ref={wrapRef} id="cursor-wrap">
+      <div id="ball-1" className="cursor-ball" ref={ball1Ref} />
+      <div id="ball-2" className="cursor-ball" ref={ball2Ref} />
+      <div id="ball-3" className="cursor-ball" ref={ball3Ref} />
+    </div>
+  );
 }
 
 // ─────────────────────────────────────────────────────────────
