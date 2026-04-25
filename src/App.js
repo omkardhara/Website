@@ -1388,7 +1388,7 @@ function About() {
             ─────────────────────────────────────────────────────── */}
             {(() => {
               const ABOUT_PHOTO = "/images/Omkar Dhareshwar-About.jpeg"; // ← swap null for your image path e.g. "/images/omkar-about.jpg"
-              const ABOUT_CAPTION = "Omkar in Goa, 2024"; // ← update caption here
+              const ABOUT_CAPTION = "Omkar in Maro Art Village 2020"; // ← update caption here
               return (
                 <div
                   style={{
