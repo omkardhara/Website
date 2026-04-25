@@ -1387,7 +1387,7 @@ function About() {
                 3. The corner brackets and caption stay automatically
             ─────────────────────────────────────────────────────── */}
             {(() => {
-              const ABOUT_PHOTO = "public/images/Omkar Dhareshwar-About.jpeg; // ← swap null for your image path e.g. "/images/omkar-about.jpg"
+              const ABOUT_PHOTO = "/images/Omkar Dhareshwar-About.jpeg"; // ← swap null for your image path e.g. "/images/omkar-about.jpg"
               const ABOUT_CAPTION = "Omkar in Goa, 2024"; // ← update caption here
               return (
                 <div
