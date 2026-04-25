@@ -2438,7 +2438,7 @@ function Media() {
   // TO UPDATE: replace the yt value in the VIDEOS array at the top of the file
   // e.g. yt: "dQw4w9WgXcQ" → yt: "your_actual_video_id"
   const openVideo = (ytId) => {
-    window.open(`https://www.youtube.com/watch?v=${ytId}`, "_blank", "noopener");
+    window.open(`https://youtu.be/${ytId}`, "_blank", "noopener");
   };
 
   return (
