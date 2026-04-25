@@ -1380,69 +1380,128 @@ function About() {
 
           {/* ── MW3B column — raw, personal ── */}
           <div>
-            {/* Photo placeholder — believable gradient visual */}
-            <div
-              style={{
-                width: "100%",
-                aspectRatio: "3/4",
-                background:
-                  "linear-gradient(160deg, var(--surface-3) 0%, var(--surface) 60%, rgba(191,155,69,0.06) 100%)",
-                border: "1px solid var(--line)",
-                position: "relative",
-                overflow: "hidden",
-                marginBottom: "32px",
-              }}
-            >
-              {/* Corner details */}
-              {[
-                { top: "18px", left: "18px" },
-                { top: "18px", right: "18px" },
-                { bottom: "18px", left: "18px" },
-                { bottom: "18px", right: "18px" },
-              ].map((p, i) => (
+           {/* ── About photo ──────────────────────────────────────
+                TO ADD YOUR PHOTO:
+                1. Put your image in /public/images/omkar-about.jpg
+                2. Change ABOUT_PHOTO below to "/images/omkar-about.jpg"
+                3. The corner brackets and caption stay automatically
+            ─────────────────────────────────────────────────────── */}
+            {(() => {
+              const ABOUT_PHOTO = null; // ← swap null for your image path e.g. "/images/omkar-about.jpg"
+              const ABOUT_CAPTION = "Omkar in Goa, 2024"; // ← update caption here
+              return (
                 <div
-                  key={i}
                   style={{
-                    position: "absolute",
-                    width: "18px",
-                    height: "18px",
-                    borderTop: i < 2 ? "1px solid var(--gold)" : undefined,
-                    borderBottom: i >= 2 ? "1px solid var(--gold)" : undefined,
-                    borderLeft:
-                      i % 2 === 0 ? "1px solid var(--gold)" : undefined,
-                    borderRight:
-                      i % 2 === 1 ? "1px solid var(--gold)" : undefined,
-                    ...p,
-                  }}
-                />
-              ))}
-              {/* Decorative inner */}
-              <div
-                style={{
-                  position: "absolute",
-                  inset: "24px",
-                  border: "1px solid var(--line-faint)",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "12px",
-                }}
-              >
-                <div style={{ fontSize: "52px", opacity: 0.8 }}>🌊</div>
-                <span
-                  style={{
-                    ...F.mono,
-                    fontSize: "9px",
-                    color: "var(--text-4)",
-                    letterSpacing: "0.2em",
-                    textTransform: "uppercase",
+                    width: "100%",
+                    aspectRatio: "3/4",
+                    background: ABOUT_PHOTO
+                      ? "var(--surface-3)"
+                      : "linear-gradient(160deg, var(--surface-3) 0%, var(--surface) 60%, rgba(46,107,79,0.05) 100%)",
+                    border: "1px solid var(--line)",
+                    position: "relative",
+                    overflow: "hidden",
+                    marginBottom: "32px",
                   }}
                 >
-                  Omkar in Goa, 2024
-                </span>
-              </div>
-            </div>
+                  {/* Real photo */}
+                  {ABOUT_PHOTO && (
+                    <img
+                      src={ABOUT_PHOTO}
+                      alt={ABOUT_CAPTION}
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        objectPosition: "top center",
+                      }}
+                    />
+                  )}
+
+                  {/* Placeholder — shown only when no photo set */}
+                  {!ABOUT_PHOTO && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: "24px",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "12px",
+                      }}
+                    >
+                      <div style={{ fontSize: "52px", opacity: 0.5 }}>📷</div>
+                      <span
+                        style={{
+                          ...F.mono,
+                          fontSize: "9px",
+                          color: "var(--text-4)",
+                          letterSpacing: "0.2em",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        Add your photo here
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Corner brackets — always visible, overlaid on photo */}
+                  {[
+                    { top: "14px", left: "14px" },
+                    { top: "14px", right: "14px" },
+                    { bottom: "14px", left: "14px" },
+                    { bottom: "14px", right: "14px" },
+                  ].map((pos, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        position: "absolute",
+                        width: "18px",
+                        height: "18px",
+                        borderTop: i < 2 ? "1px solid var(--gold)" : undefined,
+                        borderBottom: i >= 2 ? "1px solid var(--gold)" : undefined,
+                        borderLeft: i % 2 === 0 ? "1px solid var(--gold)" : undefined,
+                        borderRight: i % 2 === 1 ? "1px solid var(--gold)" : undefined,
+                        zIndex: 2,
+                        opacity: ABOUT_PHOTO ? 0.7 : 1,
+                        ...pos,
+                      }}
+                    />
+                  ))}
+
+                  {/* Caption strip — sits at the bottom, always on top */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      zIndex: 2,
+                      padding: "10px 14px",
+                      background: ABOUT_PHOTO
+                        ? "rgba(15,15,13,0.5)"
+                        : "transparent",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <span
+                      style={{
+                        ...F.mono,
+                        fontSize: "8px",
+                        color: ABOUT_PHOTO ? "rgba(255,255,255,0.7)" : "var(--text-4)",
+                        letterSpacing: "0.2em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {ABOUT_CAPTION}
+                    </span>
+                  </div>
+                </div>
+              );
+            })()}
 
             {/* MW3B voice block */}
             <div
