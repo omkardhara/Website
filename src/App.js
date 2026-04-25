@@ -415,7 +415,7 @@ const VIDEOS = [
   {
     title: "Britannia Chocostars - Aquarius",
     sub: "TV Commercial shot for Britannia",
-    yt: "dQw4w9WgXcQ", // swap with real ID
+    yt: "jyzFUHqmjsQ", // swap with real ID
     bg: "radial-gradient(ellipse at 30% 50%, rgba(200,90,42,0.25), transparent)",
   },
   {
