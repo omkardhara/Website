@@ -1045,16 +1045,43 @@ function Hero() {
 
       {/* ── Content ── */}
       <div style={{ position: "relative", maxWidth: "1000px" }}>
-        {/* MW3B alias — glitch on hover */}
+       {/* ── Identity header — OD × MW3B ── */}
+        {/* Two names, one person. The scramble glitch on hover signals MW3B's chaotic energy. */}
         <div
           className="h-1"
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "16px",
+            gap: "14px",
             marginBottom: "40px",
           }}
         >
+          {/* OD name — serif, green, stable */}
+          <span
+            style={{
+              ...F.serif,
+              fontSize: "13px",
+              fontWeight: 500,
+              color: "var(--gold)",
+              letterSpacing: "0.06em",
+            }}
+          >
+            Omkar Dhareshwar
+          </span>
+
+          {/* Separator */}
+          <span
+            style={{
+              ...F.mono,
+              fontSize: "10px",
+              color: "var(--text-4)",
+              letterSpacing: "0.1em",
+            }}
+          >
+            ×
+          </span>
+
+          {/* MW3B alias — mono, glitches on hover, ember underline */}
           <span
             className="glitch-wrap"
             data-text={display}
@@ -1062,31 +1089,15 @@ function Hero() {
             style={{
               ...F.mono,
               fontSize: "11px",
-              letterSpacing: "0.24em",
+              letterSpacing: "0.22em",
               textTransform: "uppercase",
-              color: "var(--gold)",
-              paddingBottom: "1px",
-              borderBottom: "1px solid var(--gold-dim)",
+              color: "var(--ember)",
+              paddingBottom: "2px",
+              borderBottom: "1px solid var(--ember)",
+              opacity: 0.85,
             }}
           >
             {display}
-          </span>
-          <div
-            style={{
-              height: "1px",
-              width: "44px",
-              background: "var(--gold-dim)",
-            }}
-          />
-          <span
-            style={{
-              ...F.mono,
-              fontSize: "9px",
-              color: "var(--text-4)",
-              letterSpacing: "0.16em",
-            }}
-          >
-            hover me
           </span>
         </div>
 
