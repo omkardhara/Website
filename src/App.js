@@ -481,26 +481,59 @@ const F = {
   sans: { fontFamily: "'DM Sans', sans-serif" },
 };
 
-// OD label (professional, structured)
+// ── OD Label ──────────────────────────────────────────────────
+// Signals "Omkar Dhareshwar speaking" — professional, structured.
+// The filled serif circle is the visual anchor for this voice.
 function ODLabel({ children, style = {} }) {
   return (
     <div
       style={{
-        ...F.mono,
-        fontSize: "10px",
-        letterSpacing: "0.22em",
-        textTransform: "uppercase",
-        color: "var(--gold)",
-        marginBottom: "16px",
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "10px",
+        marginBottom: "20px",
         ...style,
       }}
     >
-      {children}
+      {/* Serif "O" pip — instantly readable identity marker */}
+      <span
+        style={{
+          ...F.serif,
+          fontSize: "11px",
+          fontWeight: 600,
+          color: "var(--bg)",
+          background: "var(--gold)",
+          width: "22px",
+          height: "22px",
+          borderRadius: "50%",
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexShrink: 0,
+          letterSpacing: 0,
+          lineHeight: 1,
+        }}
+      >
+        O
+      </span>
+      <span
+        style={{
+          ...F.mono,
+          fontSize: "10px",
+          letterSpacing: "0.22em",
+          textTransform: "uppercase",
+          color: "var(--gold)",
+        }}
+      >
+        {children}
+      </span>
     </div>
   );
 }
 
-// MW3B aside (raw, opinionated, experimental voice)
+// ── MW3B Aside ─────────────────────────────────────────────────
+// Signals "ManWith3Balls speaking" — raw, playful, artistic.
+// Ember/terracotta separates it from OD's forest green at a glance.
 function MW3BAside({ children, style = {} }) {
   return (
     <div
@@ -509,20 +542,27 @@ function MW3BAside({ children, style = {} }) {
         fontSize: "11px",
         fontStyle: "italic",
         color: "var(--text-3)",
-        lineHeight: 1.7,
-        borderLeft: "1px solid var(--line)",
-        paddingLeft: "14px",
+        lineHeight: 1.8,
+        borderLeft: "2px solid var(--ember)",
+        padding: "8px 14px",
+        background: "rgba(196,98,29,0.04)",
+        borderRadius: "0 4px 4px 0",
         ...style,
       }}
     >
+      {/* MW3B tag — uppercase, ember, not italic so it reads as a label */}
       <span
         style={{
-          color: "var(--gold-dim)",
-          marginRight: "6px",
+          ...F.mono,
+          fontSize: "8px",
+          letterSpacing: "0.22em",
+          textTransform: "uppercase",
+          color: "var(--ember)",
+          marginRight: "8px",
           fontStyle: "normal",
         }}
       >
-        // MW3B:
+        MW3B ▸
       </span>
       {children}
     </div>
