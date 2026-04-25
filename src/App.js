@@ -1136,7 +1136,7 @@ function Hero() {
               marginBottom: "8px",
             }}
           >
-            Flow Artist · Performer · Activist · Storyteller
+            Artist · Activist · Storyteller · Perpetual Work-in-Progress
           </p>
           <MW3BAside style={{ marginTop: "10px", maxWidth: "420px" }}>
             I throw things for a living. Also: make art, write words, and
