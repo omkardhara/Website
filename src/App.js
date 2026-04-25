@@ -20,23 +20,73 @@ const CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap');
 
 :root {
-  --bg: #0A0A0A;
-  --surface: #141414;
-  --surface-2: #1F1F1F;
+  --bg: #F7F9F8;          /* soft light background */
+  --surface: #FFFFFF;     /* cards */
+  --surface-2: #F0F3F2;   /* subtle layered sections */
 
-  --gold: #00FF88;        /* neon green */
-  --gold-light: #66FFB2;
-  --gold-dim: #1DB954;
+  --gold: #00C96B;        /* softened neon green */
+  --gold-light: #5BFFAD;
+  --gold-dim: #009E55;
 
-  --orange: #FF3B3B;      /* raw red accent */
+  --orange: #FF4D4D;      /* softened red accent */
 
-  --text: #F5F5F5;
-  --text-dim: #A3A3A3;
-  --text-muted: #666666;
+  --text: #1A1A1A;        /* strong readable text */
+  --text-dim: #4A4A4A;
+  --text-muted: #7A7A7A;
 
-  --border: rgba(0,255,136,0.2);
+  --border: rgba(0, 201, 107, 0.25);
 }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Smooth base visuals */
+body {
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Card / container styling */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+/* Optional: secondary sections */
+.section-alt {
+  background: var(--surface-2);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+/* Text hierarchy */
+.text-dim {
+  color: var(--text-dim);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+/* Accent usage */
+.accent {
+  color: var(--gold);
+}
+
+.button-primary {
+  background: var(--gold);
+  color: #ffffff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.button-primary:hover {
+  background: var(--gold-dim);
+}  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
 
   body {
