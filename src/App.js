@@ -2433,12 +2433,21 @@ function Adventures() {
 // ─────────────────────────────────────────────────────────────
 
 function Media() {
+  // Opens the YouTube video in a new tab
+  // TO UPDATE: replace the yt value in the VIDEOS array at the top of the file
+  // e.g. yt: "dQw4w9WgXcQ" → yt: "your_actual_video_id"
+  const openVideo = (ytId) => {
+    window.open(`https://www.youtube.com/watch?v=${ytId}`, "_blank", "noopener");
+  };
+
   return (
     <section
       id="media"
       style={{ padding: "clamp(90px,13vw,160px) clamp(20px,6vw,80px)" }}
     >
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+
+        {/* Header */}
         <div className="reveal" style={{ marginBottom: "56px" }}>
           <ODLabel>Media</ODLabel>
           <SectionHeading>
@@ -2451,6 +2460,7 @@ function Media() {
           </MW3BAside>
         </div>
 
+        {/* Video grid */}
         <div
           className="vid-cols"
           style={{
@@ -2464,10 +2474,13 @@ function Media() {
               key={i}
               className={`vid-card reveal reveal-d${i + 1}`}
               style={{ cursor: "pointer" }}
-
-         }
+              onClick={() => openVideo(v.yt)}
+              role="button"
+              aria-label={`Watch: ${v.title}`}
             >
-              {/* Thumbnail */}
+              {/* ── Thumbnail ── */}
+              {/* TO ADD A REAL THUMBNAIL: set v.thumb = "/images/video-thumb-1.jpg" in VIDEOS array.
+                  If not set, falls back to the gradient placeholder. */}
               <div
                 className="vid-thumb"
                 style={{
@@ -2476,13 +2489,43 @@ function Media() {
                   position: "relative",
                   border: "1px solid var(--line-faint)",
                   marginBottom: "14px",
+                  overflow: "hidden",
                 }}
               >
+                {v.thumb ? (
+                  /* Real thumbnail image */
+                  <img
+                    src={v.thumb}
+                    alt={v.title}
+                    className="vid-thumb-inner"
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      objectPosition: "center",
+                    }}
+                  />
+                ) : (
+                  /* Gradient placeholder */
+                  <div
+                    className="vid-thumb-inner"
+                    style={{ position: "absolute", inset: 0, background: v.bg }}
+                  />
+                )}
+
+                {/* Dark overlay so play button is always readable */}
                 <div
-                  className="vid-thumb-inner"
-                  style={{ position: "absolute", inset: 0, background: v.bg }}
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: "rgba(15,15,13,0.18)",
+                    transition: "background 0.3s",
+                  }}
                 />
-                {/* Play button */}
+
+                {/* Play button — fixed palette */}
                 <div
                   style={{
                     position: "absolute",
@@ -2499,12 +2542,15 @@ function Media() {
                       width: "52px",
                       height: "52px",
                       borderRadius: "50%",
-                      border: "1px solid rgba(191,155,69,0.6)",
+                      border: "1px solid rgba(46,107,79,0.7)",  /* forest green, not old gold */
+                      background: "rgba(248,246,241,0.12)",
+                      backdropFilter: "blur(4px)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                     }}
                   >
+                    {/* Triangle play icon */}
                     <div
                       style={{
                         marginLeft: "4px",
@@ -2512,35 +2558,55 @@ function Media() {
                         height: 0,
                         borderStyle: "solid",
                         borderWidth: "9px 0 9px 15px",
-                        borderColor:
-                          "transparent transparent transparent var(--gold)",
+                        borderColor: "transparent transparent transparent var(--gold)",
                       }}
                     />
                   </div>
                 </div>
-                {/* Index */}
+
+                {/* Video counter — bottom left */}
                 <div
                   style={{
                     position: "absolute",
                     bottom: "10px",
                     left: "12px",
+                    zIndex: 1,
                     ...F.mono,
                     fontSize: "8px",
-                    color: "var(--text-3)",
+                    color: "rgba(248,246,241,0.7)",
                     letterSpacing: "0.2em",
                   }}
                 >
-                  {String(i + 1).padStart(2, "0")} /{" "}
-                  {String(VIDEOS.length).padStart(2, "0")}
+                  {String(i + 1).padStart(2, "0")} / {String(VIDEOS.length).padStart(2, "0")}
+                </div>
+
+                {/* YouTube label — bottom right */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "10px",
+                    right: "12px",
+                    zIndex: 1,
+                    ...F.mono,
+                    fontSize: "8px",
+                    color: "rgba(248,246,241,0.55)",
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  YouTube ↗
                 </div>
               </div>
+
+              {/* Title + subtitle */}
               <div
                 style={{
-                  ...F.sans,
-                  fontSize: "13.5px",
-                  color: "var(--text)",
-                  marginBottom: "5px",
+                  ...F.serif,
+                  fontSize: "15px",
                   fontWeight: 400,
+                  color: "var(--text)",
+                  marginBottom: "6px",
+                  lineHeight: 1.3,
                 }}
               >
                 {v.title}
@@ -2549,7 +2615,7 @@ function Media() {
                 style={{
                   ...F.mono,
                   fontSize: "9px",
-                  color: "var(--text-3)",
+                  color: "var(--text-4)",
                   letterSpacing: "0.14em",
                   textTransform: "uppercase",
                 }}
