@@ -1804,32 +1804,31 @@ function FieldNotes() {
       style={{ padding: "clamp(90px,13vw,160px) clamp(20px,6vw,80px)" }}
     >
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div
-          className="reveal"
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-end",
-            marginBottom: "56px",
-            flexWrap: "wrap",
-            gap: "20px",
-          }}
-        >
-          <div>
-            <ODLabel>Writing</ODLabel>
-            <SectionHeading>
-              Thoughts that
-              <br />
-              <em style={{ color: "var(--gold)" }}>
-                wouldn't fit in a caption.
-              </em>
-            </SectionHeading>
-          </div>
-          <div style={{ textAlign: "right" }}>
-            <MW3BAside style={{ marginBottom: "10px" }}>
+
+        {/* ── Header — stacked, not split. Easier to read on all sizes. ── */}
+        <div className="reveal" style={{ marginBottom: "56px" }}>
+          <ODLabel>Writing</ODLabel>
+          <SectionHeading style={{ marginBottom: "20px" }}>
+            Thoughts that
+            <br />
+            <em style={{ color: "var(--gold)" }}>
+              wouldn't fit in a caption.
+            </em>
+          </SectionHeading>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "flex-start",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: "16px",
+              marginTop: "4px",
+            }}
+          >
+            <MW3BAside style={{ maxWidth: "380px" }}>
               I write when something refuses to leave me alone.
             </MW3BAside>
-            <a
+            
               href="#"
               style={{
                 ...F.mono,
@@ -1838,106 +1837,157 @@ function FieldNotes() {
                 letterSpacing: "0.16em",
                 textTransform: "uppercase",
                 textDecoration: "none",
+                whiteSpace: "nowrap",
+                alignSelf: "center",
+                borderBottom: "1px solid var(--border)",
+                paddingBottom: "2px",
+                transition: "opacity 0.2s",
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.65")}
+              onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
             >
               All field notes →
             </a>
           </div>
         </div>
 
-        {/* Featured note — large */}
+        {/* ── Featured note — full-width, large ── */}
+        {/* TO ADD A COVER IMAGE: set featured.image = "/images/your-cover.jpg" in the NOTES data array.
+            The image appears as a right-side panel on desktop, top strip on mobile. */}
         <div
           className="reveal note-card"
           style={{
             border: "1px solid var(--line-faint)",
             background: "var(--surface)",
-            padding: "clamp(36px,5vw,60px)",
             marginBottom: "2px",
             cursor: "pointer",
+            display: "grid",
+            gridTemplateColumns: featured.image ? "1fr 380px" : "1fr",
+            overflow: "hidden",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-start",
-              flexWrap: "wrap",
-              gap: "20px",
-              marginBottom: "28px",
-            }}
-          >
-            <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-              <span
-                style={{
-                  ...F.mono,
-                  fontSize: "9px",
-                  color: "var(--gold)",
-                  letterSpacing: "0.16em",
-                  textTransform: "uppercase",
-                  padding: "5px 10px",
-                  border: "1px solid var(--line)",
-                  background: "var(--gold-faint)",
-                }}
-              >
-                {featured.tag}
-              </span>
-              <span
-                style={{ ...F.mono, fontSize: "9px", color: "var(--text-3)" }}
-              >
-                Featured
-              </span>
+          {/* Text side */}
+          <div style={{ padding: "clamp(36px,5vw,60px)" }}>
+            {/* Meta row */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexWrap: "wrap",
+                gap: "12px",
+                marginBottom: "28px",
+              }}
+            >
+              <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                {/* Tag pill */}
+                <span
+                  style={{
+                    ...F.mono,
+                    fontSize: "9px",
+                    color: "var(--gold)",
+                    letterSpacing: "0.16em",
+                    textTransform: "uppercase",
+                    padding: "4px 10px",
+                    border: "1px solid var(--border)",
+                    background: "var(--gold-faint)",
+                  }}
+                >
+                  {featured.tag}
+                </span>
+                {/* Featured dot */}
+                <span
+                  style={{
+                    ...F.mono,
+                    fontSize: "9px",
+                    color: "var(--text-4)",
+                    letterSpacing: "0.12em",
+                  }}
+                >
+                  ✦ Featured
+                </span>
+              </div>
+              {/* Date + read time */}
+              <div style={{ display: "flex", gap: "20px" }}>
+                <span style={{ ...F.mono, fontSize: "9px", color: "var(--text-4)" }}>
+                  {featured.date}
+                </span>
+                <span style={{ ...F.mono, fontSize: "9px", color: "var(--text-4)" }}>
+                  {featured.read} read
+                </span>
+              </div>
             </div>
-            <div style={{ display: "flex", gap: "20px" }}>
-              <span
-                style={{ ...F.mono, fontSize: "9px", color: "var(--text-3)" }}
-              >
-                {featured.date}
-              </span>
-              <span
-                style={{ ...F.mono, fontSize: "9px", color: "var(--text-3)" }}
-              >
-                {featured.read} read
-              </span>
-            </div>
+
+            {/* Title */}
+            <h3
+              style={{
+                ...F.serif,
+                fontSize: "clamp(26px,4vw,44px)",
+                fontWeight: 400,
+                lineHeight: 1.15,
+                marginBottom: "18px",
+                color: "var(--text)",
+                maxWidth: "680px",
+              }}
+            >
+              {featured.title}
+            </h3>
+
+            {/* Excerpt */}
+            <p
+              style={{
+                fontSize: "14px",
+                color: "var(--text-2)",
+                lineHeight: 1.9,
+                maxWidth: "600px",
+                marginBottom: "36px",
+              }}
+            >
+              {featured.excerpt}
+            </p>
+
+            {/* Read link */}
+            <span
+              style={{
+                ...F.mono,
+                fontSize: "10px",
+                color: "var(--gold)",
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                borderBottom: "1px solid var(--border)",
+                paddingBottom: "2px",
+              }}
+            >
+              Read the piece →
+            </span>
           </div>
-          <h3
-            style={{
-              ...F.serif,
-              fontSize: "clamp(26px,4vw,44px)",
-              fontWeight: 400,
-              lineHeight: 1.15,
-              marginBottom: "20px",
-              color: "var(--text)",
-              maxWidth: "760px",
-            }}
-          >
-            {featured.title}
-          </h3>
-          <p
-            style={{
-              fontSize: "14px",
-              color: "var(--text-2)",
-              lineHeight: 1.85,
-              maxWidth: "680px",
-              marginBottom: "32px",
-            }}
-          >
-            {featured.excerpt}
-          </p>
-          <span
-            style={{
-              ...F.mono,
-              fontSize: "10px",
-              color: "var(--gold)",
-              letterSpacing: "0.16em",
-              textTransform: "uppercase",
-            }}
-          >
-            Read the piece →
-          </span>
+
+          {/* Cover image — only shown if featured.image is set */}
+          {featured.image && (
+            <div
+              style={{
+                position: "relative",
+                background: "var(--surface-3)",
+                overflow: "hidden",
+              }}
+            >
+              <img
+                src={featured.image}
+                alt={featured.title}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "center",
+                }}
+              />
+            </div>
+          )}
         </div>
 
-        {/* Remaining notes */}
+        {/* ── Smaller notes grid ── */}
         <div
           className="notes-cols"
           style={{
@@ -1953,66 +2003,112 @@ function FieldNotes() {
               style={{
                 border: "1px solid var(--line-faint)",
                 background: "var(--surface)",
-                padding: "32px 28px",
                 cursor: "pointer",
+                overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
               }}
             >
+              {/* Cover image — only shown if note.image is set
+                  TO ADD: set note.image = "/images/cover.jpg" in the NOTES array */}
+              {note.image && (
+                <div
+                  style={{
+                    height: "160px",
+                    overflow: "hidden",
+                    flexShrink: 0,
+                    background: "var(--surface-3)",
+                  }}
+                >
+                  <img
+                    src={note.image}
+                    alt={note.title}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      objectPosition: "center",
+                      transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1)",
+                    }}
+                  />
+                </div>
+              )}
+
+              {/* Text content */}
               <div
                 style={{
+                  padding: "28px 26px",
+                  flex: 1,
                   display: "flex",
-                  justifyContent: "space-between",
-                  marginBottom: "22px",
+                  flexDirection: "column",
                 }}
               >
-                <span
+                {/* Tag + read time */}
+                <div
                   style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "18px",
+                  }}
+                >
+                  <span
+                    style={{
+                      ...F.mono,
+                      fontSize: "9px",
+                      color: "var(--gold)",
+                      letterSpacing: "0.14em",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {note.tag}
+                  </span>
+                  <span style={{ ...F.mono, fontSize: "9px", color: "var(--text-4)" }}>
+                    {note.read}
+                  </span>
+                </div>
+
+                {/* Title */}
+                <h4
+                  style={{
+                    ...F.serif,
+                    fontSize: "20px",
+                    fontWeight: 400,
+                    lineHeight: 1.3,
+                    marginBottom: "12px",
+                    color: "var(--text)",
+                  }}
+                >
+                  {note.title}
+                </h4>
+
+                {/* Excerpt */}
+                <p
+                  style={{
+                    fontSize: "13px",
+                    color: "var(--text-2)",
+                    lineHeight: 1.85,
+                    flex: 1,
+                  }}
+                >
+                  {note.excerpt}
+                </p>
+
+                {/* Read link — separated from excerpt with a rule */}
+                <div
+                  style={{
+                    marginTop: "24px",
+                    paddingTop: "16px",
+                    borderTop: "1px solid var(--line-faint)",
                     ...F.mono,
-                    fontSize: "9px",
+                    fontSize: "10px",
                     color: "var(--gold)",
                     letterSpacing: "0.14em",
                     textTransform: "uppercase",
                   }}
                 >
-                  {note.tag}
-                </span>
-                <span
-                  style={{ ...F.mono, fontSize: "9px", color: "var(--text-3)" }}
-                >
-                  {note.read}
-                </span>
-              </div>
-              <h4
-                style={{
-                  ...F.serif,
-                  fontSize: "20px",
-                  fontWeight: 400,
-                  lineHeight: 1.3,
-                  marginBottom: "14px",
-                  color: "var(--text)",
-                }}
-              >
-                {note.title}
-              </h4>
-              <p
-                style={{
-                  fontSize: "12.5px",
-                  color: "var(--text-2)",
-                  lineHeight: 1.8,
-                }}
-              >
-                {note.excerpt}
-              </p>
-              <div
-                style={{
-                  marginTop: "24px",
-                  ...F.mono,
-                  fontSize: "10px",
-                  color: "var(--gold)",
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                }}
-              >
-                Read →
+                  Read →
+                </div>
               </div>
             </div>
           ))}
