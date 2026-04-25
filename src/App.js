@@ -1139,8 +1139,7 @@ function Hero() {
             Artist · Activist · Storyteller · Perpetual Work-in-Progress
           </p>
           <MW3BAside style={{ marginTop: "10px", maxWidth: "420px" }}>
-            I throw things for a living. Also: make art, write words, and
-            occasionally go places I wasn't invited.
+            Mechanical engineer by degree. Everything else by choice. Traded blueprints for fire — turns out both demand the same thing: knowing exactly where it might go wrong.
           </MW3BAside>
         </div>
 
