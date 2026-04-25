@@ -412,7 +412,7 @@ const VIDEOS = [
   {
     title: "Britannia Chocostars - Aquarius",
     sub: "TV Commercial shot for Britannia",
-    yt: "https://www.youtube.com/watch?v=jyzFUHqmjsQ", // swap with real ID
+    yt: "dQw4w9WgXcQ", // swap with real ID
     bg: "radial-gradient(ellipse at 30% 50%, rgba(200,90,42,0.25), transparent)",
   },
   {
@@ -2324,9 +2324,8 @@ function Media() {
               key={i}
               className={`vid-card reveal reveal-d${i + 1}`}
               style={{ cursor: "pointer" }}
-              onClick={() =>
-               window.open(`https://www.youtube.com/watch?v=${v.yt}`, "_blank")
-          }
+
+         }
             >
               {/* Thumbnail */}
               <div
