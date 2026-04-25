@@ -1550,60 +1550,96 @@ function WorkCard({ item, delay }) {
         overflow: "hidden",
       }}
     >
-      {/* Gradient visual */}
+      {/* ── Thumbnail ── */}
+      {/* TO ADD A REAL PHOTO: set item.image = "/your-image.jpg" in the WORK data array above.
+          If item.image is present it shows the photo. If not, it falls back to the gradient + glyph. */}
       <div
         style={{
-          height: "200px",
-          background: `var(--surface-3)`,
+          height: "220px",
+          background: "var(--surface-3)",
           position: "relative",
           overflow: "hidden",
         }}
       >
-        <div
-          style={{ position: "absolute", inset: 0, background: item.gradient }}
-        />
+        {item.image ? (
+          /* ── Real photo ── */
+          <img
+            src={item.image}
+            alt={item.title}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center",
+              transition: "transform 0.55s cubic-bezier(0.16,1,0.3,1)",
+            }}
+          />
+        ) : (
+          /* ── Gradient placeholder (until real photo added) ── */
+          <>
+            <div
+              style={{ position: "absolute", inset: 0, background: item.gradient }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "52px",
+                opacity: 0.7,
+              }}
+            >
+              {item.glyph}
+            </div>
+          </>
+        )}
+
+        {/* Subtle dark overlay at bottom so badge text is always readable */}
         <div
           style={{
             position: "absolute",
-            inset: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "52px",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: "60px",
+            background: "linear-gradient(to top, rgba(15,15,13,0.35), transparent)",
           }}
-        >
-          {item.glyph}
-        </div>
-        {/* Stat badge */}
+        />
+
+        {/* Stat badge — light surface, not hardcoded dark */}
         <div
           style={{
             position: "absolute",
-            top: "14px",
-            right: "14px",
+            top: "12px",
+            right: "12px",
             ...F.mono,
             fontSize: "9px",
             letterSpacing: "0.16em",
             textTransform: "uppercase",
             color: "var(--gold)",
-            background: "rgba(6,6,5,0.85)",
+            background: "var(--surface)",
             padding: "5px 10px",
-            border: "1px solid var(--line)",
+            border: "1px solid var(--border)",
           }}
         >
           {item.stat}
         </div>
       </div>
 
-      {/* Text */}
+      {/* ── Text ── */}
       <div style={{ padding: "28px 26px 30px" }}>
         <div
           style={{
             ...F.mono,
             fontSize: "9px",
-            color: "var(--gold)",
+            color: "var(--text-3)",
             letterSpacing: "0.18em",
             textTransform: "uppercase",
-            marginBottom: "12px",
+            marginBottom: "10px",
           }}
         >
           {item.tag}
@@ -1611,26 +1647,30 @@ function WorkCard({ item, delay }) {
         <h3
           style={{
             ...F.serif,
-            fontSize: "22px",
+            fontSize: "23px",
             fontWeight: 500,
             lineHeight: 1.2,
-            marginBottom: "14px",
+            marginBottom: "12px",
             color: "var(--text)",
           }}
         >
           {item.title}
         </h3>
         <p
-          style={{ fontSize: "13px", color: "var(--text-2)", lineHeight: 1.8 }}
+          style={{ fontSize: "13px", color: "var(--text-2)", lineHeight: 1.85 }}
         >
           {item.desc}
         </p>
+
+        {/* View project link */}
         <div
           style={{
             marginTop: "24px",
             display: "flex",
             alignItems: "center",
             gap: "8px",
+            borderTop: "1px solid var(--line-faint)",
+            paddingTop: "18px",
           }}
         >
           <span
@@ -1644,15 +1684,7 @@ function WorkCard({ item, delay }) {
           >
             View project
           </span>
-          <span
-            style={{
-              color: "var(--gold)",
-              fontSize: "14px",
-              transition: "transform 0.2s",
-            }}
-          >
-            →
-          </span>
+          <span style={{ color: "var(--gold)", fontSize: "13px" }}>→</span>
         </div>
       </div>
     </div>
