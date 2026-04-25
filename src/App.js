@@ -978,9 +978,11 @@ function Hero() {
         overflow: "hidden",
       }}
     >
-      {/* ── Breathing orbs — the three balls ── */}
+      {/* ── Breathing orbs — represent the three balls ── */}
+      {/* Colors now match the new palette: forest green + ember */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
-        {/* Primary orb */}
+
+        {/* Orb 1 — large, forest green, top-right */}
         <div
           className="orb-a"
           style={{
@@ -991,11 +993,12 @@ function Hero() {
             height: "clamp(240px,38vw,560px)",
             borderRadius: "50%",
             background:
-              "radial-gradient(circle at 36% 36%, rgba(191,155,69,0.09), rgba(191,155,69,0.02) 50%, transparent 72%)",
-            border: "1px solid rgba(191,155,69,0.06)",
+              "radial-gradient(circle at 36% 36%, rgba(46,107,79,0.1), rgba(46,107,79,0.03) 50%, transparent 72%)",
+            border: "1px solid rgba(46,107,79,0.07)",
           }}
         />
-        {/* Ember orb */}
+
+        {/* Orb 2 — medium, ember/terracotta, lower-right — MW3B accent */}
         <div
           className="orb-b"
           style={{
@@ -1006,11 +1009,12 @@ function Hero() {
             height: "clamp(120px,18vw,260px)",
             borderRadius: "50%",
             background:
-              "radial-gradient(circle, rgba(200,90,42,0.08), transparent 70%)",
-            border: "1px solid rgba(200,90,42,0.05)",
+              "radial-gradient(circle, rgba(196,98,29,0.09), transparent 70%)",
+            border: "1px solid rgba(196,98,29,0.06)",
           }}
         />
-        {/* Accent orb */}
+
+        {/* Orb 3 — small, forest green, mid-right */}
         <div
           className="orb-c"
           style={{
@@ -1020,11 +1024,12 @@ function Hero() {
             width: "clamp(56px,7vw,96px)",
             height: "clamp(56px,7vw,96px)",
             borderRadius: "50%",
-            background: "rgba(191,155,69,0.04)",
-            border: "1px solid rgba(191,155,69,0.1)",
+            background: "rgba(46,107,79,0.05)",
+            border: "1px solid rgba(46,107,79,0.12)",
           }}
         />
-        {/* Very faint horizontal grid line */}
+
+        {/* Faint horizontal rule — compositional anchor */}
         <div
           style={{
             position: "absolute",
@@ -1033,7 +1038,7 @@ function Hero() {
             right: 0,
             height: "1px",
             background:
-              "linear-gradient(90deg, transparent, rgba(191,155,69,0.03) 30%, rgba(191,155,69,0.03) 70%, transparent)",
+              "linear-gradient(90deg, transparent, rgba(46,107,79,0.06) 30%, rgba(46,107,79,0.06) 70%, transparent)",
           }}
         />
       </div>
