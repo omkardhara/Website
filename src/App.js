@@ -1503,43 +1503,13 @@ function About() {
               );
             })()}
 
-            {/* MW3B voice block */}
-            <div
-              style={{
-                background: "var(--surface)",
-                border: "1px solid var(--line-faint)",
-                padding: "28px 28px 28px 24px",
-                borderLeft: "2px solid var(--gold-dim)",
-                marginBottom: "28px",
-              }}
-            >
-              <div
-                style={{
-                  ...F.mono,
-                  fontSize: "9px",
-                  color: "var(--gold)",
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  marginBottom: "14px",
-                }}
-              >
-                // MW3B speaking
-              </div>
-              <p
-                style={{
-                  ...F.mono,
-                  fontSize: "12px",
-                  fontStyle: "italic",
-                  color: "var(--text-3)",
-                  lineHeight: 1.85,
-                }}
-              >
-                I've been doing this long enough to know that the best gigs are
-                the ones where nobody in the room is sure what's about to happen
-                — including me. That's where it gets interesting. That's where
-                the work happens.
-              </p>
-            </div>
+           {/* MW3B voice block — ember identity, distinct from OD's green */}
+            <MW3BAside style={{ marginBottom: "28px" }}>
+              I've been doing this long enough to know that the best gigs are
+              the ones where nobody in the room is sure what's about to happen
+              — including me. That's where it gets interesting. That's where
+              the work happens.
+            </MW3BAside>
 
             {/* Stat grid */}
             <div
