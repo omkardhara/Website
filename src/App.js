@@ -2434,20 +2434,75 @@ function Adventures() {
 // ─────────────────────────────────────────────────────────────
 
 function Media() {
-  // Opens the YouTube video in a new tab
-  // TO UPDATE: replace the yt value in the VIDEOS array at the top of the file
-  // e.g. yt: "dQw4w9WgXcQ" → yt: "your_actual_video_id"
-  const openVideo = (ytId) => {
-    window.open(`https://youtu.be/${ytId}`, "_blank", "noopener");
-  };
+  const [activeVideo, setActiveVideo] = useState(null);
 
   return (
     <section
       id="media"
       style={{ padding: "clamp(90px,13vw,160px) clamp(20px,6vw,80px)" }}
     >
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+      {/* ── Lightbox modal ── */}
+      {activeVideo && (
+        <div
+          onClick={() => setActiveVideo(null)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 1000,
+            background: "rgba(10,10,8,0.92)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backdropFilter: "blur(8px)",
+            padding: "20px",
+          }}
+        >
+          {/* Click inside iframe won't close modal */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: "100%",
+              maxWidth: "900px",
+              aspectRatio: "16/9",
+              position: "relative",
+            }}
+          >
+            <iframe
+              src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1&rel=0`}
+              title="Video"
+              allow="autoplay; encrypted-media; fullscreen"
+              allowFullScreen
+              style={{
+                width: "100%",
+                height: "100%",
+                border: "none",
+              }}
+            />
+            {/* Close button */}
+            <button
+              onClick={() => setActiveVideo(null)}
+              style={{
+                position: "absolute",
+                top: "-44px",
+                right: 0,
+                background: "none",
+                border: "1px solid rgba(255,255,255,0.2)",
+                color: "rgba(255,255,255,0.7)",
+                ...F.mono,
+                fontSize: "10px",
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                padding: "8px 16px",
+                cursor: "pointer",
+              }}
+            >
+              Close ✕
+            </button>
+          </div>
+        </div>
+      )}
 
+      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
         {/* Header */}
         <div className="reveal" style={{ marginBottom: "56px" }}>
           <ODLabel>Media</ODLabel>
@@ -2475,13 +2530,11 @@ function Media() {
               key={i}
               className={`vid-card reveal reveal-d${i + 1}`}
               style={{ cursor: "pointer" }}
-              onClick={() => openVideo(v.yt)}
+              onClick={() => setActiveVideo(v.yt)}
               role="button"
               aria-label={`Watch: ${v.title}`}
             >
-              {/* ── Thumbnail ── */}
-              {/* TO ADD A REAL THUMBNAIL: set v.thumb = "/images/video-thumb-1.jpg" in VIDEOS array.
-                  If not set, falls back to the gradient placeholder. */}
+              {/* Thumbnail */}
               <div
                 className="vid-thumb"
                 style={{
@@ -2494,7 +2547,6 @@ function Media() {
                 }}
               >
                 {v.thumb ? (
-                  /* Real thumbnail image */
                   <img
                     src={v.thumb}
                     alt={v.title}
@@ -2505,18 +2557,15 @@ function Media() {
                       width: "100%",
                       height: "100%",
                       objectFit: "cover",
-                      objectPosition: "center",
                     }}
                   />
                 ) : (
-                  /* Gradient placeholder */
                   <div
                     className="vid-thumb-inner"
                     style={{ position: "absolute", inset: 0, background: v.bg }}
                   />
                 )}
 
-                {/* Dark overlay so play button is always readable */}
                 <div
                   style={{
                     position: "absolute",
@@ -2526,7 +2575,7 @@ function Media() {
                   }}
                 />
 
-                {/* Play button — fixed palette */}
+                {/* Play button */}
                 <div
                   style={{
                     position: "absolute",
@@ -2543,7 +2592,7 @@ function Media() {
                       width: "52px",
                       height: "52px",
                       borderRadius: "50%",
-                      border: "1px solid rgba(46,107,79,0.7)",  /* forest green, not old gold */
+                      border: "1px solid rgba(46,107,79,0.7)",
                       background: "rgba(248,246,241,0.12)",
                       backdropFilter: "blur(4px)",
                       display: "flex",
@@ -2551,7 +2600,6 @@ function Media() {
                       justifyContent: "center",
                     }}
                   >
-                    {/* Triangle play icon */}
                     <div
                       style={{
                         marginLeft: "4px",
@@ -2559,13 +2607,14 @@ function Media() {
                         height: 0,
                         borderStyle: "solid",
                         borderWidth: "9px 0 9px 15px",
-                        borderColor: "transparent transparent transparent var(--gold)",
+                        borderColor:
+                          "transparent transparent transparent var(--gold)",
                       }}
                     />
                   </div>
                 </div>
 
-                {/* Video counter — bottom left */}
+                {/* Counter */}
                 <div
                   style={{
                     position: "absolute",
@@ -2578,24 +2627,8 @@ function Media() {
                     letterSpacing: "0.2em",
                   }}
                 >
-                  {String(i + 1).padStart(2, "0")} / {String(VIDEOS.length).padStart(2, "0")}
-                </div>
-
-                {/* YouTube label — bottom right */}
-                <div
-                  style={{
-                    position: "absolute",
-                    bottom: "10px",
-                    right: "12px",
-                    zIndex: 1,
-                    ...F.mono,
-                    fontSize: "8px",
-                    color: "rgba(248,246,241,0.55)",
-                    letterSpacing: "0.14em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  YouTube ↗
+                  {String(i + 1).padStart(2, "0")} /{" "}
+                  {String(VIDEOS.length).padStart(2, "0")}
                 </div>
               </div>
 
