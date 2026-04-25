@@ -20,72 +20,41 @@ const CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap');
 
 :root {
-  --bg: #F7F9F8;          /* soft light background */
-  --surface: #FFFFFF;     /* cards */
-  --surface-2: #F0F3F2;   /* subtle layered sections */
+  /* ── Backgrounds ── */
+  --bg: #F8F6F1;              /* warm cream — never pure white */
+  --bg-warm: #F2EFE8;         /* slightly darker warm cream, used in form fields */
 
-  --gold: #00C96B;        /* softened neon green */
-  --gold-light: #5BFFAD;
-  --gold-dim: #009E55;
+  /* ── Surfaces (cards, panels) ── */
+  --surface: #FFFFFF;
+  --surface-2: #F5F3EE;
+  --surface-3: #EAE7DF;       /* deepest surface, used in work card thumbnails */
 
-  --orange: #FF4D4D;      /* softened red accent */
+  /* ── Green accent system ── */
+  --gold: #2E6B4F;            /* deep forest green — primary accent */
+  --gold-light: #4A9068;      /* lighter green, used for highlighted names */
+  --gold-bright: #358A5F;     /* hover state for buttons */
+  --gold-dim: #1F4D38;        /* darker green, used in scrollbar + dimmer accents */
+  --gold-faint: rgba(46,107,79,0.07); /* ghost background on hover */
 
-  --text: #1A1A1A;        /* strong readable text */
-  --text-dim: #4A4A4A;
-  --text-muted: #7A7A7A;
+  /* ── Ember / MW3B accent ── */
+  --ember: #C4621D;            /* terracotta — used for MW3B voice moments */
 
-  --border: rgba(0, 201, 107, 0.25);
-}
+  /* ── Text hierarchy ── */
+  --text: #0F0F0D;             /* near-black, primary headings + body */
+  --text-2: #2C2C29;           /* slightly softened, longer body copy */
+  --text-3: #6B6860;           /* labels, captions, meta info */
+  --text-4: #A09D96;           /* very muted: placeholders, dates */
+  --text-dim: #2C2C29;         /* alias for --text-2, backward compat */
+  --text-muted: #6B6860;       /* alias for --text-3, backward compat */
 
-/* Smooth base visuals */
-body {
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
+  /* ── Lines / borders ── */
+  --line: rgba(15,15,13,0.14);
+  --line-faint: rgba(15,15,13,0.07);
+  --line-strong: rgba(15,15,13,0.22);
+  --border: rgba(46,107,79,0.2);
 
-/* Card / container styling */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
-}
-
-/* Optional: secondary sections */
-.section-alt {
-  background: var(--surface-2);
-  border-radius: 10px;
-  padding: 12px;
-}
-
-/* Text hierarchy */
-.text-dim {
-  color: var(--text-dim);
-}
-
-.text-muted {
-  color: var(--text-muted);
-}
-
-/* Accent usage */
-.accent {
-  color: var(--gold);
-}
-
-.button-primary {
-  background: var(--gold);
-  color: #ffffff;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.button-primary:hover {
-  background: var(--gold-dim);
+  /* ── Legacy ── */
+  --orange: #C4621D;           /* alias for --ember */
 }  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
 
