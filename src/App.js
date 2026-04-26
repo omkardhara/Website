@@ -456,7 +456,7 @@ const VIDEOS = [
     portrait: true,
     thumb: "https://img.youtube.com/vi/zogO_4McBPg/maxresdefault.jpg",
     bg: "radial-gradient(ellipse at 45% 55%, rgba(100,80,200,0.2), transparent)",
-  },
+  }
 ];
 
 const OFFERINGS = [
