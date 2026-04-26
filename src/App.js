@@ -415,7 +415,7 @@ const VIDEOS = [
   {
     title: "Britannia Chocostars - Aquarius",
     sub: "TV Commercial shot for Britannia",
-    yt: "dQw4w9WgXcQ", 
+    yt: "jyzFUHqmjsQ",
     bg: "radial-gradient(ellipse at 30% 50%, rgba(200,90,42,0.25), transparent)",
   },
   {
@@ -429,7 +429,7 @@ const VIDEOS = [
     sub: "Documentary · 9 min",
     yt: "dQw4w9WgXcQ",
     bg: "radial-gradient(ellipse at 45% 55%, rgba(100,80,200,0.2), transparent)",
-  },
+  }
 ];
 
 const OFFERINGS = [
