@@ -3068,7 +3068,6 @@ function BookMe() {
                   />
                 </div>
                  
-                </select>
                 <textarea
                   className="field"
                   placeholder="Tell me about your project. Budget, timeline, vibe — all useful."
@@ -3268,7 +3267,7 @@ function Footer() {
             © {new Date().getFullYear()} Omkar Dhareshwar aka ManWith3Balls — All rights reserved
           </span>
           <a
-            href="mailto:omkardhareshwar@gmail.com"
+            href="mailto:omkar.dhara@gmail.com"
             style={{
               ...F.mono,
               fontSize: "10px",
@@ -3280,7 +3279,7 @@ function Footer() {
             onMouseEnter={(e) => (e.target.style.color = "var(--gold-light)")}
             onMouseLeave={(e) => (e.target.style.color = "var(--gold)")}
           >
-            omkardhareshwar@gmail.com
+            omkar.dhara@gmail.com
           </a>
         </div>
       </div>
