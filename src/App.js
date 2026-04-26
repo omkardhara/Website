@@ -1830,7 +1830,7 @@ function FieldNotes() {
         <MW3BAside style={{ maxWidth: "380px" }}>
   I write when something refuses to leave me alone.
 </MW3BAside>
-
+<a
   href="#"
   style={{
                 ...F.mono,
