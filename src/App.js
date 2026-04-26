@@ -2488,7 +2488,7 @@ function Media() {
             style={{
               width: "100%",
               maxWidth: "900px",
-              aspectRatio: v.portrait ? "9/16" : "16/9",
+              aspectRatio: "16/9",
               position: "relative",
             }}
           >
