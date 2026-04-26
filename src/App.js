@@ -413,15 +413,17 @@ const NOTES = [
 
 const VIDEOS = [
   {
-    title: "Britannia Chocostars - Aquarius",
+    title: "Britannia Chocostars",
     sub: "TV Commercial shot for Britannia",
     yt: "jyzFUHqmjsQ",
+    thumb: "https://img.youtube.com/vi/jyzFUHqmjsQ/maxresdefault.jpg",
     bg: "radial-gradient(ellipse at 30% 50%, rgba(200,90,42,0.25), transparent)",
   },
   {
-    title: "Brand Reel — 2023 / 2024",
-    sub: "Showreel · 3 min",
-    yt: "dQw4w9WgXcQ",
+    title: "Wicked Broz X Mochi-4 City Tour",
+    sub: "Bengaluru·Hyderabad·Chennai·Goa·Hiphop Vlog",
+    yt: "-EecfvR0_FE",
+    thumb: "https://img.youtube.com/vi/-EecfvR0_FE/maxresdefault.jpg",
     bg: "radial-gradient(ellipse at 60% 40%, rgba(191,155,69,0.2), transparent)",
   },
   {
