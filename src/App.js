@@ -1848,7 +1848,7 @@ function FieldNotes() {
               onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.65")}
               onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
             >
-              All field notes →
+All field notes &#8594;
             </a>
           </div>
         </div>
