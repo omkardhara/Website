@@ -426,12 +426,37 @@ const VIDEOS = [
     thumb: "https://img.youtube.com/vi/-EecfvR0_FE/maxresdefault.jpg",
     bg: "radial-gradient(ellipse at 60% 40%, rgba(191,155,69,0.2), transparent)",
   },
-  {
-    title: "Museum of Goa — Installation",
-    sub: "Documentary · 9 min",
-    yt: "dQw4w9WgXcQ",
+   {
+    title: "Doordarshan-Beyond Thoughts",
+    sub: "Join me as I walk through my journey on National Television",
+    yt: "5A9IgNfa7Wg",
+    thumb: "https://img.youtube.com/vi/5A9IgNfa7Wg/maxresdefault.jpg",
     bg: "radial-gradient(ellipse at 45% 55%, rgba(100,80,200,0.2), transparent)",
-  }
+  },
+  {
+    title: "Museum of Goa — Flow Simulator",
+    sub: "Modified Juggling Board displayed at MOG as part of the exhibition 'Khel-Spel HomoLudens: The Art of Play'",
+    yt: "6psNfvXNDkM",
+    portrait: true,
+    thumb: "https://img.youtube.com/vi/6psNfvXNDkM/maxresdefault.jpg",
+    bg: "radial-gradient(ellipse at 45% 55%, rgba(100,80,200,0.2), transparent)",
+  },
+    {
+    title: "Vithoba Dantmanjan X Shruti Haasan",
+    sub: "Commercial for Vithoba Dantmanjan, featuring Shruti Haasan",
+    yt: "pYxmfvJM9So",
+    portrait: true,
+    thumb: "https://img.youtube.com/vi/pYxmfvJM9So/maxresdefault.jpg",
+    bg: "radial-gradient(ellipse at 45% 55%, rgba(100,80,200,0.2), transparent)",
+  },
+    {
+    title: "Blindfold Juggling",
+    sub: "Blind World.A social juggling commentary",
+    yt: "zogO_4McBPg",
+    portrait: true,
+    thumb: "https://img.youtube.com/vi/zogO_4McBPg/maxresdefault.jpg",
+    bg: "radial-gradient(ellipse at 45% 55%, rgba(100,80,200,0.2), transparent)",
+  },
 ];
 
 const OFFERINGS = [
@@ -2463,7 +2488,7 @@ function Media() {
             style={{
               width: "100%",
               maxWidth: "900px",
-              aspectRatio: "16/9",
+              aspectRatio: v.portrait ? "9/16" : "16/9",
               position: "relative",
             }}
           >
@@ -2512,7 +2537,7 @@ function Media() {
             <em style={{ color: "var(--gold)" }}>for it.</em>
           </SectionHeading>
           <MW3BAside style={{ marginTop: "14px", maxWidth: "360px" }}>
-            Three videos. None of them explain what I do. All of them show it.
+            Six videos. None of them explain what I do. All of them show it.
           </MW3BAside>
         </div>
 
