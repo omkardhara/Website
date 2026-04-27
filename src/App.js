@@ -1840,7 +1840,8 @@ const [openProject, setOpenProject] = useState(null);
 const filtered =
     active === "all" ? WORK : WORK.filter((w) => w.cat === active);
 
-  return (
+   return (
+    <>
     <section
       id="work"
       style={{
@@ -1903,8 +1904,9 @@ const filtered =
           ))}
         </div>
       </div>
-      {openProject && <ProjectModal item={openProject} onClose={() => setOpenProject(null)} />}    
     </section>
+    {openProject && <ProjectModal item={openProject} onClose={() => setOpenProject(null)} />}
+    </>
   );
 }
 
