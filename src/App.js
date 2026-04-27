@@ -1731,9 +1731,36 @@ function WorkCard({ item, delay, onOpen }) {
           {item.desc}
         </p>
 
-        {/* View project link */}
-       function WorkCard({ item, delay, onOpen }) {
+      {/* View project link */}
+        <div
+          onClick={onOpen}
+          style={{
+            marginTop: "24px",
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            borderTop: "1px solid var(--line-faint)",
+            paddingTop: "18px",
+            cursor: "pointer",
+          }}
+        >
           <span
+            style={{
+              ...F.mono,
+              fontSize: "10px",
+              color: "var(--gold)",
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+            }}
+          >
+            View project
+          </span>
+          <span style={{ color: "var(--gold)", fontSize: "13px" }}>→</span>
+        </div>
+      </div>
+    </div>
+  );
+}
             style={{
               ...F.mono,
               fontSize: "10px",
