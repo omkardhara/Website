@@ -11,6 +11,7 @@
  *  3. Text scramble / glitch on the ManWith3Balls alias (hover)
  */
 
+import { Analytics } from "@vercel/analytics/react";
 import { useState, useEffect, useRef, useCallback } from "react";
 
 // ─────────────────────────────────────────────────────────────
@@ -3416,6 +3417,7 @@ export default function Portfolio() {
       <Testimonials />
       <BookMe />
       <Footer />
+      <Analytics />
     </>
   );
 }
