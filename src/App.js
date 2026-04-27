@@ -430,7 +430,7 @@ const VIDEOS = [
     title: "Doordarshan-Beyond Thoughts",
     sub: "Join me as I walk through my journey on National Television",
     yt: "5A9IgNfa7Wg",
-    thumb: "https://img.youtube.com/vi/5A9IgNfa7Wg/maxresdefault.jpg",
+    thumb: "/images/Doordarshan-Beyond Thoughts- Omkar Dhareshwar.png",
     bg: "radial-gradient(ellipse at 45% 55%, rgba(100,80,200,0.2), transparent)",
   },
   {
