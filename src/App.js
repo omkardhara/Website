@@ -381,7 +381,7 @@ const NOTES = [
   },
   {
     id: 2,
-    image: " ", // ← add this
+    image: "/images/Rikshaw Run-Gangtok to Kochi-Omkar Dhareshwar.jpg ", // ← add this
     title: "Gangtok to Kochi in a Rickshaw. Notes from the road.",
     date: "January 2025",
     read: "12 min",
