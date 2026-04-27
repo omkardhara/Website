@@ -391,7 +391,7 @@ const NOTES = [
   },
   {
     id: 3,
-    image: " " , // ← add this
+    image: "/images/red-bull-bc-one-cypher-india-2024-winner-flying-machine.jpg" , // ← add this
     title:
       "Writing for Red Bull: what it means to translate something wordless",
     date: "November 2024",
