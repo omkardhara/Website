@@ -371,7 +371,7 @@ const WORK = [
 const NOTES = [
   {
     id: 1,
-    image: " " , // ← add this
+    image: "/images/Flow Artist- Omkar Dhareshwar.jpeg" , // ← add this
     title: "What flow arts actually taught me about being still",
     date: "March 2025",
     read: "5 min",
