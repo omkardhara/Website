@@ -1187,7 +1187,7 @@ function Hero() {
               display: "inline-block",
             }}
           >
-            See the work
+            See what I do
           </a>
           <a
             href="#book"
@@ -1202,7 +1202,7 @@ function Hero() {
               display: "inline-block",
             }}
           >
-            Work with me
+            Get in touch
           </a>
         </div>
       </div>
