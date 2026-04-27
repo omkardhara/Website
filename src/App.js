@@ -322,17 +322,16 @@ const WORK = [
       "radial-gradient(ellipse at 65% 35%, rgba(191,155,69,0.18), transparent 65%)",
     glyph: "📝",
   },
-  {
-    id: 3,
-    cat: "installation",
-    tag: "Installation · Museum of Goa · 2023",
-    title: "Kinetic Threads",
-    desc: "A site-specific, motion-responsive installation commissioned for the Museum of Goa's summer programme. 200m of suspended thread, two spotlights, and one idea: that stillness is always moving.",
-    stat: "6-week run",
-    gradient:
-      "radial-gradient(ellipse at 50% 60%, rgba(100,80,200,0.14), transparent 65%)",
-    glyph: "🎨",
-  },
+{
+  id: 3,
+  cat: "installation",
+  tag: "Installation · Museum of Goa · 2023",
+  title: "Flow Simulator 1.0",
+  desc: "An interactive juggling board built from PVC pipes, commissioned for 'Khel-Spel HomoLudens: The Art of Play'. Designed to guide participants into a flow state through movement and rhythm. Three 10-year-olds learned the 3-ball cascade on opening day.",
+  stat: "6-week run",
+  gradient: "radial-gradient(ellipse at 50% 60%, rgba(100,80,200,0.14), transparent 65%)",
+  glyph: "🎨",
+},
   {
     id: 4,
     cat: "activism",
