@@ -1534,10 +1534,7 @@ function About() {
 
            {/* MW3B voice block — ember identity, distinct from OD's green */}
             <MW3BAside style={{ marginBottom: "28px" }}>
-              I've been doing this long enough to know that the best gigs are
-              the ones where nobody in the room is sure what's about to happen
-              — including me. That's where it gets interesting. That's where
-              the work happens.
+              People ask me what I do. I give a different answer every time. Not because I'm being evasive — because the work keeps changing. That's the point.
             </MW3BAside>
 
             {/* Stat grid */}
