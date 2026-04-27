@@ -381,7 +381,7 @@ const NOTES = [
   },
   {
     id: 2,
-    image: "/images/Rikshaw Run-Gangtok to Kochi-Omkar Dhareshwar.jpg ", // ← add this
+    image: "/images/Rikshaw Run-Gangtok to Kochi-Omkar Dhareshwar.jpg", // ← add this
     title: "Gangtok to Kochi in a Rickshaw. Notes from the road.",
     date: "January 2025",
     read: "12 min",
@@ -2187,7 +2187,7 @@ function Adventures() {
               The route line, badge, and overlay stay automatically.
           ─────────────────────────────────────────────────────────── */}
           {(() => {
-            const ADVENTURE_PHOTO = null; // ← swap for e.g. "/images/rickshaw-run.jpg"
+            const ADVENTURE_PHOTO = "images/Rikshaw Run-Gangtok to Kochi-Omkar Dhareshwar.jpg"; // ← swap for e.g. "/images/rickshaw-run.jpg"
             return (
               <div
                 style={{
