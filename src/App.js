@@ -1165,7 +1165,7 @@ function Hero() {
             Artist · Activist · Storyteller · Perpetual Work-in-Progress
           </p>
           <MW3BAside style={{ marginTop: "10px", maxWidth: "420px" }}>
-            Mechanical engineer by degree. Everything else by choice. Traded blueprints for fire — turns out both demand the same thing: knowing exactly where it might go wrong.
+            Mechanical engineer by degree. Everything else by choice. Turns out the best use of an engineering brain is knowing which rules to break.
           </MW3BAside>
         </div>
 
