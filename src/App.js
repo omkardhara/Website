@@ -1619,140 +1619,37 @@ function WorkCard({ item, delay, onOpen }) {
         overflow: "hidden",
       }}
     >
-      {/* ── Thumbnail ── */}
-      {/* TO ADD A REAL PHOTO: set item.image = "/your-image.jpg" in the WORK data array above.
-          If item.image is present it shows the photo. If not, it falls back to the gradient + glyph. */}
-      <div
-        style={{
-          height: "220px",
-          background: "var(--surface-3)",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
+      <div style={{ height: "220px", background: "var(--surface-3)", position: "relative", overflow: "hidden" }}>
         {item.image ? (
-          /* ── Real photo ── */
-          <img
-            src={item.image}
-            alt={item.title}
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center",
-              transition: "transform 0.55s cubic-bezier(0.16,1,0.3,1)",
-            }}
-          />
+          <img src={item.image} alt={item.title} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", transition: "transform 0.55s cubic-bezier(0.16,1,0.3,1)" }} />
         ) : (
-          /* ── Gradient placeholder (until real photo added) ── */
           <>
-            <div
-              style={{ position: "absolute", inset: 0, background: item.gradient }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "52px",
-                opacity: 0.7,
-              }}
-            >
+            <div style={{ position: "absolute", inset: 0, background: item.gradient }} />
+            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "52px", opacity: 0.7 }}>
               {item.glyph}
             </div>
           </>
         )}
-
-        {/* Subtle dark overlay at bottom so badge text is always readable */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: "60px",
-            background: "linear-gradient(to top, rgba(15,15,13,0.35), transparent)",
-          }}
-        />
-
-        {/* Stat badge — light surface, not hardcoded dark */}
-        <div
-          style={{
-            position: "absolute",
-            top: "12px",
-            right: "12px",
-            ...F.mono,
-            fontSize: "9px",
-            letterSpacing: "0.16em",
-            textTransform: "uppercase",
-            color: "var(--gold)",
-            background: "var(--surface)",
-            padding: "5px 10px",
-            border: "1px solid var(--border)",
-          }}
-        >
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "60px", background: "linear-gradient(to top, rgba(15,15,13,0.35), transparent)" }} />
+        <div style={{ position: "absolute", top: "12px", right: "12px", ...F.mono, fontSize: "9px", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--gold)", background: "var(--surface)", padding: "5px 10px", border: "1px solid var(--border)" }}>
           {item.stat}
         </div>
       </div>
-
-      {/* ── Text ── */}
       <div style={{ padding: "28px 26px 30px" }}>
-        <div
-          style={{
-            ...F.mono,
-            fontSize: "9px",
-            color: "var(--text-3)",
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            marginBottom: "10px",
-          }}
-        >
+        <div style={{ ...F.mono, fontSize: "9px", color: "var(--text-3)", letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: "10px" }}>
           {item.tag}
         </div>
-        <h3
-          style={{
-            ...F.serif,
-            fontSize: "23px",
-            fontWeight: 500,
-            lineHeight: 1.2,
-            marginBottom: "12px",
-            color: "var(--text)",
-          }}
-        >
+        <h3 style={{ ...F.serif, fontSize: "23px", fontWeight: 500, lineHeight: 1.2, marginBottom: "12px", color: "var(--text)" }}>
           {item.title}
         </h3>
-        <p
-          style={{ fontSize: "13px", color: "var(--text-2)", lineHeight: 1.85 }}
-        >
+        <p style={{ fontSize: "13px", color: "var(--text-2)", lineHeight: 1.85 }}>
           {item.desc}
         </p>
-
-      {/* View project link */}
         <div
           onClick={onOpen}
-          style={{
-            marginTop: "24px",
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            borderTop: "1px solid var(--line-faint)",
-            paddingTop: "18px",
-            cursor: "pointer",
-          }}
+          style={{ marginTop: "24px", display: "flex", alignItems: "center", gap: "8px", borderTop: "1px solid var(--line-faint)", paddingTop: "18px", cursor: "pointer" }}
         >
-          <span
-            style={{
-              ...F.mono,
-              fontSize: "10px",
-              color: "var(--gold)",
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-            }}
-          >
+          <span style={{ ...F.mono, fontSize: "10px", color: "var(--gold)", letterSpacing: "0.14em", textTransform: "uppercase" }}>
             View project
           </span>
           <span style={{ color: "var(--gold)", fontSize: "13px" }}>→</span>
@@ -1761,178 +1658,56 @@ function WorkCard({ item, delay, onOpen }) {
     </div>
   );
 }
-            style={{
-              ...F.mono,
-              fontSize: "10px",
-              color: "var(--gold)",
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-            }}
-          >
-            View project
-          </span>
-          <span style={{ color: "var(--gold)", fontSize: "13px" }}>→</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-function ProjectModal({ item, onClose }) {
-  const [activeImg, setActiveImg] = useState(0);
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = ""; };
-  }, []);
+
+function Work() {
+  const [active, setActive] = useState("all");
+  const [openProject, setOpenProject] = useState(null);
+  const filtered = active === "all" ? WORK : WORK.filter((w) => w.cat === active);
 
   return (
-    <div
-      onClick={onClose}
-      style={{
-        position: "fixed", inset: 0, zIndex: 800,
-        background: "rgba(10,10,8,0.92)",
-        backdropFilter: "blur(8px)",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        padding: "20px", overflowY: "auto",
-      }}
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          background: "var(--bg)", maxWidth: "820px", width: "100%",
-          maxHeight: "90vh", overflowY: "auto",
-          border: "1px solid var(--line)",
-        }}
-      >
-        {/* Image gallery */}
-        {item.images && item.images.length > 0 && (
-          <div style={{ position: "relative", background: "var(--surface-3)" }}>
-            <img
-              src={item.images[activeImg]}
-              alt={item.title}
-              style={{ width: "100%", height: "420px", objectFit: "cover", display: "block" }}
-            />
-            {item.images.length > 1 && (
-              <div style={{ display: "flex", gap: "8px", padding: "12px 20px", background: "var(--surface)" }}>
-                {item.images.map((img, i) => (
-                  <div
-                    key={i}
-                    onClick={() => setActiveImg(i)}
-                    style={{
-                      width: "56px", height: "40px", cursor: "pointer",
-                      border: i === activeImg ? "2px solid var(--gold)" : "2px solid transparent",
-                      overflow: "hidden", flexShrink: 0,
-                    }}
-                  >
-                    <img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Content */}
-        <div style={{ padding: "clamp(28px,5vw,52px)" }}>
-          <div style={{ ...F.mono, fontSize: "9px", color: "var(--text-3)", letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: "12px" }}>
-            {item.tag}
-          </div>
-          <h2 style={{ ...F.serif, fontSize: "clamp(28px,4vw,42px)", fontWeight: 400, marginBottom: "28px", color: "var(--text)" }}>
-            {item.title}
-          </h2>
-          <hr style={{ border: "none", borderTop: "1px solid var(--line-faint)", marginBottom: "28px" }} />
-          {item.article && item.article.split("\n\n").map((para, i) => (
-            <p key={i} style={{ fontSize: "15px", color: "var(--text-2)", lineHeight: 1.9, marginBottom: "20px" }}>
-              {para}
-            </p>
-          ))}
-          <button
-            onClick={onClose}
-            style={{
-              ...F.mono, fontSize: "10px", letterSpacing: "0.16em",
-              textTransform: "uppercase", marginTop: "16px",
-              background: "var(--gold)", color: "var(--bg)",
-              border: "none", padding: "12px 28px", cursor: "pointer",
-            }}
-          >
-            Close ✕
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-function Work() {
-const [active, setActive] = useState("all");
-const [openProject, setOpenProject] = useState(null);
-const filtered =
-    active === "all" ? WORK : WORK.filter((w) => w.cat === active);
-
-   return (
     <>
-    <section
-      id="work"
-      style={{
-        padding: "clamp(90px,13vw,160px) clamp(20px,6vw,80px)",
-        background: "var(--bg-warm)",
-      }}
-    >
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        {/* Header */}
-        <div className="reveal" style={{ marginBottom: "56px" }}>
-          <ODLabel>The Work</ODLabel>
-          <SectionHeading style={{ marginBottom: "12px" }}>
-            Things I've made,
-            <br />
-            <em style={{ color: "var(--gold)" }}>done, and survived.</em>
-          </SectionHeading>
-          <MW3BAside style={{ marginBottom: "32px", maxWidth: "380px" }}>
-            No vague "creative solutions" here. Real projects, real briefs, real
-            outcomes.
-          </MW3BAside>
-
-          {/* Filters */}
-          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-            {WORK_FILTERS.map((f) => (
-              <button
-                key={f.id}
-                onClick={() => setActive(f.id)}
-                style={{
-                  ...F.mono,
-                  fontSize: "9px",
-                  letterSpacing: "0.16em",
-                  textTransform: "uppercase",
-                  padding: "8px 18px",
-                  border: "1px solid",
-                  borderColor:
-                    active === f.id ? "var(--gold)" : "var(--line-faint)",
-                  background: active === f.id ? "var(--gold)" : "transparent",
-                  color: active === f.id ? "var(--bg)" : "var(--text-3)",
-                  transition: "all 0.25s",
-                  fontFamily: "inherit",
-                }}
-              >
-                {f.label}
-              </button>
+      <section
+        id="work"
+        style={{ padding: "clamp(90px,13vw,160px) clamp(20px,6vw,80px)", background: "var(--bg-warm)" }}
+      >
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <div className="reveal" style={{ marginBottom: "56px" }}>
+            <ODLabel>The Work</ODLabel>
+            <SectionHeading style={{ marginBottom: "12px" }}>
+              Things I've made,
+              <br />
+              <em style={{ color: "var(--gold)" }}>done, and survived.</em>
+            </SectionHeading>
+            <MW3BAside style={{ marginBottom: "32px", maxWidth: "380px" }}>
+              No vague "creative solutions" here. Real projects, real briefs, real outcomes.
+            </MW3BAside>
+            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+              {WORK_FILTERS.map((f) => (
+                <button
+                  key={f.id}
+                  onClick={() => setActive(f.id)}
+                  style={{
+                    ...F.mono, fontSize: "9px", letterSpacing: "0.16em", textTransform: "uppercase",
+                    padding: "8px 18px", border: "1px solid",
+                    borderColor: active === f.id ? "var(--gold)" : "var(--line-faint)",
+                    background: active === f.id ? "var(--gold)" : "transparent",
+                    color: active === f.id ? "var(--bg)" : "var(--text-3)",
+                    transition: "all 0.25s", fontFamily: "inherit",
+                  }}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="work-cols" style={{ display: "grid", gap: "2px", gridTemplateColumns: "repeat(3, 1fr)" }}>
+            {filtered.map((item, i) => (
+              <WorkCard key={item.id} item={item} delay={(i % 4) + 1} onOpen={() => setOpenProject(item)} />
             ))}
           </div>
         </div>
-
-        {/* Grid */}
-        <div
-          className="work-cols"
-          style={{
-            display: "grid",
-            gap: "2px",
-            gridTemplateColumns: "repeat(3, 1fr)",
-          }}
-        >
-          {filtered.map((item, i) => (
-            <WorkCard key={item.id} item={item} delay={(i % 4) + 1} onOpen={() => setOpenProject(item)} />
-          ))}
-        </div>
-      </div>
-    </section>
-    {openProject && <ProjectModal item={openProject} onClose={() => setOpenProject(null)} />}
+      </section>
+      {openProject && <ProjectModal item={openProject} onClose={() => setOpenProject(null)} />}
     </>
   );
 }
