@@ -327,10 +327,25 @@ const WORK = [
   cat: "installation",
   tag: "Installation · Museum of Goa · 2023",
   title: "Flow Simulator 1.0",
-  desc: "An interactive juggling board built from PVC pipes, commissioned for 'Khel-Spel HomoLudens: The Art of Play'. Designed to guide participants into a flow state through movement and rhythm. Three 10-year-olds learned the 3-ball cascade on opening day.",
+  desc: "An interactive juggling board built from PVC pipes, commissioned for 'Khel-Spel HomoLudens: The Art of Play'.",
   stat: "6-week run",
   gradient: "radial-gradient(ellipse at 50% 60%, rgba(100,80,200,0.14), transparent 65%)",
   glyph: "🎨",
+  images: [
+    "/images/flow-sim-1.jpg.jpg",
+    "/images/flow-sim-2.jpg.jgp",
+    "/images/flow-sim-3.jpg.jpg",
+    "/images/flow-sim-4.jpg.jpg",
+  ],
+  article: `The Flow Simulator 1.0 is an interactive installation commissioned for 'Khel-Spel HomoLudens: The Art of Play' at the Museum of Goa, Pilerne.
+
+Built from PVC pipes — a nod to the Indian philosophy of Jugaad and the Dutch principle of Zuinig — the piece is a modified juggling board designed to guide participants into a flow state through movement and rhythm. Like the pipes that channel water, the installation channels energy: structured pathways, infinite configurations.
+
+Participants manipulate up to six balls simultaneously, their bodies and minds slowly synchronising with the apparatus. The rhythmic repetition induces calm. The coordination demands focus. The result is a quiet but unmistakable shift — the thing practitioners call flow.
+
+On opening day, three 10-year-olds learned the 3-ball cascade. That was the real review.
+
+Special thanks to curator Sajid Wajid Shaikh and Sharada Kerkar for recognising the work, and to Ahasthya A for being extraordinary throughout.`,
 },
   {
     id: 4,
@@ -1591,7 +1606,7 @@ function About() {
 // WORK — with 3D tilt cards
 // ─────────────────────────────────────────────────────────────
 
-function WorkCard({ item, delay }) {
+function WorkCard({ item, delay, onOpen }) {
   const tilt = useTilt();
   return (
     <div
@@ -1717,16 +1732,7 @@ function WorkCard({ item, delay }) {
         </p>
 
         {/* View project link */}
-        <div
-          style={{
-            marginTop: "24px",
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            borderTop: "1px solid var(--line-faint)",
-            paddingTop: "18px",
-          }}
-        >
+       function WorkCard({ item, delay, onOpen }) {
           <span
             style={{
               ...F.mono,
@@ -1744,10 +1750,94 @@ function WorkCard({ item, delay }) {
     </div>
   );
 }
+function ProjectModal({ item, onClose }) {
+  const [activeImg, setActiveImg] = useState(0);
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
 
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: "fixed", inset: 0, zIndex: 800,
+        background: "rgba(10,10,8,0.92)",
+        backdropFilter: "blur(8px)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        padding: "20px", overflowY: "auto",
+      }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: "var(--bg)", maxWidth: "820px", width: "100%",
+          maxHeight: "90vh", overflowY: "auto",
+          border: "1px solid var(--line)",
+        }}
+      >
+        {/* Image gallery */}
+        {item.images && item.images.length > 0 && (
+          <div style={{ position: "relative", background: "var(--surface-3)" }}>
+            <img
+              src={item.images[activeImg]}
+              alt={item.title}
+              style={{ width: "100%", height: "420px", objectFit: "cover", display: "block" }}
+            />
+            {item.images.length > 1 && (
+              <div style={{ display: "flex", gap: "8px", padding: "12px 20px", background: "var(--surface)" }}>
+                {item.images.map((img, i) => (
+                  <div
+                    key={i}
+                    onClick={() => setActiveImg(i)}
+                    style={{
+                      width: "56px", height: "40px", cursor: "pointer",
+                      border: i === activeImg ? "2px solid var(--gold)" : "2px solid transparent",
+                      overflow: "hidden", flexShrink: 0,
+                    }}
+                  >
+                    <img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Content */}
+        <div style={{ padding: "clamp(28px,5vw,52px)" }}>
+          <div style={{ ...F.mono, fontSize: "9px", color: "var(--text-3)", letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: "12px" }}>
+            {item.tag}
+          </div>
+          <h2 style={{ ...F.serif, fontSize: "clamp(28px,4vw,42px)", fontWeight: 400, marginBottom: "28px", color: "var(--text)" }}>
+            {item.title}
+          </h2>
+          <hr style={{ border: "none", borderTop: "1px solid var(--line-faint)", marginBottom: "28px" }} />
+          {item.article && item.article.split("\n\n").map((para, i) => (
+            <p key={i} style={{ fontSize: "15px", color: "var(--text-2)", lineHeight: 1.9, marginBottom: "20px" }}>
+              {para}
+            </p>
+          ))}
+          <button
+            onClick={onClose}
+            style={{
+              ...F.mono, fontSize: "10px", letterSpacing: "0.16em",
+              textTransform: "uppercase", marginTop: "16px",
+              background: "var(--gold)", color: "var(--bg)",
+              border: "none", padding: "12px 28px", cursor: "pointer",
+            }}
+          >
+            Close ✕
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 function Work() {
-  const [active, setActive] = useState("all");
-  const filtered =
+const [active, setActive] = useState("all");
+const [openProject, setOpenProject] = useState(null);
+const filtered =
     active === "all" ? WORK : WORK.filter((w) => w.cat === active);
 
   return (
@@ -1809,10 +1899,11 @@ function Work() {
           }}
         >
           {filtered.map((item, i) => (
-            <WorkCard key={item.id} item={item} delay={(i % 4) + 1} />
+            <WorkCard key={item.id} item={item} delay={(i % 4) + 1} onOpen={() => setOpenProject(item)} />
           ))}
         </div>
       </div>
+      {openProject && <ProjectModal item={openProject} onClose={() => setOpenProject(null)} />}    
     </section>
   );
 }
