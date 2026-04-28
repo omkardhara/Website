@@ -338,6 +338,7 @@ const WORK = [
       "/images/flow-sim-3.jpg.jpg",
       "/images/flow-sim-4.jpg.png",
     ],
+},
   {
     id: 4,
     cat: "activism",
