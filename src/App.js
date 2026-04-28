@@ -1593,194 +1593,208 @@ function About() {
   );
 }
 // ─────────────────────────────────────────────────────────────
-// PROJECT MODAL
-// Opens when user clicks "View project" on a work card.
-// Renders article text + image gallery if present on the item.
-// Falls back gracefully for cards with no article/images.
+// PROJECT MODAL — editorial layout with interspersed images
 // ─────────────────────────────────────────────────────────────
 
 function ProjectModal({ item, onClose }) {
-  const [activeImg, setActiveImg] = useState(0);
 
-  // Lock body scroll while modal is open
+  // Lock body scroll while open
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = ""; };
   }, []);
 
-  // Close on Escape key
+  // Close on Escape
   useEffect(() => {
     const onKey = (e) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
 
+  const images = item.images || [];
+
+  // Split article at double newlines → clean paragraph array
+  const paragraphs = item.article
+    ? item.article.split("\n\n").map((p) => p.trim()).filter(Boolean)
+    : [];
+
+  // Interleave: para[0], img[0], para[1], img[1], ...
+  // If more paragraphs than images, remaining paras stack at the end (and vice versa)
+  const blocks = [];
+  const len = Math.max(paragraphs.length, images.length);
+  for (let i = 0; i < len; i++) {
+    if (paragraphs[i]) blocks.push({ type: "text",  value: paragraphs[i] });
+    if (images[i])     blocks.push({ type: "image", value: images[i], idx: i });
+  }
+
   return (
     // ── Backdrop — click outside to close ──
     <div
       onClick={onClose}
       style={{
-        position: "fixed", inset: 0, zIndex: 900,
+        position: "fixed", inset: 0, zIndex: 800,
         background: "rgba(10,10,8,0.88)",
         backdropFilter: "blur(10px)",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        padding: "clamp(16px,4vw,48px)",
         overflowY: "auto",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        padding: "clamp(16px,4vw,48px)",
       }}
     >
-      {/* ── Modal panel — stop propagation so inner clicks don't close ── */}
+      {/* ── Modal panel ── */}
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
           background: "var(--bg)",
-          border: "1px solid var(--line)",
           width: "100%",
-          maxWidth: "860px",
-          maxHeight: "90vh",
-          overflowY: "auto",
+          maxWidth: "680px",
+          border: "1px solid var(--line-faint)",
           position: "relative",
-          display: "flex",
-          flexDirection: "column",
         }}
       >
-        {/* ── Close button ── */}
-        <button
-          onClick={onClose}
+
+        {/* ── Sticky top bar: tag label + close button ── */}
+        <div
           style={{
-            position: "sticky", top: 0, zIndex: 10,
-            alignSelf: "flex-end",
-            background: "var(--surface)",
-            border: "none",
+            position: "sticky",
+            top: 0,
+            zIndex: 10,
+            background: "rgba(248,246,241,0.96)",
+            backdropFilter: "blur(10px)",
             borderBottom: "1px solid var(--line-faint)",
-            borderLeft: "1px solid var(--line-faint)",
-            color: "var(--text-3)",
-            ...F.mono,
-            fontSize: "9px",
-            letterSpacing: "0.2em",
-            textTransform: "uppercase",
             padding: "12px 20px",
-            cursor: "pointer",
-            transition: "color 0.2s",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
-          onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-3)")}
         >
-          Close ✕
-        </button>
-
-        {/* ── Image gallery — only rendered if item.images exists ── */}
-        {item.images && item.images.length > 0 && (
-          <div style={{ padding: "0 clamp(28px,5vw,56px) 32px" }}>
-
-            {/* Main image */}
-            <div
-              style={{
-                width: "100%",
-                aspectRatio: "16/9",
-                background: "var(--surface-3)",
-                overflow: "hidden",
-                marginBottom: "12px",
-                border: "1px solid var(--line-faint)",
-              }}
-            >
-              <img
-                src={item.images[activeImg]}
-                alt={`${item.title} — image ${activeImg + 1}`}
-                style={{
-                  width: "100%", height: "100%",
-                  objectFit: "cover", objectPosition: "center",
-                }}
-              />
-            </div>
-
-            {/* Thumbnail strip — shown only if more than one image */}
-            {item.images.length > 1 && (
-              <div style={{ display: "flex", gap: "8px", overflowX: "auto" }}>
-                {item.images.map((src, i) => (
-                  <div
-                    key={i}
-                    onClick={() => setActiveImg(i)}
-                    style={{
-                      width: "72px", height: "48px",
-                      flexShrink: 0,
-                      background: "var(--surface-3)",
-                      border: `1px solid ${i === activeImg ? "var(--gold)" : "var(--line-faint)"}`,
-                      overflow: "hidden",
-                      cursor: "pointer",
-                      opacity: i === activeImg ? 1 : 0.55,
-                      transition: "opacity 0.2s, border-color 0.2s",
-                    }}
-                  >
-                    <img
-                      src={src}
-                      alt={`Thumbnail ${i + 1}`}
-                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* ── Text content ── */}
-        <div style={{ padding: "0 clamp(28px,5vw,56px) clamp(40px,6vw,64px)" }}>
-
-          {/* Meta tag + stat badge */}
-          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
-            <span style={{
+          <span style={{
+            ...F.mono, fontSize: "9px",
+            letterSpacing: "0.2em", textTransform: "uppercase",
+            color: "var(--gold)",
+          }}>
+            {item.tag}
+          </span>
+          <button
+            onClick={onClose}
+            style={{
+              background: "none",
+              border: "1px solid var(--line)",
+              padding: "6px 14px",
+              cursor: "pointer",
               ...F.mono, fontSize: "9px",
-              color: "var(--gold)", letterSpacing: "0.18em", textTransform: "uppercase",
-              padding: "4px 10px",
-              border: "1px solid var(--border)",
-              background: "var(--gold-faint)",
-            }}>
-              {item.tag}
-            </span>
-            <span style={{
-              ...F.mono, fontSize: "9px",
-              color: "var(--text-4)", letterSpacing: "0.14em",
-            }}>
-              {item.stat}
-            </span>
-          </div>
+              letterSpacing: "0.18em", textTransform: "uppercase",
+              color: "var(--text-3)",
+              transition: "border-color 0.2s, color 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "var(--gold)";
+              e.currentTarget.style.color = "var(--gold)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "var(--line)";
+              e.currentTarget.style.color = "var(--text-3)";
+            }}
+          >
+            Close ✕
+          </button>
+        </div>
 
-          {/* Title */}
+        {/* ── Article header ── */}
+        <div style={{ padding: "clamp(36px,5vw,56px) clamp(28px,5vw,52px) 32px" }}>
           <h2 style={{
             ...F.serif,
-            fontSize: "clamp(28px,4.5vw,48px)",
-            fontWeight: 400, lineHeight: 1.1,
-            marginBottom: "24px",
-            color: "var(--text)",
+            fontSize: "clamp(30px,5vw,48px)",
+            fontWeight: 400, lineHeight: 1.08,
+            color: "var(--text)", marginBottom: "10px",
           }}>
             {item.title}
           </h2>
-
-          <hr className="rule" style={{ marginBottom: "28px", opacity: 0.4 }} />
-
-          {/* Article body — if present, render it paragraph by paragraph */}
-          {item.article ? (
-            item.article.trim().split("\n\n").map((para, i) => (
-              <p key={i} style={{
-                fontSize: "15px",
-                color: "var(--text-2)",
-                lineHeight: 1.95,
-                marginBottom: "20px",
-                ...F.sans,
-              }}>
-                {para}
-              </p>
-            ))
-          ) : (
-            // ── Fallback for cards without an article ──
-            <p style={{
-              fontSize: "15px", color: "var(--text-2)",
-              lineHeight: 1.95, ...F.sans,
-            }}>
-              {item.desc}
-            </p>
-          )}
+          <div style={{
+            ...F.mono, fontSize: "9px",
+            color: "var(--text-3)", letterSpacing: "0.16em",
+            marginBottom: "28px",
+          }}>
+            {item.stat}
+          </div>
+          <hr style={{
+            height: "1px", border: "none",
+            background: "var(--line)", opacity: 0.6,
+          }} />
         </div>
+
+        {/* ── Interspersed content ── */}
+        <div style={{ paddingBottom: "clamp(48px,6vw,72px)" }}>
+          {blocks.map((block, i) => {
+
+            // Paragraph block
+            if (block.type === "text") {
+              // First paragraph gets slightly larger treatment
+              const isFirst = i === 0;
+              return (
+                <p
+                  key={i}
+                  style={{
+                    fontSize: isFirst ? "16px" : "14.5px",
+                    fontWeight: isFirst ? 400 : 300,
+                    lineHeight: 1.9,
+                    color: isFirst ? "var(--text)" : "var(--text-2)",
+                    padding: "0 clamp(28px,5vw,52px)",
+                    marginBottom: "0",
+                    marginTop: isFirst ? "0" : "clamp(28px,4vw,44px)",
+                  }}
+                >
+                  {block.value}
+                </p>
+              );
+            }
+
+            // Image block
+            if (block.type === "image") {
+              // Alternate between full-bleed and inset to create visual rhythm
+              const isInset = block.idx % 2 === 1;
+              return (
+                <div
+                  key={i}
+                  style={{
+                    margin: isInset
+                      ? "clamp(28px,4vw,44px) clamp(28px,5vw,52px)"  // inset: matches text padding
+                      : "clamp(28px,4vw,44px) 0",                     // full bleed
+                    background: "var(--surface-3)",
+                    overflow: "hidden",
+                    border: "1px solid var(--line-faint)",
+                  }}
+                >
+                  <img
+                    src={block.value}
+                    alt={`${item.title} — image ${block.idx + 1}`}
+                    loading="lazy"
+                    style={{
+                      width: "100%",
+                      display: "block",
+                      aspectRatio: "4/3",
+                      objectFit: "cover",
+                      objectPosition: "center",
+                    }}
+                  />
+                  {/* Image counter */}
+                  <div style={{
+                    padding: "8px 14px",
+                    borderTop: "1px solid var(--line-faint)",
+                    ...F.mono, fontSize: "8px",
+                    color: "var(--text-4)", letterSpacing: "0.18em",
+                  }}>
+                    {String(block.idx + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
+                  </div>
+                </div>
+              );
+            }
+
+            return null;
+          })}
+        </div>
+
       </div>
     </div>
   );
