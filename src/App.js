@@ -1601,7 +1601,199 @@ function About() {
     </section>
   );
 }
+// ─────────────────────────────────────────────────────────────
+// PROJECT MODAL
+// Opens when user clicks "View project" on a work card.
+// Renders article text + image gallery if present on the item.
+// Falls back gracefully for cards with no article/images.
+// ─────────────────────────────────────────────────────────────
 
+function ProjectModal({ item, onClose }) {
+  const [activeImg, setActiveImg] = useState(0);
+
+  // Lock body scroll while modal is open
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
+
+  // Close on Escape key
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  return (
+    // ── Backdrop — click outside to close ──
+    <div
+      onClick={onClose}
+      style={{
+        position: "fixed", inset: 0, zIndex: 900,
+        background: "rgba(10,10,8,0.88)",
+        backdropFilter: "blur(10px)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        padding: "clamp(16px,4vw,48px)",
+        overflowY: "auto",
+      }}
+    >
+      {/* ── Modal panel — stop propagation so inner clicks don't close ── */}
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: "var(--bg)",
+          border: "1px solid var(--line)",
+          width: "100%",
+          maxWidth: "860px",
+          maxHeight: "90vh",
+          overflowY: "auto",
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        {/* ── Close button ── */}
+        <button
+          onClick={onClose}
+          style={{
+            position: "sticky", top: 0, zIndex: 10,
+            alignSelf: "flex-end",
+            background: "var(--surface)",
+            border: "none",
+            borderBottom: "1px solid var(--line-faint)",
+            borderLeft: "1px solid var(--line-faint)",
+            color: "var(--text-3)",
+            ...F.mono,
+            fontSize: "9px",
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            padding: "12px 20px",
+            cursor: "pointer",
+            transition: "color 0.2s",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
+          onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-3)")}
+        >
+          Close ✕
+        </button>
+
+        {/* ── Image gallery — only rendered if item.images exists ── */}
+        {item.images && item.images.length > 0 && (
+          <div style={{ padding: "0 clamp(28px,5vw,56px) 32px" }}>
+
+            {/* Main image */}
+            <div
+              style={{
+                width: "100%",
+                aspectRatio: "16/9",
+                background: "var(--surface-3)",
+                overflow: "hidden",
+                marginBottom: "12px",
+                border: "1px solid var(--line-faint)",
+              }}
+            >
+              <img
+                src={item.images[activeImg]}
+                alt={`${item.title} — image ${activeImg + 1}`}
+                style={{
+                  width: "100%", height: "100%",
+                  objectFit: "cover", objectPosition: "center",
+                }}
+              />
+            </div>
+
+            {/* Thumbnail strip — shown only if more than one image */}
+            {item.images.length > 1 && (
+              <div style={{ display: "flex", gap: "8px", overflowX: "auto" }}>
+                {item.images.map((src, i) => (
+                  <div
+                    key={i}
+                    onClick={() => setActiveImg(i)}
+                    style={{
+                      width: "72px", height: "48px",
+                      flexShrink: 0,
+                      background: "var(--surface-3)",
+                      border: `1px solid ${i === activeImg ? "var(--gold)" : "var(--line-faint)"}`,
+                      overflow: "hidden",
+                      cursor: "pointer",
+                      opacity: i === activeImg ? 1 : 0.55,
+                      transition: "opacity 0.2s, border-color 0.2s",
+                    }}
+                  >
+                    <img
+                      src={src}
+                      alt={`Thumbnail ${i + 1}`}
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ── Text content ── */}
+        <div style={{ padding: "0 clamp(28px,5vw,56px) clamp(40px,6vw,64px)" }}>
+
+          {/* Meta tag + stat badge */}
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
+            <span style={{
+              ...F.mono, fontSize: "9px",
+              color: "var(--gold)", letterSpacing: "0.18em", textTransform: "uppercase",
+              padding: "4px 10px",
+              border: "1px solid var(--border)",
+              background: "var(--gold-faint)",
+            }}>
+              {item.tag}
+            </span>
+            <span style={{
+              ...F.mono, fontSize: "9px",
+              color: "var(--text-4)", letterSpacing: "0.14em",
+            }}>
+              {item.stat}
+            </span>
+          </div>
+
+          {/* Title */}
+          <h2 style={{
+            ...F.serif,
+            fontSize: "clamp(28px,4.5vw,48px)",
+            fontWeight: 400, lineHeight: 1.1,
+            marginBottom: "24px",
+            color: "var(--text)",
+          }}>
+            {item.title}
+          </h2>
+
+          <hr className="rule" style={{ marginBottom: "28px", opacity: 0.4 }} />
+
+          {/* Article body — if present, render it paragraph by paragraph */}
+          {item.article ? (
+            item.article.trim().split("\n\n").map((para, i) => (
+              <p key={i} style={{
+                fontSize: "15px",
+                color: "var(--text-2)",
+                lineHeight: 1.95,
+                marginBottom: "20px",
+                ...F.sans,
+              }}>
+                {para}
+              </p>
+            ))
+          ) : (
+            // ── Fallback for cards without an article ──
+            <p style={{
+              fontSize: "15px", color: "var(--text-2)",
+              lineHeight: 1.95, ...F.sans,
+            }}>
+              {item.desc}
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 // ─────────────────────────────────────────────────────────────
 // WORK — with 3D tilt cards
 // ─────────────────────────────────────────────────────────────
