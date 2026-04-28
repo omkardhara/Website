@@ -323,30 +323,21 @@ const WORK = [
     glyph: "📝",
   },
 {
-  id: 3,
-  cat: "installation",
-  tag: "Installation · Museum of Goa · 2023",
-  title: "Flow Simulator 1.0",
-  desc: "An interactive juggling board built from PVC pipes, commissioned for 'Khel-Spel HomoLudens: The Art of Play'.",
-  stat: "6-week run",
-  gradient: "radial-gradient(ellipse at 50% 60%, rgba(100,80,200,0.14), transparent 65%)",
-  glyph: "🎨",
-  images: [
-    "/images/flow-sim-1.jpg.jpg",
-    "/images/flow-sim-2.jpg.jgp",
-    "/images/flow-sim-3.jpg.jpg",
-    "/images/flow-sim-4.jpg.jpg",
-  ],
-  article: `The Flow Simulator 1.0 is an interactive installation commissioned for 'Khel-Spel HomoLudens: The Art of Play' at the Museum of Goa, Pilerne.
-
-Built from PVC pipes — a nod to the Indian philosophy of Jugaad and the Dutch principle of Zuinig — the piece is a modified juggling board designed to guide participants into a flow state through movement and rhythm. Like the pipes that channel water, the installation channels energy: structured pathways, infinite configurations.
-
-Participants manipulate up to six balls simultaneously, their bodies and minds slowly synchronising with the apparatus. The rhythmic repetition induces calm. The coordination demands focus. The result is a quiet but unmistakable shift — the thing practitioners call flow.
-
-On opening day, three 10-year-olds learned the 3-ball cascade. That was the real review.
-
-Special thanks to curator Sajid Wajid Shaikh and Sharada Kerkar for recognising the work, and to Ahasthya A for being extraordinary throughout.`,
-},
+    id: 3,
+    cat: "installation",
+    tag: "Installation · Museum of Goa · 2023",
+    title: "Flow Simulator 1.0",
+    desc: "An interactive juggling board built from PVC pipes, commissioned for 'Khel-Spel HomoLudens: The Art of Play'.",
+    stat: "6-week run",
+    gradient: "radial-gradient(ellipse at 50% 60%, rgba(100,80,200,0.14), transparent 65%)",
+    glyph: "🎨",
+    image: "/images/flow-sim-2.jpg.png",   // ← ADD THIS: card thumbnail
+    images: [
+      "/images/flow-sim-1.jpg.jpg",
+      "/images/flow-sim-2.jpg.png",        // ← FIXED: was .jgp
+      "/images/flow-sim-3.jpg.jpg",
+      "/images/flow-sim-4.jpg.png",
+    ],
   {
     id: 4,
     cat: "activism",
