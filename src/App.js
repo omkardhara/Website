@@ -327,7 +327,7 @@ const WORK = [
     cat: "installation",
     tag: "Installation · Museum of Goa · 2023",
     title: "Flow Simulator 1.0",
-    desc: "An interactive juggling board built from PVC pipes, commissioned for 'Khel-Spel HomoLudens: The Art of Play'.",
+    desc: "An interactive juggling board built from PVC pipes, commissioned for 'Khel-Spel HomoLudens: The Art of Play, on display at Museum of Goa'.",
     stat: "6-week run",
     gradient: "radial-gradient(ellipse at 50% 60%, rgba(100,80,200,0.14), transparent 65%)",
     glyph: "🎨",
