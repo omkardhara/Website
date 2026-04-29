@@ -813,9 +813,9 @@ function Navbar({ scrolled }) {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          background: scrolled ? "rgba(6,6,5,0.9)" : "transparent",
-          backdropFilter: scrolled ? "blur(18px) saturate(1.4)" : "none",
-          borderBottom: scrolled ? "1px solid var(--line)" : "none",
+          background: scrolled ? "rgba(248,246,241,0.92)" : "transparent",
+          backdropFilter: scrolled ? "blur(20px) saturate(1.6)" : "none",
+          borderBottom: scrolled ? "1px solid var(--line-faint)" : "none",
           transition: "all 0.6s ease",
         }}
       >
@@ -843,7 +843,7 @@ function Navbar({ scrolled }) {
           <span
             style={{
               ...F.mono,
-              fontSize: "9px",
+              fontSize: "12px",
               color: "var(--text-3)",
               letterSpacing: "0.08em",
             }}
@@ -853,7 +853,7 @@ function Navbar({ scrolled }) {
           <span
             style={{
               ...F.mono,
-              fontSize: "9px",
+              fontSize: "12px",
               color: "var(--text-3)",
               letterSpacing: "0.1em",
             }}
@@ -874,7 +874,7 @@ function Navbar({ scrolled }) {
               className="nav-item"
               style={{
                 ...F.mono,
-                fontSize: "10px",
+                fontSize: "12px",
                 letterSpacing: "0.16em",
                 textTransform: "uppercase",
                 color: "var(--text-3)",
@@ -896,7 +896,7 @@ function Navbar({ scrolled }) {
             className="btn-primary"
             style={{
               ...F.mono,
-              fontSize: "10px",
+              fontSize: "12px",
               letterSpacing: "0.14em",
               textTransform: "uppercase",
               textDecoration: "none",
