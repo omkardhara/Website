@@ -563,7 +563,7 @@ function ODLabel({ children, style = {} }) {
       <span
         style={{
           ...F.mono,
-          fontSize: "10px",
+          fontSize: "12px",
           letterSpacing: "0.22em",
           textTransform: "uppercase",
           color: "var(--gold)",
@@ -583,7 +583,7 @@ function MW3BAside({ children, style = {} }) {
     <div
       style={{
         ...F.mono,
-        fontSize: "11px",
+        fontSize: "12px",
         fontStyle: "italic",
         color: "var(--text-3)",
         lineHeight: 1.8,
@@ -598,7 +598,7 @@ function MW3BAside({ children, style = {} }) {
       <span
         style={{
           ...F.mono,
-          fontSize: "8px",
+          fontSize: "12px",
           letterSpacing: "0.22em",
           textTransform: "uppercase",
           color: "var(--ember)",
@@ -984,7 +984,7 @@ function Navbar({ scrolled }) {
             className="btn-primary"
             style={{
               ...F.mono,
-              fontSize: "11px",
+              fontSize: "12px",
               letterSpacing: "0.14em",
               textTransform: "uppercase",
               textDecoration: "none",
@@ -1117,7 +1117,7 @@ function Hero() {
           <span
             style={{
               ...F.mono,
-              fontSize: "10px",
+              fontSize: "12px",
               color: "var(--text-4)",
               letterSpacing: "0.1em",
             }}
@@ -1132,7 +1132,7 @@ function Hero() {
             onMouseEnter={scramble}
             style={{
               ...F.mono,
-              fontSize: "11px",
+              fontSize: "12px",
               letterSpacing: "0.22em",
               textTransform: "uppercase",
               color: "var(--ember)",
@@ -1193,7 +1193,7 @@ function Hero() {
             className="btn-primary"
             style={{
               ...F.mono,
-              fontSize: "11px",
+              fontSize: "12px",
               letterSpacing: "0.14em",
               textTransform: "uppercase",
               textDecoration: "none",
@@ -1208,7 +1208,7 @@ function Hero() {
             className="btn-ghost"
             style={{
               ...F.mono,
-              fontSize: "11px",
+              fontSize: "12px",
               letterSpacing: "0.14em",
               textTransform: "uppercase",
               textDecoration: "none",
@@ -1278,7 +1278,7 @@ function CredStrip() {
       <div
         style={{
           ...F.mono,
-          fontSize: "9px",
+          fontSize: "11px",
           letterSpacing: "0.18em",
           color: "var(--text-4)",
           textTransform: "uppercase",
@@ -1299,7 +1299,7 @@ function CredStrip() {
               className="cred-tag"
               style={{
                 ...F.mono,
-                fontSize: "11px",
+                fontSize: "13px",
                 letterSpacing: "0.16em",
                 textTransform: "uppercase",
                 color: "var(--text-3)",
@@ -1479,7 +1479,7 @@ function About() {
                       <span
                         style={{
                           ...F.mono,
-                          fontSize: "9px",
+                          fontSize: "12px",
                           color: "var(--text-4)",
                           letterSpacing: "0.2em",
                           textTransform: "uppercase",
@@ -1533,7 +1533,7 @@ function About() {
                     <span
                       style={{
                         ...F.mono,
-                        fontSize: "8px",
+                        fontSize: "12px",
                         color: ABOUT_PHOTO ? "rgba(255,255,255,0.7)" : "var(--text-4)",
                         letterSpacing: "0.2em",
                         textTransform: "uppercase",
@@ -1679,7 +1679,7 @@ function ProjectModal({ item, onClose }) {
           }}
         >
           <span style={{
-            ...F.mono, fontSize: "9px",
+            ...F.mono, fontSize: "11px",
             letterSpacing: "0.2em", textTransform: "uppercase",
             color: "var(--gold)",
           }}>
@@ -1721,7 +1721,7 @@ function ProjectModal({ item, onClose }) {
             {item.title}
           </h2>
           <div style={{
-            ...F.mono, fontSize: "9px",
+            ...F.mono, fontSize: "12px",
             color: "var(--text-3)", letterSpacing: "0.16em",
             marginBottom: "28px",
           }}>
@@ -1798,7 +1798,7 @@ function ProjectModal({ item, onClose }) {
 }}>
   {/* Counter — left side */}
   <span style={{
-    ...F.mono, fontSize: "8px",
+    ...F.mono, fontSize: "11px",
     color: "var(--text-4)", letterSpacing: "0.18em",
     flexShrink: 0,
   }}>
@@ -1807,7 +1807,7 @@ function ProjectModal({ item, onClose }) {
   {/* Caption — right side, italic, slightly warmer */}
   {item.captions?.[block.idx] && (
     <span style={{
-      ...F.mono, fontSize: "8px",
+      ...F.mono, fontSize: "11px",
       fontStyle: "italic",
       color: "var(--text-3)", letterSpacing: "0.12em",
       textAlign: "right",
@@ -2055,10 +2055,10 @@ All field notes &#8594;
               </div>
               {/* Date + read time */}
               <div style={{ display: "flex", gap: "20px" }}>
-                <span style={{ ...F.mono, fontSize: "9px", color: "var(--text-4)" }}>
+                <span style={{ ...F.mono, fontSize: "11px", color: "var(--text-4)" }}>
                   {featured.date}
                 </span>
-                <span style={{ ...F.mono, fontSize: "9px", color: "var(--text-4)" }}>
+                <span style={{ ...F.mono, fontSize: "11px", color: "var(--text-4)" }}>
                   {featured.read} read
                 </span>
               </div>
@@ -2201,7 +2201,7 @@ All field notes &#8594;
                   <span
                     style={{
                       ...F.mono,
-                      fontSize: "9px",
+                      fontSize: "11px",
                       color: "var(--gold)",
                       letterSpacing: "0.14em",
                       textTransform: "uppercase",
@@ -2209,7 +2209,7 @@ All field notes &#8594;
                   >
                     {note.tag}
                   </span>
-                  <span style={{ ...F.mono, fontSize: "9px", color: "var(--text-4)" }}>
+                  <span style={{ ...F.mono, fontSize: "11px", color: "var(--text-4)" }}>
                     {note.read}
                   </span>
                 </div>
@@ -2247,7 +2247,7 @@ All field notes &#8594;
                     paddingTop: "16px",
                     borderTop: "1px solid var(--line-faint)",
                     ...F.mono,
-                    fontSize: "10px",
+                    fontSize: "12px",
                     color: "var(--gold)",
                     letterSpacing: "0.14em",
                     textTransform: "uppercase",
@@ -2381,7 +2381,7 @@ function Adventures() {
                       <div
                         style={{
                           ...F.mono,
-                          fontSize: "9px",
+                          fontSize: "11px",
                           color: "var(--text-3)",
                           letterSpacing: "0.22em",
                           textTransform: "uppercase",
@@ -2425,7 +2425,7 @@ function Adventures() {
                     left: "24px",
                     zIndex: 3,
                     ...F.mono,
-                    fontSize: "9px",
+                    fontSize: "11px",
                     color: ADVENTURE_PHOTO ? "rgba(255,255,255,0.9)" : "var(--ember)",
                     letterSpacing: "0.18em",
                     textTransform: "uppercase",
@@ -2454,7 +2454,7 @@ function Adventures() {
             <div
               style={{
                 ...F.mono,
-                fontSize: "9px",
+                fontSize: "11px",
                 color: "var(--ember)",
                 letterSpacing: "0.24em",
                 textTransform: "uppercase",
@@ -3232,7 +3232,7 @@ function BookMe() {
                 <div
                   style={{
                     ...F.mono,
-                    fontSize: "9px",
+                    fontSize: "11px",
                     color: "var(--text-3)",
                     letterSpacing: "0.12em",
                     padding: "0 2px",
@@ -3371,7 +3371,7 @@ function Footer() {
                   style={{
                     display: "block",
                     ...F.mono,
-                    fontSize: "10px",
+                    fontSize: "12px",
                     color: "var(--text-3)",
                     textDecoration: "none",
                     letterSpacing: "0.14em",
@@ -3404,7 +3404,7 @@ function Footer() {
          <span
             style={{
               ...F.mono,
-              fontSize: "9px",
+              fontSize: "12px",
               color: "var(--text-4)",
               letterSpacing: "0.12em",
             }}
@@ -3415,7 +3415,7 @@ function Footer() {
             href="mailto:omkar.dhara@gmail.com"
             style={{
               ...F.mono,
-              fontSize: "10px",
+              fontSize: "12px",
               color: "var(--gold)",
               letterSpacing: "0.14em",
               textDecoration: "none",
@@ -3467,7 +3467,7 @@ function MarqueeStrip() {
             key={i}
             style={{
               ...F.mono,
-              fontSize: "10px",
+              fontSize: "12px",
               letterSpacing: "0.18em",
               textTransform: "uppercase",
               color: i % 2 === 0 ? "var(--text-3)" : "var(--gold-dim)",
