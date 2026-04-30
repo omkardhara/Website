@@ -236,6 +236,7 @@ const WORK_FILTERS = [
   { id: "brand", label: "Brand Work" },
   { id: "installation", label: "Installations" },
   { id: "activism", label: "Activism" },
+    { id: "production", label: "Production" },
 ];
 
 const WORK = [
