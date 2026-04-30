@@ -252,7 +252,7 @@ const WORK = [
     image: "/images/Art-Activism-1.jpg",
     images: [
       "/images/Art-Activism-1- Omkar Dhareshwar.jpg",
-      "/images/Art-Activism-3.jpg",
+      "/images/Art-Activism-2-Omkar Dhareshwar.jpg",
       "/images/Art-Activism-5.jpg",
       "/images/Art-Activism-4.jpg",
     ],
