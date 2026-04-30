@@ -310,7 +310,7 @@ const WORK = [
     gradient:
       "radial-gradient(ellipse at 30% 40%, rgba(200,90,42,0.22), transparent 65%)",
     glyph: "🔥",
-     image: "/images/Art-Activism-1.jpeg",   // ← ADD THIS: card thumbnail
+     image: "/images/Art-Activism-Test.jpg",   // ← ADD THIS: card thumbnail
     images: [
       "/images/Art-Activism-2.jpg",
       "/images/Art-Activism-3.jpg",        
