@@ -302,7 +302,7 @@ const WORK_FILTERS = [
 const WORK = [
   {
     id: 1,
-    cat: "Art Activism",
+    cat: "activism",
     tag: "Street Art · Activism · 2025",
     title: "Turning Garbage Spots into Conversation Starters",
     desc: "Using Bollywood memes as street interventions in Marol, this project explores how humor and familiarity can influence public behavior. A small artistic act aimed at making people pause, reflect, and think twice before they litter.",
@@ -310,12 +310,12 @@ const WORK = [
     gradient:
       "radial-gradient(ellipse at 30% 40%, rgba(200,90,42,0.22), transparent 65%)",
     glyph: "🔥",
-     image: "/image/Art-Activism-1.jpeg",   // ← ADD THIS: card thumbnail
+     image: "/images/Art-Activism-1.jpeg",   // ← ADD THIS: card thumbnail
     images: [
-      "/images/flow-sim-2.jpg",
-      "/images/flow-sim-3.jpg",        
-      "/images/flow-sim-5.jpg",
-      "/images/flow-sim-4.jpg",
+      "/images/Art-Activism-2.jpg",
+      "/images/Art-Activism-3.jpg",        
+      "/images/Art-Activism.jpg",
+      "/images/Art-Activism.jpg",
     ],
   // ← Update these captions when you're ready
 captions: [
