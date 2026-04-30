@@ -314,8 +314,8 @@ const WORK = [
     images: [
       "/images/Art-Activism-2.jpg",
       "/images/Art-Activism-3.jpg",        
-      "/images/Art-Activism.jpg",
-      "/images/Art-Activism.jpg",
+      "/images/Art-Activism-5.jpg",
+      "/images/Art-Activism-4.jpg",
     ],
   // ← Update these captions when you're ready
 captions: [
