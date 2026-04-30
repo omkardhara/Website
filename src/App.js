@@ -248,7 +248,7 @@ const WORK = [
     stat: "3 garbage dumping spots · 6 months",
     gradient: "radial-gradient(ellipse at 30% 40%, rgba(200,90,42,0.22), transparent 65%)",
     glyph: "🔥",
-    image: "/images/Art-Activism-Test.jpg",
+    image: "/images/Art-Activism-1.jpg",
     images: [
       "/images/Art-Activism-2.jpg",
       "/images/Art-Activism-3.jpg",
