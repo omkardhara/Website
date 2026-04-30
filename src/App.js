@@ -340,10 +340,10 @@ const WORK = [
     ],
   // ← Update these captions when you're ready
 captions: [
-  "Caption coming soon.",
-  "Caption coming soon.",
-  "Caption coming soon.",
-  "Caption coming soon.",
+  "Flow Simulator 1.0 Displayed at Museum of Goa",
+  "The installation was part of Homo Ludens- Khel-Spel Exhiition",
+  "Visitors enjoyed the simulated juggling experience",
+  "The display was accompanied by a flow workshop including balls, dapo star and poi",
 ],
    "article": "The Flow Simulator 1.0 is an interactive installation commissioned for 'Khel-Spel HomoLudens: The Art of Play' at the Museum of Goa, Pilerne.\n\nThe Museum of Goa has built a reputation as a space where art feels alive and participatory, and the exhibition Homo Ludens: The Art of Play reflects that spirit. Inspired by Johan Huizinga’s idea that play is central to culture, the exhibition brings together artists from India and the Netherlands to explore how play shapes the way we think, create, and connect. With a wide range of works on display, the show invites visitors to engage directly, encouraging curiosity and interaction rather than passive viewing.\n\nWithin this setting, I had the opportunity to present my interactive installation, Flow Simulator 1.0, as part of the ‘Khel-Spel Homo Ludens’ showcase curated by Sajid Wajid Shaikh. The piece draws from Craig Quat’s juggling board and combines elements of juggling and functional movement. Built using PVC pipes, the work reflects ideas like Jugaad and Zuinig, where simple materials are used thoughtfully to create something meaningful. The structure guides movement in specific pathways, while still allowing for variation in rhythm and coordination, giving each participant their own way of engaging with it.\n\nThe installation works as both an art piece and a hands-on experience. Participants use it to move multiple balls through the system, which naturally brings focus to their movement and timing. As they continue, the repetition and rhythm begin to settle the mind, creating a sense of calm and concentration. This experience connects to the idea of a flow state, where attention becomes steady and the body and mind feel in sync. Through this process, people improve coordination and awareness while also finding a quiet, meditative rhythm.\n\nOne of the most memorable parts of the exhibition was leading a juggling workshop for children. Seeing a group of 10-year-olds learn and successfully perform a three-ball cascade was incredibly rewarding. Their excitement and focus captured what the exhibition was really about. Presenting the work, performing at the opening, and interacting with such an engaged audience felt like a natural extension of my practice. With support from Sharada Kerkar and the larger creative community, the experience reaffirmed my belief that play can open up new ways of learning, moving, and understanding ourselves."
 },
