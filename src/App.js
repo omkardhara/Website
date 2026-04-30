@@ -302,14 +302,30 @@ const WORK_FILTERS = [
 const WORK = [
   {
     id: 1,
-    cat: "performance",
-    tag: "Performance · Goa · 2024",
-    title: "Flow State, Monsoon Edition",
-    desc: "A full fire-flow set performed mid-rainfall in a 300-person open courtyard. The brief was: don't die. The outcome was: something people are still talking about.",
-    stat: "300 people",
+    cat: "Art Activism",
+    tag: "Street Art · Activism · 2025",
+    title: "Turning Garbage Spots into Conversation Starters",
+    desc: "Using Bollywood memes as street interventions in Marol, this project explores how humor and familiarity can influence public behavior. A small artistic act aimed at making people pause, reflect, and think twice before they litter.",
+    stat: "3 garbage dumping spots · 6 months",
     gradient:
       "radial-gradient(ellipse at 30% 40%, rgba(200,90,42,0.22), transparent 65%)",
     glyph: "🔥",
+     image: "/image/Art-Activism-1.jpeg",   // ← ADD THIS: card thumbnail
+    images: [
+      "/images/flow-sim-2.jpg",
+      "/images/flow-sim-3.jpg",        
+      "/images/flow-sim-5.jpg",
+      "/images/flow-sim-4.jpg",
+    ],
+  // ← Update these captions when you're ready
+captions: [
+  "Munnabhai & Circuit advise people to dump in the bin",
+  "Hera Pheri's hilarious character lamenting the situation",
+  "Vijay Raaz's character from Dhamaal comes to life",
+  "The installations receieved extensive media coverage",
+  ],
+   "article": "Art Activism - Using Bollywood memes as street interventions in Marol to make people pause and think twice before they litter.\n\nIn a city like Mumbai, you get used to seeing the same things every day. For me, that included walking past certain spots in Marol and noticing garbage piling up in plain sight. At the bus stop on Military Road and near the Ashok Nagar bridge, trash would collect just a few feet away from bins. During the rains, it got worse. The smell, the mess, and people trying to walk around it while traffic rushed past made it hard to ignore. It stayed with me for months.\n\nI kept thinking about why this was happening. The bins were there. The system existed. But people still chose to dump waste wherever they felt like. I had seen how images of gods were sometimes used to stop people from littering, and it made me think about what holds attention today. Bollywood and memes felt like a language people instantly understand. That idea stuck with me. Instead of putting up another instruction or warning, I decided to try something people might actually notice and react to.\n\nWith help from my brother Soham Dhareshwar and support from the Dream Marol community led by Suresh Nair, I started placing framed flex boards at these dumping spots. Each one used a Bollywood-style meme to get the message across. We installed three of these over six months in areas where dumping kept happening. The idea was not complicated. If someone stopped for even a second, read it, and thought twice before throwing garbage there, it was doing its job. The project also got picked up by Mid-Day twice, which helped bring more attention to the issue.\n\nI don’t know if this will completely change people’s habits. But it felt important to try something instead of just walking past and feeling frustrated. If this approach works, I’ll build on it. If it doesn’t, I’ll try something else. For me, this project was a reminder that art doesn’t have to stay in a studio or gallery. It can step into everyday spaces and respond to what’s happening around us."
+
   },
   {
     id: 2,
@@ -325,10 +341,10 @@ const WORK = [
 {
     id: 3,
     cat: "installation",
-    tag: "Installation · Museum of Goa · 2023",
+    tag: "Flow · Installation · Museum of Goa · 2025",
     title: "Flow Simulator 1.0",
     desc: "An interactive juggling board built from PVC pipes, commissioned for 'Khel-Spel HomoLudens: The Art of Play, on display at Museum of Goa'.",
-    stat: "6-week run",
+    stat: "108 parts · 8-week run · 2025",
     gradient: "radial-gradient(ellipse at 50% 60%, rgba(100,80,200,0.14), transparent 65%)",
     glyph: "🎨",
     image: "/images/flow-sim-2.jpg.png",   // ← ADD THIS: card thumbnail
