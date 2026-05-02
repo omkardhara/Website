@@ -277,7 +277,7 @@ const WORK = [
    image: "/images/wassup-production-omkardhareshwar-1.jpg",
     images: [
       "/images/wassup-production-2-omkardhareshwar.jpg",
-      "/images/flow-sim-2.jpg.png",
+      "/images/wassup-production-3-omkardhareshwar.jpg",
       "/images/flow-sim-4.jpg.png",
       "/images/flow-sim-3.jpg.jpeg",
        "/images/flow-sim-5.jpg.jpeg",
