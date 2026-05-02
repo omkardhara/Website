@@ -199,6 +199,7 @@ body::before {
   .work-cols   { grid-template-columns: 1fr 1fr !important; }
   /* Featured note — stack image above text on mobile */
   .featured-note { grid-template-columns: 1fr !important; }
+  .featured-note-img { order: -1; }
   /* Press featured — stack on mobile */
   .press-featured { grid-template-columns: 1fr !important; }
 }
@@ -951,7 +952,7 @@ function FieldNotes() {
           </div>
           {/* Cover image — stacks on mobile via .featured-note CSS rule */}
           {featured.image && (
-            <div style={{ position: "relative", background: "var(--surface-3)", overflow: "hidden", minHeight: "240px" }}>
+            <div className="featured-note-img" style={{ position: "relative", background: "var(--surface-3)", overflow: "hidden", minHeight: "240px" }}>
               <img src={featured.image} alt={featured.title} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
             </div>
           )}
