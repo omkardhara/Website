@@ -284,8 +284,8 @@ const WORK = [
     ],
     captions: [
       "With MC Altaf, D-EVIL & Bboy Flying Machine at Puma X HMGRWN Shoot",
-      "MC Altaf, Udayan Dharmadhikari, Jay Kila and Omkar(not in the pic) recording at the studio",
-      "still from the video showing the Scrabble scene or the pizza moment with the group.",
+      "MC Altaf, Udayan Dharmadhikari, Jay Kila and Omkar(clicking the pic) recording at the studio",
+      "Me in the Eva's Pizza delivery uniform doing a cameo in the vidoe",
       "A lively shot from the house party scene or a frame showing Jay Kila on the TV screen.",
       "A collage showing where everyone is now or a nostalgic throwback group photo.",
     ],
