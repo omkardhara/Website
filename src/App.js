@@ -270,7 +270,7 @@ const WORK = [
     tag: "Ranveer Singh · MC Altaf + J Kila· Video Production",
     title: "We Shot a Cult Desi Hip-Hop Video in a Living Room and Got Ranveer Singh in It",
     desc: "How a living room shoot, borrowed resources, and a surprise Ranveer Singh cameo came together to create a small but unforgettable moment in India’s hip-hop journey.",
-    stat: "300k views",
+    stat: "300K views · Ranveer Singh · Budget <₹25,000",
     gradient: "radial-gradient(ellipse at 40% 50%, rgba(191,155,69,0.12), transparent 65%)",
     glyph: "✊",
    image: "/images/wassup-production-omkardhareshwar-1.jpg",
