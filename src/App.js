@@ -302,7 +302,7 @@ const WORK = [
     id: 4,
     cat: "production",
     tag: "Ranveer Singh · MC Altaf + J Kila· Video Production",
-    title: "How We Shot a Cult Desi Hip-Hop Video in a Living Room and Got Ranveer Singh in It",
+    title: "We Shot a Cult Desi Hip-Hop Video in a Living Room and Got Ranveer Singh in It",
     desc: "How a living room shoot, borrowed resources, and a surprise Ranveer Singh cameo came together to create a small but unforgettable moment in India’s hip-hop journey.",
     stat: "7 cities",
     gradient: "radial-gradient(ellipse at 40% 50%, rgba(191,155,69,0.12), transparent 65%)",
