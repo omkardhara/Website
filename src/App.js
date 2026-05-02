@@ -364,7 +364,7 @@ const WORK = [
 const NOTES = [
   {
     id: 1,
-    image: "/images/Flow Artist- Omkar Dhareshwar.jpeg",
+    image: "/images/flow-artist-omkardhareshwar-1.jpg",
     title: "What flow arts actually taught me about being still",
     date: "March 2025",
     read: "5 min",
