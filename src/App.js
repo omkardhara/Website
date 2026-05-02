@@ -253,8 +253,8 @@ const WORK = [
     images: [
       "/images/Art-Activism-1- Omkar Dhareshwar.jpg",
       "/images/Art-Activism-2-Omkar Dhareshwar.jpg",
-      "/images/Art-Activism-5.jpg",
-      "/images/Art-Activism-4.jpg",
+      "/images/art-activism-omkardhareshwar-3.jpg",
+      "/images/art-activism-omkardhareshwar-5.jpg",
     ],
     captions: [
       "Munnabhai & Circuit advise people to dump in the bin",
@@ -275,14 +275,14 @@ const WORK = [
     glyph: "✊",
    image: "/images/wassup-production-omkardhareshwar-1.jpg",
     images: [
-      "/images/flow-sim-1.jpg.jpeg",
+      "/images/wassup-production-2-omkardhareshwar.jpg",
       "/images/flow-sim-2.jpg.png",
       "/images/flow-sim-4.jpg.png",
       "/images/flow-sim-3.jpg.jpeg",
        "/images/flow-sim-5.jpg.jpeg",
     ],
     captions: [
-      "A candid photo , or an early behind-the-scenes moment.",
+      "With MC Altaf, D-EVIL & Bboy Flying Machine at Puma X HMGRWN Shoot",
       "home studio setup or a casual living room turned into a shoot location.",
       "still from the video showing the Scrabble scene or the pizza moment with the group.",
       "A lively shot from the house party scene or a frame showing Jay Kila on the TV screen.",
