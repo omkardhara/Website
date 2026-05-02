@@ -726,7 +726,7 @@ function About() {
               My brand work includes commissioned longform for{" "}
               <a href="https://www.redbull.com/in-en" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", fontWeight: 400, textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Red Bull India</a>
               , a site-specific installation for the{" "}
-              <a href="https://www.museumofgoa.com" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", fontWeight: 400, textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Museum of Goa</a>
+              <a href="https://museumofgoa.com/program/homo-ludens-the-art-of-play/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", fontWeight: 400, textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Museum of Goa</a>
               , and corporate workshops for teams who want something that actually changes the room.
             </p>
             <p style={{ color: "var(--text-2)", lineHeight: 1.9, fontSize: "15px" }}>
