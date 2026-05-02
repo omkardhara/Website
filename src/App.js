@@ -1064,7 +1064,7 @@ function Media() {
         <div className="reveal" style={{ marginBottom: "56px" }}>
           <ODLabel>Media</ODLabel>
           <SectionHeading>Don't take my word<br /><em style={{ color: "var(--gold)" }}>for it.</em></SectionHeading>
-          <MW3BAside style={{ marginTop: "14px", maxWidth: "360px" }}>Six videos. None of them explain what I do. All of them show it.</MW3BAside>
+          <MW3BAside style={{ marginTop: "14px", maxWidth: "360px" }}>Some things only make sense when they're moving.</MW3BAside>
         </div>
 
         <div className="vid-cols" style={{ display: "grid", gap: "2px", gridTemplateColumns: "repeat(3, 1fr)" }}>
