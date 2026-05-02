@@ -279,7 +279,7 @@ const WORK = [
       "/images/wassup-production-2-omkardhareshwar.jpg",
       "/images/wassup-production-4-omkardhareshwar.jpg",
       "/images/wassup-production-3-omkardhareshwar.jpg",
-      "/images/flow-sim-3.jpg.jpeg",
+      "/images/wassup-production-5-omkardhareshwar.jpg",
        "/images/flow-sim-5.jpg.jpeg",
     ],
     captions: [
