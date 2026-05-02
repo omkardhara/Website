@@ -502,10 +502,10 @@ const PRESS = [
 // SOCIALS DATA — update handles and links here
 // ─────────────────────────────────────────────────────────────
 const SOCIALS = [
-  { label: "Instagram", handle: "@manwith3balls",    href: "https://instagram.com/manwith3balls"      },
-  { label: "YouTube",   handle: "ManWith3Balls",     href: "https://youtube.com/@manwith3balls"       },
-  { label: "LinkedIn",  handle: "Omkar Dhareshwar",  href: "https://linkedin.com/in/omkar-dhareshwar" },
-  { label: "Substack",  handle: "Field Notes",       href: "https://substack.com"                     },
+  { label: "Instagram", handle: "@omkar_dhara",    href: "https://instagram.com/omkar_dhara"      },
+  { label: "YouTube",   handle: "@OmkarDhareshwar",     href: "https://www.youtube.com/@OmkarDhareshwar"       },
+  { label: "LinkedIn",  handle: "Omkar Dhareshwar",  href: "https://www.linkedin.com/in/omkardhareshwar/" },
+  { label: "Juggler Insta",  handle: "@manwith3balls",       href: "https://instagram.com/manwith3balls" },                    },
 ];
 
 // ─────────────────────────────────────────────────────────────
