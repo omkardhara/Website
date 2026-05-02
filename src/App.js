@@ -504,7 +504,7 @@ const PRESS = [
 const SOCIALS = [
   { label: "Instagram", handle: "@omkar_dhara",    href: "https://instagram.com/omkar_dhara"      },
   { label: "YouTube",   handle: "@OmkarDhareshwar",     href: "https://www.youtube.com/@OmkarDhareshwar"       },
-  { label: "LinkedIn",  handle: "Omkar Dhareshwar",  href: "https://www.linkedin.com/in/omkardhareshwar/" },
+  { label: "LinkedIn",  handle: "OmkarDhareshwar",  href: "https://www.linkedin.com/in/omkardhareshwar" },
   { label: "Juggler Insta",  handle: "@manwith3balls",       href: "https://instagram.com/manwith3balls" },                    },
 ];
 
