@@ -277,14 +277,14 @@ const WORK = [
    image: "/images/wassup-production-omkardhareshwar-1.jpg",
     images: [
       "/images/wassup-production-2-omkardhareshwar.jpg",
+      "/images/wassup-production-4-omkardhareshwar.jpg",
       "/images/wassup-production-3-omkardhareshwar.jpg",
-      "/images/flow-sim-4.jpg.png",
       "/images/flow-sim-3.jpg.jpeg",
        "/images/flow-sim-5.jpg.jpeg",
     ],
     captions: [
       "With MC Altaf, D-EVIL & Bboy Flying Machine at Puma X HMGRWN Shoot",
-      "home studio setup or a casual living room turned into a shoot location.",
+      "MC Altaf, Udayan Dharmadhikari, Jay Kila and Omkar(not in the pic) recording at the studio",
       "still from the video showing the Scrabble scene or the pizza moment with the group.",
       "A lively shot from the house party scene or a frame showing Jay Kila on the TV screen.",
       "A collage showing where everyone is now or a nostalgic throwback group photo.",
