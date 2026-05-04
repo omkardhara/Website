@@ -327,13 +327,13 @@ const WORK = [
     glyph: "✊",
    image: "/images/marol-art-cover-1.jpg",
     images: [
-      "/images/flow-sim-1.jpg.jpeg",
+      "/images/marol-art-village-2.jpg",
       "/images/flow-sim-2.jpg.png",
       "/images/flow-sim-4.jpg.png",
       "/images/flow-sim-3.jpg.jpeg",
     ],
     captions: [
-      "Flow Simulator 1.0 Displayed at Museum of Goa",
+      "Piece by South African artist, Jester at Ecopark,2017",
       "The installation was part of Homo Ludens- Khel-Spel Exhibition",
       "Visitors enjoyed the simulated juggling experience",
       "The display was accompanied by a flow workshop including balls, dapo star and poi",
