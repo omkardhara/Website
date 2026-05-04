@@ -319,7 +319,7 @@ const WORK = [
   {
     id: 4,
     cat: "activism",
-    tag: "Marol Art Village · Art District· Street Art + Graffiti",
+    tag: "Marol Art Village · Art District · Street Art ",
     title: "Putting Marol on the Global Street Art Map",
     desc: "How a dream to give Marol its own identity evolved into a full blown Street Art District",
     stat: "500+ murals · 2000+ volunteers · Zero Funding",
