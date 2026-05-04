@@ -328,13 +328,13 @@ const WORK = [
    image: "/images/marol-art-cover-1.jpg",
     images: [
       "/images/marol-art-village-2.jpg",
-      "/images/flow-sim-2.jpg.png",
+      "/images/marol-art-village-3.jpg",
       "/images/flow-sim-4.jpg.png",
       "/images/flow-sim-3.jpg.jpeg",
     ],
     captions: [
-      "Piece by South African artist, Jester at Ecopark,2017",
-      "The installation was part of Homo Ludens- Khel-Spel Exhibition",
+      "Piece by South African artist, Jestr at Ecopark,2017",
+      "Spidey Character by Mooz at the Wall of Fame, 2017",
       "Visitors enjoyed the simulated juggling experience",
       "The display was accompanied by a flow workshop including balls, dapo star and poi",
     ],
