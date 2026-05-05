@@ -237,7 +237,7 @@ const WORK_FILTERS = [
   { id: "brand", label: "Brand Work" },
   { id: "installation", label: "Installations" },
   { id: "activism", label: "Activism" },
-    { id: "production", label: "Production" },
+  { id: "production", label: "Production" },
 ];
 
 const WORK = [
@@ -371,13 +371,28 @@ const WORK = [
   },
   {
     id: 6,
-    cat: "installation",
-    tag: "Group Show · Laxmi Projects, Mumbai",
-    title: "Tactile Light",
-    desc: "A four-artist collaborative installation exploring edges of perception. My contribution: a kinetic light rig that responds to breath. Shown for three weeks. Sold out on opening night.",
-    stat: "4 artists",
-    gradient: "radial-gradient(ellipse at 70% 55%, rgba(100,180,200,0.13), transparent 65%)",
-    glyph: "💡",
+    cat: "production",
+    tag: "Ad Shoot · Flying Machine Denims · 2019",
+    title: "Underground Street Culture Ended Up Selling Denim for Flying Machine",
+    desc: "A story about timing, youth culture, and how a Bboy named Flying Machine became the perfect face for a brand called Flying Machine.",
+    stat: "3 Ad Shoots · 7 athletes· 1 Epic Campaign",
+    gradient: "radial-gradient(ellipse at 55% 30%, rgba(200,90,42,0.16), transparent 65%)",
+    glyph: "⚡",
+     image: "/images/Potholes-omkardhareshwar-cover.jpg",
+    images: [
+      "/images/potholes-omkardhareshwar-1.jpg",
+      "/images/potholes-omkardhareshwar-2.jpg",
+      "/images/potholes-omkardhareshwar-4.jpg",
+      "/images/potholes-omkardhareshwar-3.jpg",
+     ],
+    captions: [
+      "Our work from Virar featured in Mumbai Mirror,2016 ",
+      "Marked craters from Ashok Nagar, Marol, 2016",
+      "Half page feature in Midday,inset-Bboy Flying Machine,2016",
+      "The worst pothole from the night deserves a special mention ",
+     ],
+    article: "On the 1st of November 2016, more than ten media houses across Mumbai received the same anonymous email. No names. No organisation. No logos. Just a message from a group of frustrated young citizens asking two simple questions: why were Mumbai’s roads in such terrible condition, and why had people accepted it as normal? That same night, over 40 youngsters from different parts of the city stepped out carrying paint cans and brushes, moving across the Western Line marking potholes with giant white question marks. By sunrise, more than 500 potholes had been marked.\n\nThe idea came from a place of anger, but also helplessness. Every year, the same cycle repeated itself. Rains arrived, roads collapsed, accidents increased, outrage lasted for a few days, and then everything faded until the next monsoon. I kept wondering how people had become so used to inconvenience and danger that even giant craters on the roads barely shocked anyone anymore. At the same time, I had always been fascinated by graffiti and protest art. Historically, graffiti has often been the language of people without power. It exists outside formal systems and forces attention in places where people usually look away. This project was born somewhere between those two thoughts.\n\nWhat made that night special was the sheer scale of collective effort. People from completely different backgrounds came together for something that had no commercial gain, no political backing, and honestly, no guarantee of impact. Everyone understood the risks involved, which is why anonymity became an important part of the campaign. The streets looked surreal that night. Groups splitting up near stations, bikes carrying paint buckets, lookout calls whenever police vans passed by, and giant white question marks slowly appearing across the city like some strange public installation. Somewhere between the tension and exhaustion, there was also excitement. For once, frustration was turning into action.\n\nOver the next two weeks, the campaign unexpectedly snowballed. It was covered in multiple newspaper articles, discussed on radio shows, and widely shared online. Some roads were repaired soon after, though many still remained untouched. But for me, the bigger takeaway was seeing how strongly people connected with the act itself. The project showed me that graffiti could be more than aesthetics or decoration. It could become a tool for civic participation, public pressure, and collective expression. Illegal in technical terms, yes. But deeply supported by ordinary citizens who were tired of feeling ignored. Looking back now, it feels less like a protest and more like a reminder that sometimes all it takes is one simple visual idea to make an entire city stop and pay attention.",
+  
   },
 ];
 
