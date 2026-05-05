@@ -358,7 +358,7 @@ const WORK = [
       "/images/potholes-omkardhareshwar-1.jpg",
       "/images/potholes-omkardhareshwar-2.jpg",
       "/images/potholes-omkardhareshwar-4.jpg",
-      "/images/potholes-omkardhareshwar-2.jpg",
+      "/images/potholes-omkardhareshwar-3.jpg",
      ],
     captions: [
       "Our work from Virar featured in Mumbai Mirror,2016 ",
