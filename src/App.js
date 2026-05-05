@@ -355,7 +355,7 @@ const WORK = [
     glyph: "⚡",
      image: "/images/Potholes- Omkar Dhareshwar-cover.jpg",
     images: [
-      "/images/marol-art-village-2.jpg",
+      "/images/potholes-omkardhareshwar-1.jpg",
       "/images/marol-art-village-3.jpg",
       "/images/marol-art-village-4.jpg",
       "/images/marol-art-village-5.jpg",
