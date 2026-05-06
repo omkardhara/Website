@@ -193,8 +193,7 @@ body::before {
 .social-row:hover { padding-left: 8px !important; border-bottom-color: var(--gold) !important; }
 
 /* ── HERO grid (left = identity, right = trimmed about) ── */
-.hero-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(32px,5vw,72px); align-items: center; max-width: 1300px; margin: 0 auto; width: 100%; }
-.hero-about { border-left: 1px solid var(--line-faint); padding-left: clamp(24px,3vw,40px); }
+.hero-grid { max-width: 1100px; margin: 0 auto; width: 100%; }
 
 /* ── TIMELINE — alternating spine ── */
 .timeline-spine { position: relative; }
@@ -278,11 +277,7 @@ body::before {
   /* Press featured — stack on mobile */
   .press-featured { grid-template-columns: 1fr !important; }
 
-  /* Hero — stack vertically on mobile */
-  .hero-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
-  .hero-about { border-left: none !important; padding-left: 0 !important; border-top: 1px solid var(--line-faint); padding-top: 36px; }
-
-  /* Timeline — single-spine layout on mobile */
+   /* Timeline — single-spine layout on mobile */
   .timeline-spine .spine-line { left: 24px !important; transform: none !important; }
   .timeline-row, .timeline-row.row-flip { grid-template-columns: 48px 1fr !important; }
   .timeline-row > .tl-node, .timeline-row.row-flip > .tl-node { grid-column: 1 !important; }
@@ -944,43 +939,7 @@ function Hero() {
             <a href="#book" className="btn-ghost" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "15px 36px", display: "inline-block" }}>Get in touch</a>
           </div>
         </div>
-
-        {/* RIGHT — Trimmed About */}
-        <aside className="hero-about h-5">
-          <div style={{ ...F.mono, fontSize: "11px", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)", marginBottom: "18px" }}>About</div>
-
-          <p style={{ ...F.serif, fontSize: "clamp(20px,2.6vw,26px)", fontWeight: 300, lineHeight: 1.35, color: "var(--text)", marginBottom: "20px", fontStyle: "italic" }}>
-            I live and work <span style={{ color: "var(--gold)" }}>at the edges.</span>
-          </p>
-
-          <p style={{ color: "var(--text-2)", lineHeight: 1.85, fontSize: "13.5px", marginBottom: "14px" }}>
-            Flow artist, live performer, writer, activist. Audiences of five, audiences of five hundred. Gallery installations and unannounced train-station performances.
-          </p>
-
-          <p style={{ color: "var(--text-2)", lineHeight: 1.85, fontSize: "13.5px", marginBottom: "26px" }}>
-            Brand work for{" "}
-            <a href="https://www.redbull.com/in-en" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Red Bull India</a>
-            ,{" "}
-            <a href="https://museumofgoa.com/program/homo-ludens-the-art-of-play/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Museum of Goa</a>
-            , and corporate workshops that change the room.
-          </p>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "1px", background: "var(--line-faint)", marginBottom: "24px" }}>
-            {[["10+", "yrs"], ["500+", "audience"], ["12+", "brands"], ["3", "shows"]].map(([n, l]) => (
-              <div key={l} style={{ background: "var(--bg)", padding: "12px 6px", textAlign: "center" }}>
-                <div style={{ ...F.serif, fontSize: "22px", color: "var(--gold)", fontWeight: 400, lineHeight: 1 }}>{n}</div>
-                <div style={{ ...F.mono, fontSize: "8px", color: "var(--text-3)", letterSpacing: "0.14em", marginTop: "4px", textTransform: "uppercase" }}>{l}</div>
-              </div>
-            ))}
-          </div>
-
-          <blockquote style={{ borderLeft: "2px solid var(--gold)", paddingLeft: "16px" }}>
-            <p style={{ ...F.serif, fontSize: "15px", fontStyle: "italic", fontWeight: 300, lineHeight: 1.45, color: "var(--text-2)" }}>
-              "Movement is how I think.<br />Performance is how I speak."
-            </p>
-          </blockquote>
-        </aside>
-      </div>
+        </div>
 
       <div className="drip h-5" style={{ position: "absolute", bottom: "32px", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
         <span style={{ ...F.mono, fontSize: "8px", color: "var(--text-4)", letterSpacing: "0.3em", textTransform: "uppercase" }}>scroll</span>
@@ -1698,9 +1657,9 @@ export default function Portfolio() {
       <Cursor />
       <Navbar scrolled={scrolled} />
       <Hero />
-      <CredStrip />
       <Timeline />        {/* ← NEW: reverse-chronology story spine */}
-      <MarqueeStrip />
+      <CredStrip />
+       <MarqueeStrip />
       <Work />
       <FieldNotes />
       <Adventures />
