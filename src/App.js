@@ -969,6 +969,111 @@ function CredStrip() {
 }
 
 // ─────────────────────────────────────────────────────────────
+// MANIFESTO — single-line credo, full bleed, staggered reveal
+// ─────────────────────────────────────────────────────────────
+function Manifesto() {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.35 }
+    );
+    obs.observe(node);
+    return () => obs.disconnect();
+  }, []);
+
+  // shared transition style
+  const fadeUp = (delay) => ({
+    opacity: visible ? 1 : 0,
+    transform: visible ? "translateY(0)" : "translateY(14px)",
+    transition: `opacity 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
+  });
+
+  return (
+    <section
+      ref={ref}
+      aria-label="Personal credo"
+      style={{
+        background: "var(--surface-3)",
+        padding: "clamp(100px,14vw,180px) clamp(24px,6vw,80px)",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%,-50%)",
+          width: "clamp(300px,40vw,560px)",
+          height: "clamp(300px,40vw,560px)",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(46,107,79,0.06), transparent 70%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      <div style={{ maxWidth: "920px", margin: "0 auto", textAlign: "center", position: "relative" }}>
+        <div
+          style={{
+            ...F.mono,
+            fontSize: "11px",
+            letterSpacing: "0.32em",
+            textTransform: "uppercase",
+            color: "var(--gold)",
+            marginBottom: "40px",
+            ...fadeUp(0),
+          }}
+        >
+          — Credo —
+        </div>
+
+        <blockquote
+          style={{
+            ...F.serif,
+            fontStyle: "italic",
+            fontWeight: 300,
+            fontSize: "clamp(32px, 5.5vw, 64px)",
+            lineHeight: 1.18,
+            letterSpacing: "-0.015em",
+            color: "var(--text)",
+          }}
+        >
+          <span style={{ display: "block", ...fadeUp(220) }}>
+            Movement is how I <em style={{ color: "var(--gold)", fontStyle: "italic" }}>think</em>.
+          </span>
+          <span style={{ display: "block", ...fadeUp(680) }}>
+            Performance is how I <em style={{ color: "var(--gold)", fontStyle: "italic" }}>speak</em>.
+          </span>
+        </blockquote>
+
+        <div
+          style={{
+            width: "40px",
+            height: "1px",
+            background: "var(--gold)",
+            margin: "44px auto 0",
+            opacity: visible ? 0.6 : 0,
+            transition: "opacity 0.9s cubic-bezier(0.16,1,0.3,1) 1100ms",
+          }}
+        />
+      </div>
+    </section>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
 // TIMELINE — reverse chronology, alternating spine
 // ─────────────────────────────────────────────────────────────
 function TimelineCard({ item }) {
@@ -1659,6 +1764,7 @@ export default function Portfolio() {
       <Hero />
       <Timeline />        {/* ← NEW: reverse-chronology story spine */}
       <CredStrip />
+      <Manifesto /> 
        <MarqueeStrip />
       <Work />
       <FieldNotes />
