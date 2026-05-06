@@ -799,104 +799,43 @@ function Hero() {
   const { display, scramble } = useScramble("ManWith3Balls");
 
   return (
-    <section
-      id="hero"
-      style={{
-        padding: "clamp(100px,14vw,140px) clamp(20px,6vw,80px) clamp(80px,10vw,120px)",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      {/* ── Background ambience ── */}
+    <section id="hero" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "100px clamp(20px,6vw,80px) 80px", position: "relative", overflow: "hidden" }}>
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
-        <div
-          className="orb-a"
-          style={{
-            position: "absolute", top: "4%", right: "3%",
-            width: "clamp(200px,30vw,460px)", height: "clamp(200px,30vw,460px)",
-            borderRadius: "50%",
-            background: "radial-gradient(circle at 36% 36%, rgba(46,107,79,0.08), rgba(46,107,79,0.02) 50%, transparent 72%)",
-            border: "1px solid rgba(46,107,79,0.06)",
-          }}
-        />
-        <div
-          className="orb-b"
-          style={{
-            position: "absolute", top: "40%", right: "12%",
-            width: "clamp(80px,14vw,200px)", height: "clamp(80px,14vw,200px)",
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(196,98,29,0.07), transparent 70%)",
-            border: "1px solid rgba(196,98,29,0.04)",
-          }}
-        />
+        <div className="orb-a" style={{ position: "absolute", top: "8%", right: "5%", width: "clamp(240px,38vw,560px)", height: "clamp(240px,38vw,560px)", borderRadius: "50%", background: "radial-gradient(circle at 36% 36%, rgba(46,107,79,0.1), rgba(46,107,79,0.03) 50%, transparent 72%)", border: "1px solid rgba(46,107,79,0.07)" }} />
+        <div className="orb-b" style={{ position: "absolute", top: "55%", right: "16%", width: "clamp(120px,18vw,260px)", height: "clamp(120px,18vw,260px)", borderRadius: "50%", background: "radial-gradient(circle, rgba(196,98,29,0.09), transparent 70%)", border: "1px solid rgba(196,98,29,0.06)" }} />
+        <div className="orb-c" style={{ position: "absolute", top: "28%", right: "2%", width: "clamp(56px,7vw,96px)", height: "clamp(56px,7vw,96px)", borderRadius: "50%", background: "rgba(46,107,79,0.05)", border: "1px solid rgba(46,107,79,0.12)" }} />
+        <div style={{ position: "absolute", top: "50%", left: 0, right: 0, height: "1px", background: "linear-gradient(90deg, transparent, rgba(46,107,79,0.06) 30%, rgba(46,107,79,0.06) 70%, transparent)" }} />
       </div>
 
-      <div style={{ position: "relative", maxWidth: "1100px", margin: "0 auto" }}>
-
-        {/* ── Identity badge ── */}
-        <div className="h-1" style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "36px" }}>
-          <span style={{ ...F.serif, fontSize: "13px", fontWeight: 500, color: "var(--gold)", letterSpacing: "0.06em" }}>
-            Omkar Dhareshwar
-          </span>
+      <div style={{ position: "relative", maxWidth: "1000px" }}>
+        <div className="h-1" style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "40px" }}>
+          <span style={{ ...F.serif, fontSize: "13px", fontWeight: 500, color: "var(--gold)", letterSpacing: "0.06em" }}>Omkar Dhareshwar</span>
           <span style={{ ...F.mono, fontSize: "12px", color: "var(--text-4)", letterSpacing: "0.1em" }}>×</span>
-          <span
-            className="glitch-wrap"
-            data-text={display}
-            onMouseEnter={scramble}
-            style={{
-              ...F.mono, fontSize: "12px", letterSpacing: "0.22em",
-              textTransform: "uppercase", color: "var(--ember)",
-              paddingBottom: "2px", borderBottom: "1px solid var(--ember)", opacity: 0.85,
-            }}
-          >
-            {display}
-          </span>
+          <span className="glitch-wrap" data-text={display} onMouseEnter={scramble} style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--ember)", paddingBottom: "2px", borderBottom: "1px solid var(--ember)", opacity: 0.85 }}>{display}</span>
         </div>
 
-        {/* ── Hook ── */}
-        <h1
-          className="h-2"
-          style={{
-            ...F.serif,
-            fontSize: "clamp(52px,9vw,128px)",
-            fontWeight: 300, lineHeight: 0.92,
-            letterSpacing: "-0.025em", marginBottom: "40px",
-          }}
-        >
+        <h1 className="h-2" style={{ ...F.serif, fontSize: "clamp(64px, 13.5vw, 168px)", fontWeight: 300, lineHeight: 0.9, letterSpacing: "-0.025em", marginBottom: "36px" }}>
           Omkar<br />
-          <em style={{ color: "var(--gold)", fontStyle: "italic" }}Dhareshwar.</em><br />
-          
-  
+          <em style={{ color: "var(--gold)", fontStyle: "italic" }}>Dhareshwar.</em>
+        </h1>
 
-        {/* ── Value thread ── */}
-        <div className="h-3" style={{ maxWidth: "520px", marginBottom: "52px" }}>
-          <p style={{ fontSize: "15px", color: "var(--text-2)", lineHeight: 1.85, marginBottom: "14px" }}>
-            Performer. Activist. Storyteller — built at the intersection of technical rigour
-            and cultural instinct. I don't just create things. I build ecosystems that run without me.
-          </p>
-          <MW3BAside>
-            Ten years. One neighbourhood transformed. One autorickshaw across India.
-            And a juggling act that somehow changed everything.
-          </MW3BAside>
+        <div className="h-3" style={{ marginBottom: "56px" }}>
+          <p style={{ ...F.mono, fontSize: "clamp(10px,1.4vw,12px)", letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--text-3)", marginBottom: "8px" }}>Artist · Activist · Storyteller · Perpetual Work-in-Progress</p>
+          <MW3BAside style={{ marginTop: "10px", maxWidth: "420px" }}>Mechanical engineer by degree. Everything else by choice. Turns out the best use of an engineering brain is knowing which rules to break.</MW3BAside>
         </div>
 
-        {/* ── CTAs — sit above the timeline so decisive visitors act immediately ── */}
-        <div className="h-4" style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginBottom: "clamp(40px,6vw,60px)" }}>
-          <a
-            href="#work"
-            className="btn-primary"
-            style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "15px 40px", display: "inline-block" }}
-          >
-            See the work
-          </a>
-          <a
-            href="#book"
-            className="btn-ghost"
-            style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "15px 40px", display: "inline-block" }}
-          >
-            Work together
-          </a>
+        <div className="h-4" style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
+          <a href="#work" className="btn-primary" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "15px 40px", display: "inline-block" }}>See what I do</a>
+          <a href="#book" className="btn-ghost"    style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "15px 40px", display: "inline-block" }}>Get in touch</a>
         </div>
+      </div>
+
+      <div className="drip h-5" style={{ position: "absolute", bottom: "44px", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
+        <span style={{ ...F.mono, fontSize: "8px", color: "var(--text-4)", letterSpacing: "0.3em", textTransform: "uppercase" }}>scroll</span>
+        <div style={{ width: "1px", height: "40px", background: "linear-gradient(to bottom, var(--gold-dim), transparent)" }} />
+      </div>
+    </section>
+  );
         {/* ── About — merged into landing ── */}
         <div
           className="about-cols"
