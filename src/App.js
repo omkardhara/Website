@@ -874,14 +874,14 @@ function Hero() {
 
         {/* ── CTAs — sit above the timeline so decisive visitors act immediately ── */}
         <div className="h-4" style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginBottom: "clamp(72px,11vw,120px)" }}>
-          
+          <a
             href="#work"
             className="btn-primary"
             style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "15px 40px", display: "inline-block" }}
           >
             See the work
           </a>
-          
+          <a
             href="#book"
             className="btn-ghost"
             style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "15px 40px", display: "inline-block" }}
