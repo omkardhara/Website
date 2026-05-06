@@ -979,6 +979,51 @@ function Hero() {
 }
 
 // ─────────────────────────────────────────────────────────────
+// CRED STRIP — client logos / name tags
+// ─────────────────────────────────────────────────────────────
+function CredStrip() {
+  return (
+    <div style={{
+      padding: "20px clamp(20px,6vw,80px)",
+      borderBottom: "1px solid var(--line-faint)",
+      background: "var(--surface)",
+    }}>
+      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+        <div
+          className="cred-strip"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "20px",
+            flexWrap: "wrap",
+          }}
+        >
+          <span style={{
+            ...F.mono, fontSize: "9px", color: "var(--text-4)",
+            letterSpacing: "0.22em", textTransform: "uppercase", flexShrink: 0,
+          }}>
+            Worked with
+          </span>
+          {CRED_CLIENTS.map((client) => (
+            <span
+              key={client}
+              className="cred-tag"
+              style={{
+                ...F.mono, fontSize: "10px", color: "var(--text-3)",
+                letterSpacing: "0.14em", textTransform: "uppercase",
+                padding: "5px 14px", border: "1px solid var(--line-faint)",
+              }}
+            >
+              {client}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
 // ABOUT
 // ─────────────────────────────────────────────────────────────
 function About() {
