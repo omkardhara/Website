@@ -863,10 +863,9 @@ function Hero() {
             letterSpacing: "-0.025em", marginBottom: "40px",
           }}
         >
-          I showed up to<br />
-          <em style={{ color: "var(--gold)", fontStyle: "italic" }}>engineering.</em><br />
-          Left as something<br />
-          <em style={{ color: "var(--gold)", fontStyle: "italic" }}>else entirely.</em>
+          Omkar<br />
+          <em style={{ color: "var(--gold)", fontStyle: "italic" }}Dhareshwar.</em><br />
+          
         </h1>
 
         {/* ── Value thread ── */}
