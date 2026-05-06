@@ -186,6 +186,23 @@ body::before {
 .social-row { transition: padding-left 0.25s ease, border-bottom-color 0.25s ease; }
 .social-row:hover { padding-left: 8px !important; border-bottom-color: var(--gold) !important; }
 
+/* ── Timeline ── */
+.tl-spine { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--gold), rgba(46,107,79,0.1)); transform: translateX(-50%); pointer-events: none; }
+.tl-node { display: flex; align-items: flex-start; margin-bottom: clamp(36px,5vw,60px); position: relative; }
+.tl-node.rev { flex-direction: row-reverse; }
+.tl-side { flex: 1; }
+.tl-side.pad-r { padding: 0 clamp(22px,4vw,52px) 0 0; text-align: right; }
+.tl-side.pad-l { padding: 0 0 0 clamp(22px,4vw,52px); text-align: left; }
+.tl-dot { position: absolute; left: 50%; transform: translateX(-50%); z-index: 2; border-radius: 50%; top: 5px; }
+.tl-ghost { flex: 1; }
+@media (max-width: 640px) {
+  .tl-spine { left: 10px !important; transform: none !important; }
+  .tl-node, .tl-node.rev { flex-direction: row !important; }
+  .tl-side.pad-r, .tl-side.pad-l { text-align: left !important; padding: 0 0 0 32px !important; }
+  .tl-dot { left: 10px !important; transform: translateX(-50%) !important; }
+  .tl-ghost { display: none !important; }
+}
+
 /* ── Responsive ── */
 @media (max-width: 900px) {
   .about-cols  { grid-template-columns: 1fr !important; }
@@ -453,6 +470,65 @@ const TESTIMONIALS = [
   { quote: "Omkar doesn't just perform — he changes the room. The keynote was the thing people talked about for months.", name: "Priya Mehta", role: "Head of Culture, Design Studio, Bangalore" },
   { quote: "Working with him on the Red Bull series was the easiest it's ever been to get something true out of a subculture story.", name: "Sid Rao", role: "Commissioning Editor, Red Bull India" },
 ];
+// ─────────────────────────────────────────────────────────────
+// TIMELINE DATA — reverse chronological story of the path
+// ─────────────────────────────────────────────────────────────
+const TIMELINE = [
+  {
+    year: "Now",
+    title: "Flow workshops. AI experiments. The next Bollywood meme.",
+    impact: "Still building. Still moving. The tree keeps branching.",
+    turning: false,
+  },
+  {
+    year: "2025",
+    title: "Flow Simulator — Museum of Goa",
+    impact: "A commissioned interactive installation for 'Khel-Spel HomoLudens'. Then: Bollywood memes as street activism.",
+    turning: false,
+  },
+  {
+    year: "2024",
+    title: "Drove an autorickshaw from Gangtok to Kochi",
+    impact: "3,000km. 14 days. Got the gig because of juggling. Two ad shoots. National TV. The Rickshaw Run.",
+    turning: true,
+  },
+  {
+    year: "2020",
+    title: "Covid stopped everything. ManWith3Balls was born.",
+    impact: "Learned to juggle in lockdown. Stepped in front of a camera for the first time. 21 interviews in 21 days — the Now We Here podcast.",
+    turning: true,
+  },
+  {
+    year: "2019",
+    title: "Nat Geo. Red Bull. Community backing — Marol goes public.",
+    impact: "Named one of 64 places to visit in India. MRRWA gave permissions. Ladies First Festival launched.",
+    turning: false,
+  },
+  {
+    year: "2017",
+    title: "India's first graffiti contingent to Brazil",
+    impact: "Invited to Street of Styles, Curitiba. 22-day road trip. First trip outside India. Saw art-led community at scale.",
+    turning: true,
+  },
+  {
+    year: "2016",
+    title: "Question Marks — graffiti as a social tool",
+    impact: "First use of street art for activism. Growing the roster: artists, Bboy Flying Machine, and the community around them.",
+    turning: false,
+  },
+  {
+    year: "2015",
+    title: "Bollywood. Ecopark. A neighbourhood begins to change.",
+    impact: "Jr. Art Director on 'Trapped' (Vikramaditya Motwane, Phantom Films). Brought Brazilian artists to Ecopark. Marol Art Village is born.",
+    turning: true,
+  },
+  {
+    year: "2014",
+    title: "Mechanical Engineer. Accidental artist. First-time founder.",
+    impact: "Designed Qroom interiors from pure waste. Graduated. Founded Wicked Broz. Started managing Zake — India's premier graffiti artist.",
+    turning: true,
+  },
+];
 
 // ─────────────────────────────────────────────────────────────
 // PRESS DATA
@@ -714,61 +790,191 @@ function Hero() {
   const { display, scramble } = useScramble("ManWith3Balls");
 
   return (
-    <section id="hero" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "100px clamp(20px,6vw,80px) 80px", position: "relative", overflow: "hidden" }}>
+    <section
+      id="hero"
+      style={{
+        padding: "clamp(100px,14vw,140px) clamp(20px,6vw,80px) clamp(80px,10vw,120px)",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* ── Background ambience ── */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
-        <div className="orb-a" style={{ position: "absolute", top: "8%", right: "5%", width: "clamp(240px,38vw,560px)", height: "clamp(240px,38vw,560px)", borderRadius: "50%", background: "radial-gradient(circle at 36% 36%, rgba(46,107,79,0.1), rgba(46,107,79,0.03) 50%, transparent 72%)", border: "1px solid rgba(46,107,79,0.07)" }} />
-        <div className="orb-b" style={{ position: "absolute", top: "55%", right: "16%", width: "clamp(120px,18vw,260px)", height: "clamp(120px,18vw,260px)", borderRadius: "50%", background: "radial-gradient(circle, rgba(196,98,29,0.09), transparent 70%)", border: "1px solid rgba(196,98,29,0.06)" }} />
-        <div className="orb-c" style={{ position: "absolute", top: "28%", right: "2%", width: "clamp(56px,7vw,96px)", height: "clamp(56px,7vw,96px)", borderRadius: "50%", background: "rgba(46,107,79,0.05)", border: "1px solid rgba(46,107,79,0.12)" }} />
-        <div style={{ position: "absolute", top: "50%", left: 0, right: 0, height: "1px", background: "linear-gradient(90deg, transparent, rgba(46,107,79,0.06) 30%, rgba(46,107,79,0.06) 70%, transparent)" }} />
+        <div
+          className="orb-a"
+          style={{
+            position: "absolute", top: "4%", right: "3%",
+            width: "clamp(200px,30vw,460px)", height: "clamp(200px,30vw,460px)",
+            borderRadius: "50%",
+            background: "radial-gradient(circle at 36% 36%, rgba(46,107,79,0.08), rgba(46,107,79,0.02) 50%, transparent 72%)",
+            border: "1px solid rgba(46,107,79,0.06)",
+          }}
+        />
+        <div
+          className="orb-b"
+          style={{
+            position: "absolute", top: "40%", right: "12%",
+            width: "clamp(80px,14vw,200px)", height: "clamp(80px,14vw,200px)",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(196,98,29,0.07), transparent 70%)",
+            border: "1px solid rgba(196,98,29,0.04)",
+          }}
+        />
       </div>
 
-      <div style={{ position: "relative", maxWidth: "1000px" }}>
-        <div className="h-1" style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "40px" }}>
-          <span style={{ ...F.serif, fontSize: "13px", fontWeight: 500, color: "var(--gold)", letterSpacing: "0.06em" }}>Omkar Dhareshwar</span>
+      <div style={{ position: "relative", maxWidth: "1100px", margin: "0 auto" }}>
+
+        {/* ── Identity badge ── */}
+        <div className="h-1" style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "36px" }}>
+          <span style={{ ...F.serif, fontSize: "13px", fontWeight: 500, color: "var(--gold)", letterSpacing: "0.06em" }}>
+            Omkar Dhareshwar
+          </span>
           <span style={{ ...F.mono, fontSize: "12px", color: "var(--text-4)", letterSpacing: "0.1em" }}>×</span>
-          <span className="glitch-wrap" data-text={display} onMouseEnter={scramble} style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--ember)", paddingBottom: "2px", borderBottom: "1px solid var(--ember)", opacity: 0.85 }}>{display}</span>
+          <span
+            className="glitch-wrap"
+            data-text={display}
+            onMouseEnter={scramble}
+            style={{
+              ...F.mono, fontSize: "12px", letterSpacing: "0.22em",
+              textTransform: "uppercase", color: "var(--ember)",
+              paddingBottom: "2px", borderBottom: "1px solid var(--ember)", opacity: 0.85,
+            }}
+          >
+            {display}
+          </span>
         </div>
 
-        <h1 className="h-2" style={{ ...F.serif, fontSize: "clamp(64px, 13.5vw, 168px)", fontWeight: 300, lineHeight: 0.9, letterSpacing: "-0.025em", marginBottom: "36px" }}>
-          Omkar<br />
-          <em style={{ color: "var(--gold)", fontStyle: "italic" }}>Dhareshwar.</em>
+        {/* ── Hook ── */}
+        <h1
+          className="h-2"
+          style={{
+            ...F.serif,
+            fontSize: "clamp(52px,9vw,128px)",
+            fontWeight: 300, lineHeight: 0.92,
+            letterSpacing: "-0.025em", marginBottom: "40px",
+          }}
+        >
+          I showed up to<br />
+          <em style={{ color: "var(--gold)", fontStyle: "italic" }}>engineering.</em><br />
+          Left as something<br />
+          <em style={{ color: "var(--gold)", fontStyle: "italic" }}>else entirely.</em>
         </h1>
 
-        <div className="h-3" style={{ marginBottom: "56px" }}>
-          <p style={{ ...F.mono, fontSize: "clamp(10px,1.4vw,12px)", letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--text-3)", marginBottom: "8px" }}>Artist · Activist · Storyteller · Perpetual Work-in-Progress</p>
-          <MW3BAside style={{ marginTop: "10px", maxWidth: "420px" }}>Mechanical engineer by degree. Everything else by choice. Turns out the best use of an engineering brain is knowing which rules to break.</MW3BAside>
+        {/* ── Value thread ── */}
+        <div className="h-3" style={{ maxWidth: "520px", marginBottom: "52px" }}>
+          <p style={{ fontSize: "15px", color: "var(--text-2)", lineHeight: 1.85, marginBottom: "14px" }}>
+            Performer. Activist. Storyteller — built at the intersection of technical rigour
+            and cultural instinct. I don't just create things. I build ecosystems that run without me.
+          </p>
+          <MW3BAside>
+            Ten years. One neighbourhood transformed. One autorickshaw across India.
+            And a juggling act that somehow changed everything.
+          </MW3BAside>
         </div>
 
-        <div className="h-4" style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
-          <a href="#work" className="btn-primary" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "15px 40px", display: "inline-block" }}>See what I do</a>
-          <a href="#book" className="btn-ghost"    style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "15px 40px", display: "inline-block" }}>Get in touch</a>
+        {/* ── CTAs — sit above the timeline so decisive visitors act immediately ── */}
+        <div className="h-4" style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginBottom: "clamp(72px,11vw,120px)" }}>
+          
+            href="#work"
+            className="btn-primary"
+            style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "15px 40px", display: "inline-block" }}
+          >
+            See the work
+          </a>
+          
+            href="#book"
+            className="btn-ghost"
+            style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "15px 40px", display: "inline-block" }}
+          >
+            Work together
+          </a>
         </div>
-      </div>
 
-      <div className="drip h-5" style={{ position: "absolute", bottom: "44px", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
-        <span style={{ ...F.mono, fontSize: "8px", color: "var(--text-4)", letterSpacing: "0.3em", textTransform: "uppercase" }}>scroll</span>
-        <div style={{ width: "1px", height: "40px", background: "linear-gradient(to bottom, var(--gold-dim), transparent)" }} />
+        {/* ── Timeline ── */}
+        <div className="h-5">
+
+          {/* Divider */}
+          <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "clamp(48px,7vw,72px)" }}>
+            <div style={{ flex: 1, height: "1px", background: "linear-gradient(to right, var(--gold-dim), transparent)" }} />
+            <span style={{ ...F.mono, fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--text-4)", whiteSpace: "nowrap" }}>
+              The path, in reverse
+            </span>
+            <div style={{ flex: 1, height: "1px", background: "linear-gradient(to left, var(--gold-dim), transparent)" }} />
+          </div>
+
+          {/* Spine + nodes */}
+          <div style={{ position: "relative" }}>
+
+            {/* The trunk */}
+            <div className="tl-spine" />
+
+            {TIMELINE.map((item, i) => {
+              const isEven = i % 2 === 0;
+              return (
+                <div key={i} className={`tl-node reveal${isEven ? "" : " rev"}`}>
+
+                  {/* Content */}
+                  <div className={`tl-side ${isEven ? "pad-r" : "pad-l"}`}>
+                    <div style={{
+                      ...F.mono, fontSize: "10px",
+                      color: item.turning ? "var(--ember)" : "var(--gold)",
+                      letterSpacing: "0.24em", textTransform: "uppercase", marginBottom: "8px",
+                    }}>
+                      {item.year}
+                    </div>
+                    <div style={{
+                      ...F.serif,
+                      fontSize: "clamp(15px,1.9vw,21px)",
+                      fontWeight: 400, lineHeight: 1.25,
+                      color: "var(--text)", marginBottom: "8px",
+                    }}>
+                      {item.title}
+                    </div>
+                    <p style={{ fontSize: "13px", color: "var(--text-3)", lineHeight: 1.75 }}>
+                      {item.impact}
+                    </p>
+                  </div>
+
+                  {/* Node dot — larger + ember glow for turning points */}
+                  <div
+                    className="tl-dot"
+                    style={{
+                      width: item.turning ? "13px" : "9px",
+                      height: item.turning ? "13px" : "9px",
+                      background: item.turning ? "var(--ember)" : "var(--gold)",
+                      border: "2px solid var(--bg)",
+                      boxShadow: item.turning
+                        ? "0 0 0 3px rgba(196,98,29,0.18)"
+                        : "0 0 0 2px rgba(46,107,79,0.12)",
+                    }}
+                  />
+
+                  {/* Ghost spacer — fills the opposite side */}
+                  <div className="tl-ghost" />
+                </div>
+              );
+            })}
+
+            {/* Root cap */}
+            <div style={{ display: "flex", justifyContent: "center", paddingTop: "8px" }}>
+              <div style={{
+                ...F.mono, fontSize: "8px", color: "var(--text-4)",
+                letterSpacing: "0.28em", textTransform: "uppercase",
+                padding: "7px 16px", border: "1px solid var(--line-faint)", background: "var(--bg)",
+              }}>
+                The roots
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Scroll cue ── */}
+        <div className="drip" style={{ marginTop: "clamp(60px,9vw,100px)", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
+          <span style={{ ...F.mono, fontSize: "8px", color: "var(--text-4)", letterSpacing: "0.3em", textTransform: "uppercase" }}>scroll</span>
+          <div style={{ width: "1px", height: "40px", background: "linear-gradient(to bottom, var(--gold-dim), transparent)" }} />
+        </div>
       </div>
     </section>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────
-// CREDIBILITY STRIP
-// ─────────────────────────────────────────────────────────────
-function CredStrip() {
-  const items = [...CRED_CLIENTS, ...CRED_CLIENTS];
-  return (
-    <div style={{ background: "var(--surface)", borderTop: "1px solid var(--line-faint)", borderBottom: "1px solid var(--line-faint)", overflow: "hidden", padding: "16px 0" }}>
-      <div style={{ ...F.mono, fontSize: "11px", letterSpacing: "0.18em", color: "var(--text-4)", textTransform: "uppercase", textAlign: "center", marginBottom: "12px" }}>Work that's been trusted by</div>
-      <div style={{ overflow: "hidden" }}>
-        <div className="mq" style={{ display: "flex", width: "max-content", gap: "0" }}>
-          {items.map((c, i) => (
-            <div key={i} className="cred-tag" style={{ ...F.mono, fontSize: "13px", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--text-3)", padding: "0 32px", borderRight: "1px solid var(--line-faint)", whiteSpace: "nowrap", transition: "all 0.25s" }}>{c}</div>
-          ))}
-        </div>
-      </div>
-    </div>
   );
 }
 
