@@ -479,54 +479,63 @@ const TIMELINE = [
     title: "Flow workshops. AI experiments. The next Bollywood meme.",
     impact: "Still building. Still moving. The tree keeps branching.",
     turning: false,
+    image: null, // swap later → "/images/timeline/now.jpg"
   },
   {
     year: "2025",
     title: "Flow Simulator — Museum of Goa",
     impact: "A commissioned interactive installation for 'Khel-Spel HomoLudens'. Then: Bollywood memes as street activism.",
     turning: false,
+    image: null, // swap later → "/images/timeline/2025.jpg"
   },
   {
     year: "2024",
     title: "Drove an autorickshaw from Gangtok to Kochi",
     impact: "3,000km. 14 days. Got the gig because of juggling. Two ad shoots. National TV. The Rickshaw Run.",
     turning: true,
+    image: null, // swap later → "/images/timeline/2024.jpg"
   },
   {
     year: "2020",
     title: "Covid stopped everything. ManWith3Balls was born.",
     impact: "Learned to juggle in lockdown. Stepped in front of a camera for the first time. 21 interviews in 21 days — the Now We Here podcast.",
     turning: true,
+    image: null, // swap later → "/images/timeline/2020.jpg"
   },
   {
     year: "2019",
     title: "Nat Geo. Red Bull. Community backing — Marol goes public.",
     impact: "Named one of 64 places to visit in India. MRRWA gave permissions. Ladies First Festival launched.",
     turning: false,
+    image: null, // swap later → "/images/timeline/2019.jpg"
   },
   {
     year: "2017",
     title: "India's first graffiti contingent to Brazil",
     impact: "Invited to Street of Styles, Curitiba. 22-day road trip. First trip outside India. Saw art-led community at scale.",
     turning: true,
+    image: null, // swap later → "/images/timeline/2017.jpg"
   },
   {
     year: "2016",
     title: "Question Marks — graffiti as a social tool",
     impact: "First use of street art for activism. Growing the roster: artists, Bboy Flying Machine, and the community around them.",
     turning: false,
+    image: null, // swap later → "/images/timeline/2016.jpg"
   },
   {
     year: "2015",
     title: "Bollywood. Ecopark. A neighbourhood begins to change.",
     impact: "Jr. Art Director on 'Trapped' (Vikramaditya Motwane, Phantom Films). Brought Brazilian artists to Ecopark. Marol Art Village is born.",
     turning: true,
+    image: null, // swap later → "/images/timeline/2015.jpg"
   },
   {
     year: "2014",
     title: "Mechanical Engineer. Accidental artist. First-time founder.",
     impact: "Designed Qroom interiors from pure waste. Graduated. Founded Wicked Broz. Started managing Zake — India's premier graffiti artist.",
     turning: true,
+    image: null, // swap later → "/images/timeline/2014.jpg"
   },
 ];
 
@@ -873,7 +882,7 @@ function Hero() {
         </div>
 
         {/* ── CTAs — sit above the timeline so decisive visitors act immediately ── */}
-        <div className="h-4" style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginBottom: "clamp(72px,11vw,120px)" }}>
+        <div className="h-4" style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginBottom: "clamp(40px,6vw,60px)" }}>
           <a
             href="#work"
             className="btn-primary"
@@ -888,6 +897,71 @@ function Hero() {
           >
             Work together
           </a>
+        </div>
+        {/* ── About — merged into landing ── */}
+        <div
+          className="about-cols"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "clamp(40px,7vw,96px)",
+            alignItems: "start",
+            marginBottom: "clamp(72px,11vw,120px)",
+            paddingTop: "clamp(40px,6vw,64px)",
+            borderTop: "1px solid var(--line-faint)",
+          }}
+        >
+          {/* Left — bio text */}
+          <div>
+            <ODLabel>About Omkar</ODLabel>
+            <p style={{ fontSize: "15px", color: "var(--text-2)", lineHeight: 1.9, marginBottom: "18px" }}>
+              I'm a flow artist, live performer, writer, and activist. I've performed for audiences of five and audiences of five hundred. I've created installations in formal gallery spaces and unannounced performances in train stations.
+            </p>
+            <p style={{ fontSize: "15px", color: "var(--text-2)", lineHeight: 1.9, marginBottom: "18px" }}>
+              My brand work includes commissioned longform for{" "}
+              <a href="https://www.redbull.com/in-en" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", fontWeight: 400, textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Red Bull India</a>
+              , a site-specific installation for the{" "}
+              <a href="https://museumofgoa.com/program/homo-ludens-the-art-of-play/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", fontWeight: 400, textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Museum of Goa</a>
+              , and corporate workshops for teams who want something that actually changes the room.
+            </p>
+            <MW3BAside style={{ marginBottom: "24px" }}>
+              People ask me what I do. I give a different answer every time. Not because I'm being evasive — because the work keeps changing. That's the point.
+            </MW3BAside>
+            <blockquote style={{ margin: "24px 0 0", padding: "16px 0 0 20px", borderLeft: "2px solid var(--gold)" }}>
+              <p style={{ ...F.serif, fontSize: "clamp(17px,2.2vw,24px)", fontStyle: "italic", fontWeight: 300, lineHeight: 1.35, color: "var(--text)" }}>
+                "Movement is how I think.<br />Performance is how I speak."
+              </p>
+            </blockquote>
+          </div>
+
+          {/* Right — photo + stats */}
+          <div>
+            {(() => {
+              const ABOUT_PHOTO = "/images/Omkar Dhareshwar-About.jpeg";
+              const ABOUT_CAPTION = "Omkar in Marol Art Village 2020";
+              return (
+                <div style={{ width: "100%", aspectRatio: "3/4", background: "var(--surface-3)", border: "1px solid var(--line)", position: "relative", overflow: "hidden", marginBottom: "24px" }}>
+                  {ABOUT_PHOTO && (
+                    <img src={ABOUT_PHOTO} alt={ABOUT_CAPTION} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />
+                  )}
+                  {[{ top: "14px", left: "14px" }, { top: "14px", right: "14px" }, { bottom: "14px", left: "14px" }, { bottom: "14px", right: "14px" }].map((pos, i) => (
+                    <div key={i} style={{ position: "absolute", width: "18px", height: "18px", borderTop: i < 2 ? "1px solid var(--gold)" : undefined, borderBottom: i >= 2 ? "1px solid var(--gold)" : undefined, borderLeft: i % 2 === 0 ? "1px solid var(--gold)" : undefined, borderRight: i % 2 === 1 ? "1px solid var(--gold)" : undefined, zIndex: 2, opacity: 0.7, ...pos }} />
+                  ))}
+                  <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 2, padding: "10px 14px", background: "rgba(15,15,13,0.5)", display: "flex", justifyContent: "flex-end" }}>
+                    <span style={{ ...F.mono, fontSize: "12px", color: "rgba(255,255,255,0.7)", letterSpacing: "0.2em", textTransform: "uppercase" }}>{ABOUT_CAPTION}</span>
+                  </div>
+                </div>
+              );
+            })()}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--line-faint)" }}>
+              {[["5+", "years active"], ["500+", "live audience"], ["12+", "brand projects"], ["3", "gallery shows"]].map(([n, l]) => (
+                <div key={l} style={{ background: "var(--bg)", padding: "20px 18px" }}>
+                  <div style={{ ...F.serif, fontSize: "30px", color: "var(--gold)", fontWeight: 400, lineHeight: 1 }}>{n}</div>
+                  <div style={{ ...F.mono, fontSize: "9px", color: "var(--text-3)", letterSpacing: "0.14em", marginTop: "6px" }}>{l}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* ── Timeline ── */}
@@ -935,19 +1009,43 @@ function Hero() {
                     </p>
                   </div>
 
-                  {/* Node dot — larger + ember glow for turning points */}
+                 {/* Node — circular image or styled placeholder */}
                   <div
                     className="tl-dot"
                     style={{
-                      width: item.turning ? "13px" : "9px",
-                      height: item.turning ? "13px" : "9px",
-                      background: item.turning ? "var(--ember)" : "var(--gold)",
-                      border: "2px solid var(--bg)",
+                      width: "48px",
+                      height: "48px",
+                      border: `2px solid ${item.turning ? "var(--ember)" : "var(--gold)"}`,
                       boxShadow: item.turning
-                        ? "0 0 0 3px rgba(196,98,29,0.18)"
-                        : "0 0 0 2px rgba(46,107,79,0.12)",
+                        ? "0 0 0 4px rgba(196,98,29,0.14), 0 4px 16px rgba(0,0,0,0.12)"
+                        : "0 0 0 4px rgba(46,107,79,0.10), 0 4px 16px rgba(0,0,0,0.08)",
+                      overflow: "hidden",
+                      background: "var(--surface-2)",
+                      top: "0px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
-                  />
+                  >
+                    {item.image ? (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      />
+                    ) : (
+                      <span style={{
+                        ...F.mono,
+                        fontSize: "9px",
+                        color: item.turning ? "var(--ember)" : "var(--gold)",
+                        letterSpacing: "0.08em",
+                        fontWeight: 400,
+                        userSelect: "none",
+                      }}>
+                        {item.year === "Now" ? "★" : item.year.slice(2)}
+                      </span>
+                    )}
+                  </div>
 
                   {/* Ghost spacer — fills the opposite side */}
                   <div className="tl-ghost" />
@@ -1023,68 +1121,7 @@ function CredStrip() {
   );
 }
 
-// ─────────────────────────────────────────────────────────────
-// ABOUT
-// ─────────────────────────────────────────────────────────────
-function About() {
-  return (
-    <section id="about" style={{ padding: "clamp(90px,13vw,160px) clamp(20px,6vw,80px)" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div className="about-cols reveal" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(48px,9vw,120px)", alignItems: "start" }}>
 
-          <div>
-            <ODLabel>About Omkar</ODLabel>
-            <SectionHeading style={{ marginBottom: "28px" }}>I live and work<br /><em style={{ color: "var(--gold)" }}>at the edges.</em></SectionHeading>
-            <hr className="rule" style={{ margin: "28px 0", opacity: 0.5 }} />
-            <p style={{ color: "var(--text-2)", lineHeight: 1.9, fontSize: "15px", marginBottom: "18px" }}>
-              I'm a flow artist, live performer, writer, and activist. I've performed for audiences of five and audiences of five hundred. I've created installations in formal gallery spaces and unannounced performances in train stations.
-            </p>
-            <p style={{ color: "var(--text-2)", lineHeight: 1.9, fontSize: "15px", marginBottom: "18px" }}>
-              My brand work includes commissioned longform for{" "}
-              <a href="https://www.redbull.com/in-en" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", fontWeight: 400, textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Red Bull India</a>
-              , a site-specific installation for the{" "}
-              <a href="https://museumofgoa.com/program/homo-ludens-the-art-of-play/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", fontWeight: 400, textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Museum of Goa</a>
-              , and corporate workshops for teams who want something that actually changes the room.
-            </p>
-            <p style={{ color: "var(--text-2)", lineHeight: 1.9, fontSize: "15px" }}>
-              I operate under the name <strong style={{ color: "var(--gold-light)", fontWeight: 400 }}>ManWith3Balls</strong> — a creative identity built to hold the experimental, the playful, and the parts of the work that resist easy categorisation.
-            </p>
-            <blockquote style={{ margin: "40px 0 0", padding: "20px 0 0 22px", borderLeft: "2px solid var(--gold)" }}>
-              <p style={{ ...F.serif, fontSize: "clamp(20px,2.8vw,28px)", fontStyle: "italic", fontWeight: 300, lineHeight: 1.35, color: "var(--text)" }}>"Movement is how I think.<br />Performance is how I speak."</p>
-            </blockquote>
-          </div>
-
-          <div>
-            {(() => {
-              const ABOUT_PHOTO = "/images/Omkar Dhareshwar-About.jpeg";
-              const ABOUT_CAPTION = "Omkar in Marol Art Village 2020";
-              return (
-                <div style={{ width: "100%", aspectRatio: "3/4", background: ABOUT_PHOTO ? "var(--surface-3)" : "linear-gradient(160deg, var(--surface-3) 0%, var(--surface) 60%, rgba(46,107,79,0.05) 100%)", border: "1px solid var(--line)", position: "relative", overflow: "hidden", marginBottom: "32px" }}>
-                  {ABOUT_PHOTO && <img src={ABOUT_PHOTO} alt={ABOUT_CAPTION} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />}
-                  {[{ top: "14px", left: "14px" }, { top: "14px", right: "14px" }, { bottom: "14px", left: "14px" }, { bottom: "14px", right: "14px" }].map((pos, i) => (
-                    <div key={i} style={{ position: "absolute", width: "18px", height: "18px", borderTop: i < 2 ? "1px solid var(--gold)" : undefined, borderBottom: i >= 2 ? "1px solid var(--gold)" : undefined, borderLeft: i % 2 === 0 ? "1px solid var(--gold)" : undefined, borderRight: i % 2 === 1 ? "1px solid var(--gold)" : undefined, zIndex: 2, opacity: ABOUT_PHOTO ? 0.7 : 1, ...pos }} />
-                  ))}
-                  <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 2, padding: "10px 14px", background: ABOUT_PHOTO ? "rgba(15,15,13,0.5)" : "transparent", display: "flex", justifyContent: "flex-end" }}>
-                    <span style={{ ...F.mono, fontSize: "12px", color: ABOUT_PHOTO ? "rgba(255,255,255,0.7)" : "var(--text-4)", letterSpacing: "0.2em", textTransform: "uppercase" }}>{ABOUT_CAPTION}</span>
-                  </div>
-                </div>
-              );
-            })()}
-            <MW3BAside style={{ marginBottom: "28px" }}>People ask me what I do. I give a different answer every time. Not because I'm being evasive — because the work keeps changing. That's the point.</MW3BAside>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--line-faint)" }}>
-              {[["5+", "years active"], ["500+", "live audience"], ["12+", "brand projects"], ["3", "gallery shows"]].map(([n, l]) => (
-                <div key={l} style={{ background: "var(--bg)", padding: "20px 18px" }}>
-                  <div style={{ ...F.serif, fontSize: "30px", color: "var(--gold)", fontWeight: 400, lineHeight: 1 }}>{n}</div>
-                  <div style={{ ...F.mono, fontSize: "9px", color: "var(--text-3)", letterSpacing: "0.14em", marginTop: "6px" }}>{l}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // ─────────────────────────────────────────────────────────────
 // PROJECT MODAL
@@ -1708,7 +1745,6 @@ export default function Portfolio() {
       <Navbar scrolled={scrolled} />
       <Hero />
       <CredStrip />
-      <About />
       <MarqueeStrip />
       <Work />
       <FieldNotes />
