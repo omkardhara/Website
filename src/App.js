@@ -835,7 +835,7 @@ function Hero() {
         <div style={{ width: "1px", height: "40px", background: "linear-gradient(to bottom, var(--gold-dim), transparent)" }} />
       </div>
     </section>
-  );
+  
         {/* ── About — merged into landing ── */}
         <div
           className="about-cols"
