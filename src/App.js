@@ -1,5 +1,5 @@
 /**
- * Omkar Dhareshwar × ManWith3Balls — Portfolio v2
+ * Omkar Dhareshwar × ManWith3Balls — Portfolio v2.2
  *
  * Design system:
  *  OD voice  → Cormorant Garamond, serif, structured, credible
@@ -9,6 +9,12 @@
  *  1. Custom magnetic three-ball cursor (lerps, inflates on hover)
  *  2. 3D perspective tilt on work cards (per-card mouse tracking)
  *  3. Text scramble / glitch on the ManWith3Balls alias (hover)
+ *
+ * CHANGELOG v2.2:
+ *  + Hero now contains trimmed About on the right (merged column)
+ *  + Standalone About section removed from render
+ *  + NEW: Timeline section — reverse-chronology story spine with circular image nodes
+ *  + Nav updated: "About" replaced with "Story" → links to #timeline
  *
  * CHANGELOG v2.1:
  *  + Press & Features section (carousel + featured cards + lightbox)
@@ -186,6 +192,75 @@ body::before {
 .social-row { transition: padding-left 0.25s ease, border-bottom-color 0.25s ease; }
 .social-row:hover { padding-left: 8px !important; border-bottom-color: var(--gold) !important; }
 
+/* ── HERO grid (left = identity, right = trimmed about) ── */
+.hero-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(32px,5vw,72px); align-items: center; max-width: 1300px; margin: 0 auto; width: 100%; }
+.hero-about { border-left: 1px solid var(--line-faint); padding-left: clamp(24px,3vw,40px); }
+
+/* ── TIMELINE — alternating spine ── */
+.timeline-spine { position: relative; }
+.timeline-spine .spine-line {
+  position: absolute;
+  left: 50%; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent 0%, var(--gold) 6%, var(--gold) 94%, transparent 100%);
+  opacity: 0.4;
+  transform: translateX(-0.5px);
+}
+.timeline-row {
+  display: grid;
+  grid-template-columns: 1fr 80px 1fr;
+  align-items: start;
+  margin-bottom: clamp(36px, 5.5vw, 64px);
+}
+.timeline-row > .tl-card    { grid-column: 3; padding-left: clamp(24px,4vw,48px); text-align: left; }
+.timeline-row > .tl-spacer  { grid-column: 1; }
+.timeline-row > .tl-node    { grid-column: 2; }
+.timeline-row.row-flip > .tl-card    { grid-column: 1; padding-left: 0; padding-right: clamp(24px,4vw,48px); text-align: right; }
+.timeline-row.row-flip > .tl-spacer  { grid-column: 3; }
+
+.tl-node { display: flex; flex-direction: column; align-items: center; gap: 8px; padding-top: 6px; position: relative; z-index: 2; }
+.tl-node-year { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.18em; color: var(--gold); text-transform: uppercase; white-space: nowrap; }
+.tl-node-dot  { width: 12px; height: 12px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 4px var(--bg), 0 0 0 5px var(--gold); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.timeline-row:hover .tl-node-dot { transform: scale(1.3); box-shadow: 0 0 0 4px var(--bg), 0 0 0 5px var(--ember); }
+
+.tl-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.timeline-row.row-flip .tl-head { flex-direction: row-reverse; }
+
+.tl-img {
+  width: 76px; height: 76px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, rgba(46,107,79,0.10), rgba(196,98,29,0.06));
+  position: relative;
+  transition: transform 0.45s cubic-bezier(0.16,1,0.3,1), border-color 0.3s;
+}
+.timeline-row:hover .tl-img { transform: scale(1.05); border-color: var(--gold); }
+.tl-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tl-img-fallback {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; font-style: italic; font-weight: 400;
+  color: var(--gold);
+}
+.tl-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold);
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  background: var(--gold-faint);
+  white-space: nowrap;
+}
+.tl-card h3 { font-family: 'Cormorant Garamond', serif; font-size: clamp(18px, 2.2vw, 23px); font-weight: 500; line-height: 1.25; color: var(--text); margin-bottom: 10px; }
+.tl-card p  { font-size: 13.5px; color: var(--text-2); line-height: 1.85; }
+
+.tl-origin { text-align: center; margin-top: 28px; position: relative; z-index: 2; }
+.tl-origin-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--ember); box-shadow: 0 0 0 4px var(--bg), 0 0 0 5px var(--ember); }
+.tl-origin-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--text-3); margin-top: 12px; }
+
 /* ── Responsive ── */
 @media (max-width: 900px) {
   .about-cols  { grid-template-columns: 1fr !important; }
@@ -202,6 +277,19 @@ body::before {
   .featured-note-img { order: -1; }
   /* Press featured — stack on mobile */
   .press-featured { grid-template-columns: 1fr !important; }
+
+  /* Hero — stack vertically on mobile */
+  .hero-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+  .hero-about { border-left: none !important; padding-left: 0 !important; border-top: 1px solid var(--line-faint); padding-top: 36px; }
+
+  /* Timeline — single-spine layout on mobile */
+  .timeline-spine .spine-line { left: 24px !important; transform: none !important; }
+  .timeline-row, .timeline-row.row-flip { grid-template-columns: 48px 1fr !important; }
+  .timeline-row > .tl-node, .timeline-row.row-flip > .tl-node { grid-column: 1 !important; }
+  .timeline-row > .tl-card, .timeline-row.row-flip > .tl-card { grid-column: 2 !important; padding: 0 0 0 16px !important; text-align: left !important; }
+  .timeline-row > .tl-spacer, .timeline-row.row-flip > .tl-spacer { display: none !important; }
+  .timeline-row.row-flip .tl-head { flex-direction: row !important; }
+  .tl-origin { text-align: left !important; padding-left: 19px; }
 }
 @media (max-width: 580px) {
   .work-cols   { grid-template-columns: 1fr !important; }
@@ -218,8 +306,11 @@ body::before {
 // CONTENT DATA
 // ─────────────────────────────────────────────────────────────
 
-// "Press" added to nav
-const NAV = ["Work", "Writing", "Adventures", "Media", "Press", "About"];
+// "About" replaced with "Story" — links to #timeline
+const NAV = ["Story", "Work", "Writing", "Adventures", "Media", "Press"];
+
+// helper: nav label → anchor id
+const navHref = (label) => label === "Story" ? "#timeline" : `#${label.toLowerCase()}`;
 
 const CRED_CLIENTS = [
   "Red Bull India",
@@ -455,6 +546,111 @@ const TESTIMONIALS = [
 ];
 
 // ─────────────────────────────────────────────────────────────
+// TIMELINE DATA — reverse chronology (newest first)
+// Replace empty image: "" strings with paths once you upload images
+// ─────────────────────────────────────────────────────────────
+const TIMELINE = [
+  {
+    year: "Now",
+    title: "Workshops, busking, painting, mastering AI",
+    desc: "Conducting flow workshops, juggling on the streets of Marol, painting walls, working on the next Bollywood meme intervention, and going deep on AI as the next creative tool.",
+    tag: "Present",
+    image: "/images/flow-artist-omkardhareshwar-1.jpg",
+  },
+  {
+    year: "2025",
+    title: "Flow Simulator at Museum of Goa · Bollywood Meme activism",
+    desc: "Built an interactive juggling installation from PVC pipes for the Museum of Goa's Homo Ludens exhibition. The build inspired a new chapter on the streets — Bollywood memes as activism against littering in Marol.",
+    tag: "Installation · Activism",
+    image: "/images/flow-sim-2.jpg.png",
+  },
+  {
+    year: "2024",
+    title: "Rickshaw Run · Gangtok to Kochi",
+    desc: "3,000 km across India in 14 days in a three-wheeler. Got the gig because of juggling. Featured on TV. Shot two ads on the way. Adventure as résumé.",
+    tag: "Adventure",
+    image: "/images/Rikshaw Run-Gangtok to Kochi-Omkar Dhareshwar.jpg",
+  },
+  {
+    year: "2022",
+    title: "Marol becomes self-operating · Ladies First 2.0",
+    desc: "Hosted the second Ladies First Festival. By now, artists were arriving in Marol and painting without my knowledge. The district had its own gravity.",
+    tag: "Community",
+    image: "/images/marol-art-village-7.jpg",
+  },
+  {
+    year: "2020",
+    title: "Covid hits · ManWith3Balls is born",
+    desc: "No travel. No work. Picked up slacklining and juggling. ManWith3Balls — finally stepping in front of the camera as an artist. Hosted the Now We Here Podcast: 21 days, 21 interviews with India's top artists, dancers, and community builders.",
+    tag: "Reinvention",
+    image: "",
+  },
+  {
+    year: "2019-20",
+    title: "Nat Geo · Red Bull · Girliyapa",
+    desc: "Featured in Nat Geo Traveller as one of 64 places to visit in India. Curated Red Bull's 'This Is My Hood' Mumbai episode. Featured on Girliyapa's must-visit list.",
+    tag: "Recognition",
+    image: "",
+  },
+  {
+    year: "2019",
+    title: "MRRWA partnership · Ladies First Festival",
+    desc: "Spotted by the Military Road Residents Welfare Association — finally, community support and wall permissions at scale. The first Ladies First Festival followed within months.",
+    tag: "Inflection",
+    image: "/images/marol-art-village-4.jpg",
+  },
+  {
+    year: "2018",
+    title: "Mini street art galleries across Marol",
+    desc: "Pockets of art across Jabarpada, Adarsh Nagar, the Wall of Fame. Marol stopped being one wall — it became a circuit.",
+    tag: "Expansion",
+    image: "/images/marol-art-village-6.jpg",
+  },
+  {
+    year: "2017",
+    title: "Brazil · Street of Styles, Curitiba",
+    desc: "First trip outside India. 22-day road trip with India's first graffiti contingent to Brazil — invited by artists I'd hosted in Mumbai. Saw how local government and community could organise entire neighbourhoods around art.",
+    tag: "International",
+    image: "/images/marol-art-village-2.jpg",
+  },
+  {
+    year: "2016",
+    title: "Question Marks Campaign · Bboy Flying Machine",
+    desc: "Marked 500 Mumbai potholes with white question marks in one night — first major use of graffiti as activism. Started managing more artists, including Bboy Flying Machine, future 2× Red Bull BC One India champion.",
+    tag: "Activism",
+    image: "/images/Potholes-omkardhareshwar-cover.jpg",
+  },
+  {
+    year: "2015",
+    title: "Brazilian artists at Ecopark · Marol Art Village is born",
+    desc: "Brought artists from Brazil's Keep It Real Crew to paint the Ecopark clubhouse. That afternoon planted the seed. 21+ artworks would follow at Ecopark over the years.",
+    tag: "Origin",
+    image: "/images/marol-art-cover-1.jpg",
+  },
+  {
+    year: "2015",
+    title: "Jr. Art Director · 'Trapped' (Phantom Films)",
+    desc: "Worked under Vikramaditya Motwane on Trapped, starring Rajkummar Rao. First real glimpse of what was possible at the intersection of art, craft, and cinema.",
+    tag: "Cinema",
+    image: "",
+  },
+  {
+    year: "2014",
+    title: "Graduated Mech Eng · Founded Wicked Broz",
+    desc: "Engineering degree from Sinhgad Institute, Lonavala. Started managing Zake — India's premier graffiti artist — and founded Wicked Broz to organise the unorganised street art segment.",
+    tag: "Foundation",
+    image: "",
+  },
+  {
+    year: "2014",
+    title: "Qroom Interiors · The first artistic act",
+    desc: "Designed interiors for Qroom — a 200 ft × 50 ft pool and hookah parlor — in my final year of engineering, using only waste materials: broken tiles, pipes, tires, bottles. First taste of being an artist.",
+    tag: "Genesis",
+    image: "",
+  },
+];
+
+// ─────────────────────────────────────────────────────────────
 // PRESS DATA
 // ─────────────────────────────────────────────────────────────
 // featured: true  → shown in the large top row (NatGeo, German Graffiti)
@@ -596,7 +792,7 @@ function Cursor() {
     if (window.matchMedia("(hover: none)").matches) return;
     const lerp = (a, b, t) => a + (b - a) * t;
     const onMove = (e) => { posRef.current = { x: e.clientX, y: e.clientY }; };
-    const SELECTOR = "a, button, .work-card, .note-card, .offer-card, .vid-card, .cred-tag, .press-card";
+    const SELECTOR = "a, button, .work-card, .note-card, .offer-card, .vid-card, .cred-tag, .press-card, .timeline-row";
     const onOver = (e) => { if (e.target.closest(SELECTOR)) wrapRef.current?.classList.add("cursor-hovered"); };
     const onOut  = (e) => { if (e.target.closest(SELECTOR)) wrapRef.current?.classList.remove("cursor-hovered"); };
     document.addEventListener("mouseover", onOver);
@@ -666,7 +862,7 @@ function useScramble(target) {
 }
 
 // ─────────────────────────────────────────────────────────────
-// NAVBAR — mobile menu changed from dark to cream
+// NAVBAR — uses navHref() so "Story" routes to #timeline
 // ─────────────────────────────────────────────────────────────
 function Navbar({ scrolled }) {
   const [open, setOpen] = useState(false);
@@ -682,7 +878,7 @@ function Navbar({ scrolled }) {
 
         <div className="d-nav" style={{ display: "flex", alignItems: "center", gap: "38px" }}>
           {NAV.map((l) => (
-            <a key={l} href={`#${l.toLowerCase()}`} className="nav-item" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--text-3)", textDecoration: "none", transition: "color 0.25s" }} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")} onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-3)")}>{l}</a>
+            <a key={l} href={navHref(l)} className="nav-item" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--text-3)", textDecoration: "none", transition: "color 0.25s" }} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")} onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-3)")}>{l}</a>
           ))}
           <a href="#book" className="btn-primary" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "9px 22px", fontWeight: 400 }}>Let's work</a>
         </div>
@@ -698,7 +894,7 @@ function Navbar({ scrolled }) {
       {open && (
         <div className="mob-menu" style={{ position: "fixed", top: "62px", left: 0, right: 0, zIndex: 499, background: "rgba(248,246,241,0.97)", backdropFilter: "blur(20px)", borderBottom: "1px solid var(--line)", padding: "36px clamp(20px,5vw,56px)", display: "flex", flexDirection: "column", gap: "4px" }}>
           {NAV.map((l) => (
-            <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setOpen(false)} style={{ ...F.mono, fontSize: "13px", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--text-3)", textDecoration: "none", padding: "14px 0", borderBottom: "1px solid var(--line-faint)", transition: "color 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--gold)")} onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-3)")}>{l}</a>
+            <a key={l} href={navHref(l)} onClick={() => setOpen(false)} style={{ ...F.mono, fontSize: "13px", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--text-3)", textDecoration: "none", padding: "14px 0", borderBottom: "1px solid var(--line-faint)", transition: "color 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--gold)")} onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-3)")}>{l}</a>
           ))}
           <a href="#book" onClick={() => setOpen(false)} className="btn-primary" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "13px 28px", display: "inline-block", alignSelf: "flex-start", marginTop: "20px" }}>Let's work together</a>
         </div>
@@ -708,13 +904,14 @@ function Navbar({ scrolled }) {
 }
 
 // ─────────────────────────────────────────────────────────────
-// HERO
+// HERO — left identity + right trimmed About (merged)
 // ─────────────────────────────────────────────────────────────
 function Hero() {
   const { display, scramble } = useScramble("ManWith3Balls");
 
   return (
     <section id="hero" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "100px clamp(20px,6vw,80px) 80px", position: "relative", overflow: "hidden" }}>
+      {/* Ambient orbs */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
         <div className="orb-a" style={{ position: "absolute", top: "8%", right: "5%", width: "clamp(240px,38vw,560px)", height: "clamp(240px,38vw,560px)", borderRadius: "50%", background: "radial-gradient(circle at 36% 36%, rgba(46,107,79,0.1), rgba(46,107,79,0.03) 50%, transparent 72%)", border: "1px solid rgba(46,107,79,0.07)" }} />
         <div className="orb-b" style={{ position: "absolute", top: "55%", right: "16%", width: "clamp(120px,18vw,260px)", height: "clamp(120px,18vw,260px)", borderRadius: "50%", background: "radial-gradient(circle, rgba(196,98,29,0.09), transparent 70%)", border: "1px solid rgba(196,98,29,0.06)" }} />
@@ -722,32 +919,72 @@ function Hero() {
         <div style={{ position: "absolute", top: "50%", left: 0, right: 0, height: "1px", background: "linear-gradient(90deg, transparent, rgba(46,107,79,0.06) 30%, rgba(46,107,79,0.06) 70%, transparent)" }} />
       </div>
 
-      <div style={{ position: "relative", maxWidth: "1000px" }}>
-        <div className="h-1" style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "40px" }}>
-          <span style={{ ...F.serif, fontSize: "13px", fontWeight: 500, color: "var(--gold)", letterSpacing: "0.06em" }}>Omkar Dhareshwar</span>
-          <span style={{ ...F.mono, fontSize: "12px", color: "var(--text-4)", letterSpacing: "0.1em" }}>×</span>
-          <span className="glitch-wrap" data-text={display} onMouseEnter={scramble} style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--ember)", paddingBottom: "2px", borderBottom: "1px solid var(--ember)", opacity: 0.85 }}>{display}</span>
+      <div className="hero-grid" style={{ position: "relative" }}>
+
+        {/* LEFT — Identity */}
+        <div>
+          <div className="h-1" style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "36px", flexWrap: "wrap" }}>
+            <span style={{ ...F.serif, fontSize: "13px", fontWeight: 500, color: "var(--gold)", letterSpacing: "0.06em" }}>Omkar Dhareshwar</span>
+            <span style={{ ...F.mono, fontSize: "12px", color: "var(--text-4)", letterSpacing: "0.1em" }}>×</span>
+            <span className="glitch-wrap" data-text={display} onMouseEnter={scramble} style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--ember)", paddingBottom: "2px", borderBottom: "1px solid var(--ember)", opacity: 0.85 }}>{display}</span>
+          </div>
+
+          <h1 className="h-2" style={{ ...F.serif, fontSize: "clamp(54px, 9.5vw, 124px)", fontWeight: 300, lineHeight: 0.92, letterSpacing: "-0.025em", marginBottom: "32px" }}>
+            Omkar<br />
+            <em style={{ color: "var(--gold)", fontStyle: "italic" }}>Dhareshwar.</em>
+          </h1>
+
+          <div className="h-3" style={{ marginBottom: "40px" }}>
+            <p style={{ ...F.mono, fontSize: "clamp(10px,1.4vw,12px)", letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--text-3)", marginBottom: "14px" }}>Artist · Activist · Storyteller · Perpetual Work-in-Progress</p>
+            <MW3BAside style={{ marginTop: "10px", maxWidth: "440px" }}>Mechanical engineer by degree. Everything else by choice. Turns out the best use of an engineering brain is knowing which rules to break.</MW3BAside>
+          </div>
+
+          <div className="h-4" style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
+            <a href="#timeline" className="btn-primary" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "15px 36px", display: "inline-block" }}>The story →</a>
+            <a href="#book" className="btn-ghost" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "15px 36px", display: "inline-block" }}>Get in touch</a>
+          </div>
         </div>
 
-        <h1 className="h-2" style={{ ...F.serif, fontSize: "clamp(64px, 13.5vw, 168px)", fontWeight: 300, lineHeight: 0.9, letterSpacing: "-0.025em", marginBottom: "36px" }}>
-          Omkar<br />
-          <em style={{ color: "var(--gold)", fontStyle: "italic" }}>Dhareshwar.</em>
-        </h1>
+        {/* RIGHT — Trimmed About */}
+        <aside className="hero-about h-5">
+          <div style={{ ...F.mono, fontSize: "11px", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)", marginBottom: "18px" }}>About</div>
 
-        <div className="h-3" style={{ marginBottom: "56px" }}>
-          <p style={{ ...F.mono, fontSize: "clamp(10px,1.4vw,12px)", letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--text-3)", marginBottom: "8px" }}>Artist · Activist · Storyteller · Perpetual Work-in-Progress</p>
-          <MW3BAside style={{ marginTop: "10px", maxWidth: "420px" }}>Mechanical engineer by degree. Everything else by choice. Turns out the best use of an engineering brain is knowing which rules to break.</MW3BAside>
-        </div>
+          <p style={{ ...F.serif, fontSize: "clamp(20px,2.6vw,26px)", fontWeight: 300, lineHeight: 1.35, color: "var(--text)", marginBottom: "20px", fontStyle: "italic" }}>
+            I live and work <span style={{ color: "var(--gold)" }}>at the edges.</span>
+          </p>
 
-        <div className="h-4" style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
-          <a href="#work" className="btn-primary" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "15px 40px", display: "inline-block" }}>See what I do</a>
-          <a href="#book" className="btn-ghost"    style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "15px 40px", display: "inline-block" }}>Get in touch</a>
-        </div>
+          <p style={{ color: "var(--text-2)", lineHeight: 1.85, fontSize: "13.5px", marginBottom: "14px" }}>
+            Flow artist, live performer, writer, activist. Audiences of five, audiences of five hundred. Gallery installations and unannounced train-station performances.
+          </p>
+
+          <p style={{ color: "var(--text-2)", lineHeight: 1.85, fontSize: "13.5px", marginBottom: "26px" }}>
+            Brand work for{" "}
+            <a href="https://www.redbull.com/in-en" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Red Bull India</a>
+            ,{" "}
+            <a href="https://museumofgoa.com/program/homo-ludens-the-art-of-play/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Museum of Goa</a>
+            , and corporate workshops that change the room.
+          </p>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "1px", background: "var(--line-faint)", marginBottom: "24px" }}>
+            {[["10+", "yrs"], ["500+", "audience"], ["12+", "brands"], ["3", "shows"]].map(([n, l]) => (
+              <div key={l} style={{ background: "var(--bg)", padding: "12px 6px", textAlign: "center" }}>
+                <div style={{ ...F.serif, fontSize: "22px", color: "var(--gold)", fontWeight: 400, lineHeight: 1 }}>{n}</div>
+                <div style={{ ...F.mono, fontSize: "8px", color: "var(--text-3)", letterSpacing: "0.14em", marginTop: "4px", textTransform: "uppercase" }}>{l}</div>
+              </div>
+            ))}
+          </div>
+
+          <blockquote style={{ borderLeft: "2px solid var(--gold)", paddingLeft: "16px" }}>
+            <p style={{ ...F.serif, fontSize: "15px", fontStyle: "italic", fontWeight: 300, lineHeight: 1.45, color: "var(--text-2)" }}>
+              "Movement is how I think.<br />Performance is how I speak."
+            </p>
+          </blockquote>
+        </aside>
       </div>
 
-      <div className="drip h-5" style={{ position: "absolute", bottom: "44px", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
+      <div className="drip h-5" style={{ position: "absolute", bottom: "32px", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
         <span style={{ ...F.mono, fontSize: "8px", color: "var(--text-4)", letterSpacing: "0.3em", textTransform: "uppercase" }}>scroll</span>
-        <div style={{ width: "1px", height: "40px", background: "linear-gradient(to bottom, var(--gold-dim), transparent)" }} />
+        <div style={{ width: "1px", height: "36px", background: "linear-gradient(to bottom, var(--gold-dim), transparent)" }} />
       </div>
     </section>
   );
@@ -773,61 +1010,65 @@ function CredStrip() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// ABOUT
+// TIMELINE — reverse chronology, alternating spine
 // ─────────────────────────────────────────────────────────────
-function About() {
+function TimelineCard({ item }) {
+  const fallback = item.year === "Now" ? "✦" : item.year.replace(/[^0-9]/g, "").slice(-2);
   return (
-    <section id="about" style={{ padding: "clamp(90px,13vw,160px) clamp(20px,6vw,80px)" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div className="about-cols reveal" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(48px,9vw,120px)", alignItems: "start" }}>
+    <div className="tl-card-inner">
+      <div className="tl-head">
+        <div className="tl-img">
+          {item.image
+            ? <img src={item.image} alt={item.title} loading="lazy" />
+            : <div className="tl-img-fallback">{fallback}</div>}
+        </div>
+        <span className="tl-tag">{item.tag}</span>
+      </div>
+      <h3>{item.title}</h3>
+      <p>{item.desc}</p>
+    </div>
+  );
+}
 
-          <div>
-            <ODLabel>About Omkar</ODLabel>
-            <SectionHeading style={{ marginBottom: "28px" }}>I live and work<br /><em style={{ color: "var(--gold)" }}>at the edges.</em></SectionHeading>
-            <hr className="rule" style={{ margin: "28px 0", opacity: 0.5 }} />
-            <p style={{ color: "var(--text-2)", lineHeight: 1.9, fontSize: "15px", marginBottom: "18px" }}>
-              I'm a flow artist, live performer, writer, and activist. I've performed for audiences of five and audiences of five hundred. I've created installations in formal gallery spaces and unannounced performances in train stations.
-            </p>
-            <p style={{ color: "var(--text-2)", lineHeight: 1.9, fontSize: "15px", marginBottom: "18px" }}>
-              My brand work includes commissioned longform for{" "}
-              <a href="https://www.redbull.com/in-en" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", fontWeight: 400, textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Red Bull India</a>
-              , a site-specific installation for the{" "}
-              <a href="https://museumofgoa.com/program/homo-ludens-the-art-of-play/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", fontWeight: 400, textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Museum of Goa</a>
-              , and corporate workshops for teams who want something that actually changes the room.
-            </p>
-            <p style={{ color: "var(--text-2)", lineHeight: 1.9, fontSize: "15px" }}>
-              I operate under the name <strong style={{ color: "var(--gold-light)", fontWeight: 400 }}>ManWith3Balls</strong> — a creative identity built to hold the experimental, the playful, and the parts of the work that resist easy categorisation.
-            </p>
-            <blockquote style={{ margin: "40px 0 0", padding: "20px 0 0 22px", borderLeft: "2px solid var(--gold)" }}>
-              <p style={{ ...F.serif, fontSize: "clamp(20px,2.8vw,28px)", fontStyle: "italic", fontWeight: 300, lineHeight: 1.35, color: "var(--text)" }}>"Movement is how I think.<br />Performance is how I speak."</p>
-            </blockquote>
-          </div>
+function Timeline() {
+  return (
+    <section id="timeline" style={{ padding: "clamp(90px,13vw,160px) clamp(20px,6vw,80px)", background: "var(--bg)", position: "relative", overflow: "hidden" }}>
+      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
 
-          <div>
-            {(() => {
-              const ABOUT_PHOTO = "/images/Omkar Dhareshwar-About.jpeg";
-              const ABOUT_CAPTION = "Omkar in Marol Art Village 2020";
-              return (
-                <div style={{ width: "100%", aspectRatio: "3/4", background: ABOUT_PHOTO ? "var(--surface-3)" : "linear-gradient(160deg, var(--surface-3) 0%, var(--surface) 60%, rgba(46,107,79,0.05) 100%)", border: "1px solid var(--line)", position: "relative", overflow: "hidden", marginBottom: "32px" }}>
-                  {ABOUT_PHOTO && <img src={ABOUT_PHOTO} alt={ABOUT_CAPTION} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />}
-                  {[{ top: "14px", left: "14px" }, { top: "14px", right: "14px" }, { bottom: "14px", left: "14px" }, { bottom: "14px", right: "14px" }].map((pos, i) => (
-                    <div key={i} style={{ position: "absolute", width: "18px", height: "18px", borderTop: i < 2 ? "1px solid var(--gold)" : undefined, borderBottom: i >= 2 ? "1px solid var(--gold)" : undefined, borderLeft: i % 2 === 0 ? "1px solid var(--gold)" : undefined, borderRight: i % 2 === 1 ? "1px solid var(--gold)" : undefined, zIndex: 2, opacity: ABOUT_PHOTO ? 0.7 : 1, ...pos }} />
-                  ))}
-                  <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 2, padding: "10px 14px", background: ABOUT_PHOTO ? "rgba(15,15,13,0.5)" : "transparent", display: "flex", justifyContent: "flex-end" }}>
-                    <span style={{ ...F.mono, fontSize: "12px", color: ABOUT_PHOTO ? "rgba(255,255,255,0.7)" : "var(--text-4)", letterSpacing: "0.2em", textTransform: "uppercase" }}>{ABOUT_CAPTION}</span>
-                  </div>
-                </div>
-              );
-            })()}
-            <MW3BAside style={{ marginBottom: "28px" }}>People ask me what I do. I give a different answer every time. Not because I'm being evasive — because the work keeps changing. That's the point.</MW3BAside>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--line-faint)" }}>
-              {[["5+", "years active"], ["500+", "live audience"], ["12+", "brand projects"], ["3", "gallery shows"]].map(([n, l]) => (
-                <div key={l} style={{ background: "var(--bg)", padding: "20px 18px" }}>
-                  <div style={{ ...F.serif, fontSize: "30px", color: "var(--gold)", fontWeight: 400, lineHeight: 1 }}>{n}</div>
-                  <div style={{ ...F.mono, fontSize: "9px", color: "var(--text-3)", letterSpacing: "0.14em", marginTop: "6px" }}>{l}</div>
-                </div>
-              ))}
+        {/* Header */}
+        <div className="reveal" style={{ marginBottom: "72px", maxWidth: "640px" }}>
+          <ODLabel>The Story</ODLabel>
+          <SectionHeading style={{ marginBottom: "20px" }}>
+            A decade of<br />
+            <em style={{ color: "var(--gold)" }}>shape-shifting.</em>
+          </SectionHeading>
+          <p style={{ color: "var(--text-2)", fontSize: "15px", lineHeight: 1.85, marginBottom: "16px" }}>
+            Most résumés are about job titles. Mine is about questions I couldn't stop asking. What follows is a reverse-chronology map — how an engineering student became the keeper of an autonomous street art district, with a few useful detours along the way.
+          </p>
+          <MW3BAside>Read top-down to see the present pulling forward. Read bottom-up to see how it grew.</MW3BAside>
+        </div>
+
+        {/* Spine */}
+        <div className="timeline-spine">
+          <div className="spine-line" />
+
+          {TIMELINE.map((item, i) => (
+            <div key={i} className={`timeline-row reveal ${i % 2 === 0 ? "" : "row-flip"}`}>
+              <div className="tl-spacer" />
+              <div className="tl-node">
+                <span className="tl-node-year">{item.year}</span>
+                <span className="tl-node-dot" />
+              </div>
+              <div className="tl-card">
+                <TimelineCard item={item} />
+              </div>
             </div>
+          ))}
+
+          {/* Origin marker */}
+          <div className="tl-origin">
+            <span className="tl-origin-dot" />
+            <div className="tl-origin-label">Origin</div>
           </div>
         </div>
       </div>
@@ -1381,7 +1622,7 @@ function MarqueeStrip() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// FOOTER — Press added to nav links
+// FOOTER — uses navHref() so "Story" routes to #timeline
 // ─────────────────────────────────────────────────────────────
 function Footer() {
   return (
@@ -1397,7 +1638,7 @@ function Footer() {
             <div>
               <div style={{ ...F.mono, fontSize: "9px", color: "var(--text-4)", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "18px" }}>Navigate</div>
               {NAV.map((l) => (
-                <a key={l} href={`#${l.toLowerCase()}`} style={{ display: "block", ...F.mono, fontSize: "10px", color: "var(--text-3)", textDecoration: "none", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px", transition: "color 0.25s" }} onMouseEnter={(e) => (e.target.style.color = "var(--gold)")} onMouseLeave={(e) => (e.target.style.color = "var(--text-3)")}>{l}</a>
+                <a key={l} href={navHref(l)} style={{ display: "block", ...F.mono, fontSize: "10px", color: "var(--text-3)", textDecoration: "none", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px", transition: "color 0.25s" }} onMouseEnter={(e) => (e.target.style.color = "var(--gold)")} onMouseLeave={(e) => (e.target.style.color = "var(--text-3)")}>{l}</a>
               ))}
             </div>
             <div>
@@ -1421,7 +1662,8 @@ function Footer() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// ROOT — Press section added between Media and Testimonials
+// ROOT — Timeline added between CredStrip and MarqueeStrip
+//        Standalone About removed (merged into Hero)
 // ─────────────────────────────────────────────────────────────
 export default function Portfolio() {
   const [scrolled, setScrolled] = useState(false);
@@ -1457,15 +1699,15 @@ export default function Portfolio() {
       <Navbar scrolled={scrolled} />
       <Hero />
       <CredStrip />
-      <About />
+      <Timeline />        {/* ← NEW: reverse-chronology story spine */}
       <MarqueeStrip />
       <Work />
       <FieldNotes />
       <Adventures />
       <Media />
-      <Press />          {/* ← NEW: Press & Features section */}
+      <Press />
       <Testimonials />
-      <Contact />        {/* ← UPDATED: Replaces BookMe — no form */}
+      <Contact />
       <Footer />
     </>
   );
