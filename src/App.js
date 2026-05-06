@@ -186,23 +186,6 @@ body::before {
 .social-row { transition: padding-left 0.25s ease, border-bottom-color 0.25s ease; }
 .social-row:hover { padding-left: 8px !important; border-bottom-color: var(--gold) !important; }
 
-/* ── Timeline ── */
-.tl-spine { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--gold), rgba(46,107,79,0.1)); transform: translateX(-50%); pointer-events: none; }
-.tl-node { display: flex; align-items: flex-start; margin-bottom: clamp(36px,5vw,60px); position: relative; }
-.tl-node.rev { flex-direction: row-reverse; }
-.tl-side { flex: 1; }
-.tl-side.pad-r { padding: 0 clamp(22px,4vw,52px) 0 0; text-align: right; }
-.tl-side.pad-l { padding: 0 0 0 clamp(22px,4vw,52px); text-align: left; }
-.tl-dot { position: absolute; left: 50%; transform: translateX(-50%); z-index: 2; border-radius: 50%; top: 5px; }
-.tl-ghost { flex: 1; }
-@media (max-width: 640px) {
-  .tl-spine { left: 10px !important; transform: none !important; }
-  .tl-node, .tl-node.rev { flex-direction: row !important; }
-  .tl-side.pad-r, .tl-side.pad-l { text-align: left !important; padding: 0 0 0 32px !important; }
-  .tl-dot { left: 10px !important; transform: translateX(-50%) !important; }
-  .tl-ghost { display: none !important; }
-}
-
 /* ── Responsive ── */
 @media (max-width: 900px) {
   .about-cols  { grid-template-columns: 1fr !important; }
@@ -469,74 +452,6 @@ const OFFERINGS = [
 const TESTIMONIALS = [
   { quote: "Omkar doesn't just perform — he changes the room. The keynote was the thing people talked about for months.", name: "Priya Mehta", role: "Head of Culture, Design Studio, Bangalore" },
   { quote: "Working with him on the Red Bull series was the easiest it's ever been to get something true out of a subculture story.", name: "Sid Rao", role: "Commissioning Editor, Red Bull India" },
-];
-// ─────────────────────────────────────────────────────────────
-// TIMELINE DATA — reverse chronological story of the path
-// ─────────────────────────────────────────────────────────────
-const TIMELINE = [
-  {
-    year: "Now",
-    title: "Flow workshops. AI experiments. The next Bollywood meme.",
-    impact: "Still building. Still moving. The tree keeps branching.",
-    turning: false,
-    image: null, // swap later → "/images/timeline/now.jpg"
-  },
-  {
-    year: "2025",
-    title: "Flow Simulator — Museum of Goa",
-    impact: "A commissioned interactive installation for 'Khel-Spel HomoLudens'. Then: Bollywood memes as street activism.",
-    turning: false,
-    image: null, // swap later → "/images/timeline/2025.jpg"
-  },
-  {
-    year: "2024",
-    title: "Drove an autorickshaw from Gangtok to Kochi",
-    impact: "3,000km. 14 days. Got the gig because of juggling. Two ad shoots. National TV. The Rickshaw Run.",
-    turning: true,
-    image: null, // swap later → "/images/timeline/2024.jpg"
-  },
-  {
-    year: "2020",
-    title: "Covid stopped everything. ManWith3Balls was born.",
-    impact: "Learned to juggle in lockdown. Stepped in front of a camera for the first time. 21 interviews in 21 days — the Now We Here podcast.",
-    turning: true,
-    image: null, // swap later → "/images/timeline/2020.jpg"
-  },
-  {
-    year: "2019",
-    title: "Nat Geo. Red Bull. Community backing — Marol goes public.",
-    impact: "Named one of 64 places to visit in India. MRRWA gave permissions. Ladies First Festival launched.",
-    turning: false,
-    image: null, // swap later → "/images/timeline/2019.jpg"
-  },
-  {
-    year: "2017",
-    title: "India's first graffiti contingent to Brazil",
-    impact: "Invited to Street of Styles, Curitiba. 22-day road trip. First trip outside India. Saw art-led community at scale.",
-    turning: true,
-    image: null, // swap later → "/images/timeline/2017.jpg"
-  },
-  {
-    year: "2016",
-    title: "Question Marks — graffiti as a social tool",
-    impact: "First use of street art for activism. Growing the roster: artists, Bboy Flying Machine, and the community around them.",
-    turning: false,
-    image: null, // swap later → "/images/timeline/2016.jpg"
-  },
-  {
-    year: "2015",
-    title: "Bollywood. Ecopark. A neighbourhood begins to change.",
-    impact: "Jr. Art Director on 'Trapped' (Vikramaditya Motwane, Phantom Films). Brought Brazilian artists to Ecopark. Marol Art Village is born.",
-    turning: true,
-    image: null, // swap later → "/images/timeline/2015.jpg"
-  },
-  {
-    year: "2014",
-    title: "Mechanical Engineer. Accidental artist. First-time founder.",
-    impact: "Designed Qroom interiors from pure waste. Graduated. Founded Wicked Broz. Started managing Zake — India's premier graffiti artist.",
-    turning: true,
-    image: null, // swap later → "/images/timeline/2014.jpg"
-  },
 ];
 
 // ─────────────────────────────────────────────────────────────
@@ -835,62 +750,76 @@ function Hero() {
         <div style={{ width: "1px", height: "40px", background: "linear-gradient(to bottom, var(--gold-dim), transparent)" }} />
       </div>
     </section>
-  
-        {/* ── About — merged into landing ── */}
-        <div
-          className="about-cols"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "clamp(40px,7vw,96px)",
-            alignItems: "start",
-            marginBottom: "clamp(72px,11vw,120px)",
-            paddingTop: "clamp(40px,6vw,64px)",
-            borderTop: "1px solid var(--line-faint)",
-          }}
-        >
-          {/* Left — bio text */}
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// CREDIBILITY STRIP
+// ─────────────────────────────────────────────────────────────
+function CredStrip() {
+  const items = [...CRED_CLIENTS, ...CRED_CLIENTS];
+  return (
+    <div style={{ background: "var(--surface)", borderTop: "1px solid var(--line-faint)", borderBottom: "1px solid var(--line-faint)", overflow: "hidden", padding: "16px 0" }}>
+      <div style={{ ...F.mono, fontSize: "11px", letterSpacing: "0.18em", color: "var(--text-4)", textTransform: "uppercase", textAlign: "center", marginBottom: "12px" }}>Work that's been trusted by</div>
+      <div style={{ overflow: "hidden" }}>
+        <div className="mq" style={{ display: "flex", width: "max-content", gap: "0" }}>
+          {items.map((c, i) => (
+            <div key={i} className="cred-tag" style={{ ...F.mono, fontSize: "13px", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--text-3)", padding: "0 32px", borderRight: "1px solid var(--line-faint)", whiteSpace: "nowrap", transition: "all 0.25s" }}>{c}</div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// ABOUT
+// ─────────────────────────────────────────────────────────────
+function About() {
+  return (
+    <section id="about" style={{ padding: "clamp(90px,13vw,160px) clamp(20px,6vw,80px)" }}>
+      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+        <div className="about-cols reveal" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(48px,9vw,120px)", alignItems: "start" }}>
+
           <div>
             <ODLabel>About Omkar</ODLabel>
-            <p style={{ fontSize: "15px", color: "var(--text-2)", lineHeight: 1.9, marginBottom: "18px" }}>
+            <SectionHeading style={{ marginBottom: "28px" }}>I live and work<br /><em style={{ color: "var(--gold)" }}>at the edges.</em></SectionHeading>
+            <hr className="rule" style={{ margin: "28px 0", opacity: 0.5 }} />
+            <p style={{ color: "var(--text-2)", lineHeight: 1.9, fontSize: "15px", marginBottom: "18px" }}>
               I'm a flow artist, live performer, writer, and activist. I've performed for audiences of five and audiences of five hundred. I've created installations in formal gallery spaces and unannounced performances in train stations.
             </p>
-            <p style={{ fontSize: "15px", color: "var(--text-2)", lineHeight: 1.9, marginBottom: "18px" }}>
+            <p style={{ color: "var(--text-2)", lineHeight: 1.9, fontSize: "15px", marginBottom: "18px" }}>
               My brand work includes commissioned longform for{" "}
               <a href="https://www.redbull.com/in-en" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", fontWeight: 400, textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Red Bull India</a>
               , a site-specific installation for the{" "}
               <a href="https://museumofgoa.com/program/homo-ludens-the-art-of-play/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", fontWeight: 400, textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Museum of Goa</a>
               , and corporate workshops for teams who want something that actually changes the room.
             </p>
-            <MW3BAside style={{ marginBottom: "24px" }}>
-              People ask me what I do. I give a different answer every time. Not because I'm being evasive — because the work keeps changing. That's the point.
-            </MW3BAside>
-            <blockquote style={{ margin: "24px 0 0", padding: "16px 0 0 20px", borderLeft: "2px solid var(--gold)" }}>
-              <p style={{ ...F.serif, fontSize: "clamp(17px,2.2vw,24px)", fontStyle: "italic", fontWeight: 300, lineHeight: 1.35, color: "var(--text)" }}>
-                "Movement is how I think.<br />Performance is how I speak."
-              </p>
+            <p style={{ color: "var(--text-2)", lineHeight: 1.9, fontSize: "15px" }}>
+              I operate under the name <strong style={{ color: "var(--gold-light)", fontWeight: 400 }}>ManWith3Balls</strong> — a creative identity built to hold the experimental, the playful, and the parts of the work that resist easy categorisation.
+            </p>
+            <blockquote style={{ margin: "40px 0 0", padding: "20px 0 0 22px", borderLeft: "2px solid var(--gold)" }}>
+              <p style={{ ...F.serif, fontSize: "clamp(20px,2.8vw,28px)", fontStyle: "italic", fontWeight: 300, lineHeight: 1.35, color: "var(--text)" }}>"Movement is how I think.<br />Performance is how I speak."</p>
             </blockquote>
           </div>
 
-          {/* Right — photo + stats */}
           <div>
             {(() => {
               const ABOUT_PHOTO = "/images/Omkar Dhareshwar-About.jpeg";
               const ABOUT_CAPTION = "Omkar in Marol Art Village 2020";
               return (
-                <div style={{ width: "100%", aspectRatio: "3/4", background: "var(--surface-3)", border: "1px solid var(--line)", position: "relative", overflow: "hidden", marginBottom: "24px" }}>
-                  {ABOUT_PHOTO && (
-                    <img src={ABOUT_PHOTO} alt={ABOUT_CAPTION} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />
-                  )}
+                <div style={{ width: "100%", aspectRatio: "3/4", background: ABOUT_PHOTO ? "var(--surface-3)" : "linear-gradient(160deg, var(--surface-3) 0%, var(--surface) 60%, rgba(46,107,79,0.05) 100%)", border: "1px solid var(--line)", position: "relative", overflow: "hidden", marginBottom: "32px" }}>
+                  {ABOUT_PHOTO && <img src={ABOUT_PHOTO} alt={ABOUT_CAPTION} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />}
                   {[{ top: "14px", left: "14px" }, { top: "14px", right: "14px" }, { bottom: "14px", left: "14px" }, { bottom: "14px", right: "14px" }].map((pos, i) => (
-                    <div key={i} style={{ position: "absolute", width: "18px", height: "18px", borderTop: i < 2 ? "1px solid var(--gold)" : undefined, borderBottom: i >= 2 ? "1px solid var(--gold)" : undefined, borderLeft: i % 2 === 0 ? "1px solid var(--gold)" : undefined, borderRight: i % 2 === 1 ? "1px solid var(--gold)" : undefined, zIndex: 2, opacity: 0.7, ...pos }} />
+                    <div key={i} style={{ position: "absolute", width: "18px", height: "18px", borderTop: i < 2 ? "1px solid var(--gold)" : undefined, borderBottom: i >= 2 ? "1px solid var(--gold)" : undefined, borderLeft: i % 2 === 0 ? "1px solid var(--gold)" : undefined, borderRight: i % 2 === 1 ? "1px solid var(--gold)" : undefined, zIndex: 2, opacity: ABOUT_PHOTO ? 0.7 : 1, ...pos }} />
                   ))}
-                  <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 2, padding: "10px 14px", background: "rgba(15,15,13,0.5)", display: "flex", justifyContent: "flex-end" }}>
-                    <span style={{ ...F.mono, fontSize: "12px", color: "rgba(255,255,255,0.7)", letterSpacing: "0.2em", textTransform: "uppercase" }}>{ABOUT_CAPTION}</span>
+                  <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 2, padding: "10px 14px", background: ABOUT_PHOTO ? "rgba(15,15,13,0.5)" : "transparent", display: "flex", justifyContent: "flex-end" }}>
+                    <span style={{ ...F.mono, fontSize: "12px", color: ABOUT_PHOTO ? "rgba(255,255,255,0.7)" : "var(--text-4)", letterSpacing: "0.2em", textTransform: "uppercase" }}>{ABOUT_CAPTION}</span>
                   </div>
                 </div>
               );
             })()}
+            <MW3BAside style={{ marginBottom: "28px" }}>People ask me what I do. I give a different answer every time. Not because I'm being evasive — because the work keeps changing. That's the point.</MW3BAside>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--line-faint)" }}>
               {[["5+", "years active"], ["500+", "live audience"], ["12+", "brand projects"], ["3", "gallery shows"]].map(([n, l]) => (
                 <div key={l} style={{ background: "var(--bg)", padding: "20px 18px" }}>
@@ -901,165 +830,10 @@ function Hero() {
             </div>
           </div>
         </div>
-
-        {/* ── Timeline ── */}
-        <div className="h-5">
-
-          {/* Divider */}
-          <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "clamp(48px,7vw,72px)" }}>
-            <div style={{ flex: 1, height: "1px", background: "linear-gradient(to right, var(--gold-dim), transparent)" }} />
-            <span style={{ ...F.mono, fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--text-4)", whiteSpace: "nowrap" }}>
-              The path, in reverse
-            </span>
-            <div style={{ flex: 1, height: "1px", background: "linear-gradient(to left, var(--gold-dim), transparent)" }} />
-          </div>
-
-          {/* Spine + nodes */}
-          <div style={{ position: "relative" }}>
-
-            {/* The trunk */}
-            <div className="tl-spine" />
-
-            {TIMELINE.map((item, i) => {
-              const isEven = i % 2 === 0;
-              return (
-                <div key={i} className={`tl-node reveal${isEven ? "" : " rev"}`}>
-
-                  {/* Content */}
-                  <div className={`tl-side ${isEven ? "pad-r" : "pad-l"}`}>
-                    <div style={{
-                      ...F.mono, fontSize: "10px",
-                      color: item.turning ? "var(--ember)" : "var(--gold)",
-                      letterSpacing: "0.24em", textTransform: "uppercase", marginBottom: "8px",
-                    }}>
-                      {item.year}
-                    </div>
-                    <div style={{
-                      ...F.serif,
-                      fontSize: "clamp(15px,1.9vw,21px)",
-                      fontWeight: 400, lineHeight: 1.25,
-                      color: "var(--text)", marginBottom: "8px",
-                    }}>
-                      {item.title}
-                    </div>
-                    <p style={{ fontSize: "13px", color: "var(--text-3)", lineHeight: 1.75 }}>
-                      {item.impact}
-                    </p>
-                  </div>
-
-                 {/* Node — circular image or styled placeholder */}
-                  <div
-                    className="tl-dot"
-                    style={{
-                      width: "48px",
-                      height: "48px",
-                      border: `2px solid ${item.turning ? "var(--ember)" : "var(--gold)"}`,
-                      boxShadow: item.turning
-                        ? "0 0 0 4px rgba(196,98,29,0.14), 0 4px 16px rgba(0,0,0,0.12)"
-                        : "0 0 0 4px rgba(46,107,79,0.10), 0 4px 16px rgba(0,0,0,0.08)",
-                      overflow: "hidden",
-                      background: "var(--surface-2)",
-                      top: "0px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {item.image ? (
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                      />
-                    ) : (
-                      <span style={{
-                        ...F.mono,
-                        fontSize: "9px",
-                        color: item.turning ? "var(--ember)" : "var(--gold)",
-                        letterSpacing: "0.08em",
-                        fontWeight: 400,
-                        userSelect: "none",
-                      }}>
-                        {item.year === "Now" ? "★" : item.year.slice(2)}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Ghost spacer — fills the opposite side */}
-                  <div className="tl-ghost" />
-                </div>
-              );
-            })}
-
-            {/* Root cap */}
-            <div style={{ display: "flex", justifyContent: "center", paddingTop: "8px" }}>
-              <div style={{
-                ...F.mono, fontSize: "8px", color: "var(--text-4)",
-                letterSpacing: "0.28em", textTransform: "uppercase",
-                padding: "7px 16px", border: "1px solid var(--line-faint)", background: "var(--bg)",
-              }}>
-                The roots
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ── Scroll cue ── */}
-        <div className="drip" style={{ marginTop: "clamp(60px,9vw,100px)", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
-          <span style={{ ...F.mono, fontSize: "8px", color: "var(--text-4)", letterSpacing: "0.3em", textTransform: "uppercase" }}>scroll</span>
-          <div style={{ width: "1px", height: "40px", background: "linear-gradient(to bottom, var(--gold-dim), transparent)" }} />
-        </div>
       </div>
     </section>
   );
 }
-
-// ─────────────────────────────────────────────────────────────
-// CRED STRIP — client logos / name tags
-// ─────────────────────────────────────────────────────────────
-function CredStrip() {
-  return (
-    <div style={{
-      padding: "20px clamp(20px,6vw,80px)",
-      borderBottom: "1px solid var(--line-faint)",
-      background: "var(--surface)",
-    }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div
-          className="cred-strip"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "20px",
-            flexWrap: "wrap",
-          }}
-        >
-          <span style={{
-            ...F.mono, fontSize: "9px", color: "var(--text-4)",
-            letterSpacing: "0.22em", textTransform: "uppercase", flexShrink: 0,
-          }}>
-            Worked with
-          </span>
-          {CRED_CLIENTS.map((client) => (
-            <span
-              key={client}
-              className="cred-tag"
-              style={{
-                ...F.mono, fontSize: "10px", color: "var(--text-3)",
-                letterSpacing: "0.14em", textTransform: "uppercase",
-                padding: "5px 14px", border: "1px solid var(--line-faint)",
-              }}
-            >
-              {client}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-
 
 // ─────────────────────────────────────────────────────────────
 // PROJECT MODAL
@@ -1683,6 +1457,7 @@ export default function Portfolio() {
       <Navbar scrolled={scrolled} />
       <Hero />
       <CredStrip />
+      <About />
       <MarqueeStrip />
       <Work />
       <FieldNotes />
