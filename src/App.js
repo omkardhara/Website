@@ -866,7 +866,7 @@ function Hero() {
           Omkar<br />
           <em style={{ color: "var(--gold)", fontStyle: "italic" }}Dhareshwar.</em><br />
           
-        </h1>
+  
 
         {/* ── Value thread ── */}
         <div className="h-3" style={{ maxWidth: "520px", marginBottom: "52px" }}>
