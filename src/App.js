@@ -252,44 +252,54 @@ function Hero() {
         <div style={{ position: "absolute", top: "50%", left: 0, right: 0, height: "1px", background: "linear-gradient(90deg, transparent, rgba(46,107,79,0.06) 30%, rgba(46,107,79,0.06) 70%, transparent)" }} />
       </div>
 
-      <div className="hero-grid" style={{ position: "relative" }}>
+      <div style={{ position: "relative", maxWidth: "1100px", margin: "0 auto", width: "100%" }}>
 
-        {/* LEFT — Identity + value prop + CTAs */}
-        <div>
-          {/* Eyebrow */}
-          <div className="h-1" style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "32px", flexWrap: "wrap" }}>
-            <span style={{ ...F.serif, fontSize: "14px", fontWeight: 500, color: "var(--gold)", letterSpacing: "0.04em" }}>Omkar Dhareshwar</span>
-            <span style={{ ...F.mono, fontSize: "12px", color: "var(--text-3)", letterSpacing: "0.1em" }}>×</span>
-            <span className="glitch-wrap" data-text={display} onMouseEnter={scramble} style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--ember)", paddingBottom: "2px", borderBottom: "1px solid var(--ember)", opacity: 0.9 }}>{display}</span>
-            <span style={{ ...F.mono, fontSize: "11px", color: "var(--text-3)", letterSpacing: "0.18em", textTransform: "uppercase", marginLeft: "auto", paddingLeft: "12px" }}>Mumbai · IN</span>
+        {/* Eyebrow */}
+        <div className="h-1" style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "28px", flexWrap: "wrap" }}>
+          <span style={{ ...F.serif, fontSize: "14px", fontWeight: 500, color: "var(--gold)", letterSpacing: "0.04em" }}>Omkar Dhareshwar</span>
+          <span style={{ ...F.mono, fontSize: "12px", color: "var(--text-3)", letterSpacing: "0.1em" }}>×</span>
+          <span className="glitch-wrap" data-text={display} onMouseEnter={scramble} style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--ember)", paddingBottom: "2px", borderBottom: "1px solid var(--ember)", opacity: 0.9 }}>{display}</span>
+          <span style={{ ...F.mono, fontSize: "11px", color: "var(--text-3)", letterSpacing: "0.18em", textTransform: "uppercase", marginLeft: "auto", paddingLeft: "12px" }}>Mumbai · IN</span>
+        </div>
+
+        {/* Headline */}
+        <h1 className="h-2" style={{ ...F.serif, fontSize: "clamp(44px, 8vw, 108px)", fontWeight: 300, lineHeight: 0.98, letterSpacing: "-0.02em", marginBottom: "26px", maxWidth: "1000px" }}>
+          Fire, flow, and stories that<br />
+          <em style={{ color: "var(--gold)", fontStyle: "italic" }}>actually mean something.</em>
+        </h1>
+
+        {/* Subhead */}
+        <p className="h-3" style={{ ...F.sans, fontSize: "clamp(16px,1.55vw,19px)", lineHeight: 1.6, color: "var(--text-2)", maxWidth: "720px", marginBottom: "22px", fontWeight: 400 }}>
+          I perform, run flow workshops, and direct culture-led brand work — for festivals, companies, and brands that want something memorable, not forgettable.
+        </p>
+
+        {/* MW3B aside */}
+        <div className="h-3" style={{ marginBottom: "32px" }}>
+          <MW3BAside style={{ maxWidth: "560px" }}>Mechanical engineer by degree. Everything else by choice.</MW3BAside>
+        </div>
+
+        {/* CTAs */}
+        <div className="h-4" style={{ display: "flex", gap: "14px", flexWrap: "wrap", alignItems: "center", marginBottom: "40px" }}>
+          <a href="#offerings" className="btn-primary" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "16px 36px", display: "inline-block", fontWeight: 500 }}>Book a performance →</a>
+          <a href="#work" className="btn-ghost" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "16px 32px", display: "inline-block" }}>See the work</a>
+          <a href="#timeline" style={{ ...F.mono, fontSize: "11px", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--text-3)", textDecoration: "none", marginLeft: "6px", paddingBottom: "2px", borderBottom: "1px solid var(--line-faint)", transition: "color 0.25s, border-color 0.25s" }} onMouseEnter={(e) => { e.currentTarget.style.color = "var(--gold)"; e.currentTarget.style.borderBottomColor = "var(--gold)"; }} onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-3)"; e.currentTarget.style.borderBottomColor = "var(--line-faint)"; }}>or read the story →</a>
+        </div>
+
+        {/* Stats + Proof — single horizontal row */}
+        <div className="h-5" style={{ borderTop: "1px solid var(--line-faint)", paddingTop: "22px" }}>
+          {/* Stats row */}
+          <div className="hero-stats" style={{ display: "flex", flexWrap: "wrap", gap: "clamp(20px,3.5vw,48px)", alignItems: "baseline", marginBottom: "20px" }}>
+            {[["10+", "years"], ["500+", "murals"], ["12+", "press features"], ["3,000km", "rickshaw run"]].map(([n, l]) => (
+              <div key={l} style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
+                <span style={{ ...F.serif, fontSize: "clamp(22px,2.6vw,30px)", color: "var(--gold)", fontWeight: 400, lineHeight: 1 }}>{n}</span>
+                <span style={{ ...F.mono, fontSize: "11px", color: "var(--text-3)", letterSpacing: "0.14em", textTransform: "uppercase" }}>{l}</span>
+              </div>
+            ))}
           </div>
 
-          {/* Headline — benefit-led, ladders to all three offerings */}
-          <h1 className="h-2" style={{ ...F.serif, fontSize: "clamp(44px, 7.5vw, 96px)", fontWeight: 300, lineHeight: 0.98, letterSpacing: "-0.02em", marginBottom: "28px", maxWidth: "920px" }}>
-            Fire, flow, and stories that<br />
-            <em style={{ color: "var(--gold)", fontStyle: "italic" }}>actually mean something.</em>
-          </h1>
-
-          {/* Subhead — one-liner: what + for whom + promise */}
-          <p className="h-3" style={{ ...F.sans, fontSize: "clamp(16px,1.55vw,19px)", lineHeight: 1.65, color: "var(--text-2)", maxWidth: "640px", marginBottom: "32px", fontWeight: 400 }}>
-            I perform, run flow workshops, and direct culture-led brand work — for festivals, companies, and brands that want something memorable, not forgettable.
-          </p>
-
-          {/* MW3B aside */}
-          <div className="h-3" style={{ marginBottom: "36px" }}>
-            <MW3BAside style={{ maxWidth: "440px" }}>Mechanical engineer by degree. Everything else by choice. Turns out the best use of an engineering brain is knowing which rules to break.</MW3BAside>
-          </div>
-
-          {/* CTAs — 3-tier hierarchy */}
-          <div className="h-4" style={{ display: "flex", gap: "14px", flexWrap: "wrap", alignItems: "center", marginBottom: "44px" }}>
-            <a href="#offerings" className="btn-primary" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "16px 36px", display: "inline-block", fontWeight: 500 }}>Book a performance →</a>
-            <a href="#work" className="btn-ghost" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "16px 32px", display: "inline-block" }}>See the work</a>
-            <a href="#timeline" style={{ ...F.mono, fontSize: "11px", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--text-3)", textDecoration: "none", marginLeft: "6px", paddingBottom: "2px", borderBottom: "1px solid var(--line-faint)", transition: "color 0.25s, border-color 0.25s" }} onMouseEnter={(e) => { e.currentTarget.style.color = "var(--gold)"; e.currentTarget.style.borderBottomColor = "var(--gold)"; }} onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-3)"; e.currentTarget.style.borderBottomColor = "var(--line-faint)"; }}>or read the story →</a>
-          </div>
-
-          {/* Proof bar — above the fold */}
-          <div className="h-5" style={{ borderTop: "1px solid var(--line-faint)", paddingTop: "20px" }}>
-            <div style={{ ...F.mono, fontSize: "11px", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--text-3)", marginBottom: "14px" }}>Featured & trusted by</div>
+          {/* Proof bar */}
+          <div>
+            <div style={{ ...F.mono, fontSize: "10px", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--text-3)", marginBottom: "10px" }}>Featured & trusted by</div>
             <div className="proof-bar">
               {["Nat Geo Traveller", "Red Bull India", "Britannia", "Doordarshan", "Museum of Goa", "Mid-Day"].map((n) => (
                 <span key={n} className="proof-bar-item">{n}</span>
@@ -298,42 +308,6 @@ function Hero() {
             </div>
           </div>
         </div>
-
-        {/* RIGHT — Brief about + stats + closing quote */}
-        <aside className="hero-about h-5">
-          <div style={{ ...F.mono, fontSize: "11px", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)", marginBottom: "18px" }}>About</div>
-
-          <p style={{ ...F.serif, fontSize: "clamp(20px,2.5vw,26px)", fontWeight: 300, lineHeight: 1.35, color: "var(--text)", marginBottom: "20px", fontStyle: "italic" }}>
-            I live and work <span style={{ color: "var(--gold)" }}>at the edges.</span>
-          </p>
-
-          <p style={{ color: "var(--text-2)", lineHeight: 1.85, fontSize: "14.5px", marginBottom: "14px" }}>
-            Flow artist, live performer, writer, activist. Audiences of five, audiences of five hundred. Gallery installations and unannounced train-station performances.
-          </p>
-
-          <p style={{ color: "var(--text-2)", lineHeight: 1.85, fontSize: "14.5px", marginBottom: "26px" }}>
-            Brand work for{" "}
-            <a href="https://www.redbull.com/in-en" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Red Bull India</a>
-            ,{" "}
-            <a href="https://museumofgoa.com/program/homo-ludens-the-art-of-play/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Museum of Goa</a>
-            , and corporate workshops that change the room.
-          </p>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "1px", background: "var(--line-faint)", marginBottom: "24px" }}>
-            {[["10+", "yrs"], ["500+", "murals"], ["12+", "publications"], ["3,000km", "rickshaw"]].map(([n, l]) => (
-              <div key={l} style={{ background: "var(--bg)", padding: "14px 6px", textAlign: "center" }}>
-                <div style={{ ...F.serif, fontSize: "22px", color: "var(--gold)", fontWeight: 400, lineHeight: 1 }}>{n}</div>
-                <div style={{ ...F.mono, fontSize: "11px", color: "var(--text-3)", letterSpacing: "0.12em", marginTop: "5px", textTransform: "uppercase" }}>{l}</div>
-              </div>
-            ))}
-          </div>
-
-          <blockquote style={{ borderLeft: "2px solid var(--gold)", paddingLeft: "16px" }}>
-            <p style={{ ...F.serif, fontSize: "15px", fontStyle: "italic", fontWeight: 300, lineHeight: 1.45, color: "var(--text-2)" }}>
-              "Movement is how I think.<br />Performance is how I speak."
-            </p>
-          </blockquote>
-        </aside>
       </div>
 
       <div className="drip h-5" style={{ position: "absolute", bottom: "32px", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }} aria-hidden="true">
