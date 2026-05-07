@@ -688,7 +688,7 @@ function ProjectModal({ item, onClose }) {
 function WorkCard({ item, delay, onOpen }) {
   const tilt = useTilt();
   return (
-    <div {...tilt} onClick={onOpen} className={`work-card reveal reveal-d${delay}`} style={{ background: "var(--surface)", border: "1px solid var(--line-faint)", cursor: "pointer", overflow: "hidden" }}>
+    <div {...tilt} onClick={onOpen} className="work-card" style={{ background: "var(--surface)", border: "1px solid var(--line-faint)", cursor: "pointer", overflow: "hidden" }}>
       <div style={{ height: "220px", background: "var(--surface-3)", position: "relative", overflow: "hidden" }}>
         {item.image ? (
           <img src={item.image} alt={item.title} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", transition: "transform 0.55s cubic-bezier(0.16,1,0.3,1)" }} />
