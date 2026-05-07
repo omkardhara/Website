@@ -256,9 +256,8 @@ body::before {
 .social-row { transition: padding-left 0.25s ease, border-bottom-color 0.25s ease; }
 .social-row:hover { padding-left: 8px !important; border-bottom-color: var(--gold) !important; }
 
-/* ── HERO grid (left = identity, right = trimmed about) ── */
-.hero-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(32px,5vw,72px); align-items: center; max-width: 1300px; margin: 0 auto; width: 100%; }
-.hero-about { border-left: 1px solid var(--line-faint); padding-left: clamp(24px,3vw,40px); }
+/* ── HERO — single-column layout (stats row gets tighter on mobile) ── */
+.hero-stats { row-gap: 14px !important; }
 
 /* ── TIMELINE — alternating spine ── */
 .timeline-spine { position: relative; }
@@ -342,9 +341,8 @@ body::before {
   /* Press featured — stack on mobile */
   .press-featured { grid-template-columns: 1fr !important; }
 
-  /* Hero — stack vertically on mobile */
-  .hero-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
-  .hero-about { border-left: none !important; padding-left: 0 !important; border-top: 1px solid var(--line-faint); padding-top: 36px; }
+  /* Hero — stack tightens on mobile (single column already, just trim row gap) */
+  .hero-stats { gap: 14px 28px !important; }
 
   /* Timeline — single-spine layout on mobile */
   .timeline-spine .spine-line { left: 24px !important; transform: none !important; }
