@@ -58,48 +58,16 @@ import { PRESS } from "./data/press";
 import { SOCIALS } from "./data/socials";
 
 // ─────────────────────────────────────────────────────────────
-// GLOBAL STYLES — extracted to ./styles/globals.css in Phase 2
+// LIB / HOOKS / SHARED COMPONENTS (Phase 3)
 // ─────────────────────────────────────────────────────────────
-
-// ─────────────────────────────────────────────────────────────
-// CONTENT DATA — extracted to /src/data/ in Phase 1
-//   See: ./data/nav.js, ./data/work.js, ./data/notes.js, etc.
-// ─────────────────────────────────────────────────────────────
-
-// ─────────────────────────────────────────────────────────────
-// TYPOGRAPHY SYSTEM
-// ─────────────────────────────────────────────────────────────
-const F = {
-  serif: { fontFamily: "'Cormorant Garamond', serif" },
-  mono:  { fontFamily: "'DM Mono', monospace" },
-  sans:  { fontFamily: "'DM Sans', sans-serif" },
-};
-
-function ODLabel({ children, style = {} }) {
-  return (
-    <div style={{ display: "inline-flex", alignItems: "center", gap: "10px", marginBottom: "20px", ...style }}>
-      <span style={{ ...F.serif, fontSize: "11px", fontWeight: 600, color: "var(--bg)", background: "var(--gold)", width: "22px", height: "22px", borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0, letterSpacing: 0, lineHeight: 1 }}>O</span>
-      <span style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)" }}>{children}</span>
-    </div>
-  );
-}
-
-function MW3BAside({ children, style = {} }) {
-  return (
-    <div style={{ ...F.mono, fontSize: "12px", fontStyle: "italic", color: "var(--text-3)", lineHeight: 1.8, borderLeft: "2px solid var(--ember)", padding: "8px 14px", background: "rgba(196,98,29,0.04)", borderRadius: "0 4px 4px 0", ...style }}>
-      <span style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--ember)", marginRight: "8px", fontStyle: "normal" }}>MW3B ▸</span>
-      {children}
-    </div>
-  );
-}
-
-function SectionHeading({ children, style = {} }) {
-  return (
-    <h2 style={{ ...F.serif, fontSize: "clamp(36px, 5.8vw, 66px)", fontWeight: 400, lineHeight: 1.05, color: "var(--text)", ...style }}>
-      {children}
-    </h2>
-  );
-}
+import { F } from "./lib/typography";
+import { useTilt } from "./hooks/useTilt";
+import { useScramble } from "./hooks/useScramble";
+import { useActiveSection } from "./hooks/useActiveSection";
+import { useSEO } from "./hooks/useSEO";
+import { ODLabel } from "./components/shared/ODLabel";
+import { MW3BAside } from "./components/shared/MW3BAside";
+import { SectionHeading } from "./components/shared/SectionHeading";
 
 // ─────────────────────────────────────────────────────────────
 // CUSTOM CURSOR
@@ -154,61 +122,6 @@ function Cursor() {
       <div id="ball-3" className="cursor-ball" ref={ball3Ref} />
     </div>
   );
-}
-
-// ─────────────────────────────────────────────────────────────
-// TILT CARD HOOK
-// ─────────────────────────────────────────────────────────────
-function useTilt() {
-  const ref = useRef(null);
-  const onMove  = useCallback((e) => { const card = ref.current; if (!card) return; const rect = card.getBoundingClientRect(); const x = ((e.clientX - rect.left) / rect.width - 0.5) * 12; const y = ((e.clientY - rect.top) / rect.height - 0.5) * -12; card.style.transform = `perspective(800px) rotateX(${y}deg) rotateY(${x}deg) translateZ(6px)`; }, []);
-  const onLeave = useCallback(() => { if (ref.current) { ref.current.style.transform = "perspective(800px) rotateX(0deg) rotateY(0deg) translateZ(0px)"; ref.current.style.transition = "transform 0.55s cubic-bezier(0.16,1,0.3,1)"; } }, []);
-  const onEnter = useCallback(() => { if (ref.current) ref.current.style.transition = "transform 0.1s linear"; }, []);
-  return { ref, onMouseMove: onMove, onMouseLeave: onLeave, onMouseEnter: onEnter };
-}
-
-// ─────────────────────────────────────────────────────────────
-// TEXT SCRAMBLE HOOK
-// ─────────────────────────────────────────────────────────────
-const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%";
-function useScramble(target) {
-  const [display, setDisplay] = useState(target);
-  const frameRef = useRef(null);
-  const scramble = useCallback(() => {
-    let iter = 0;
-    cancelAnimationFrame(frameRef.current);
-    const run = () => {
-      setDisplay(target.split("").map((c, i) => { if (c === " ") return " "; if (i < iter) return target[i]; return CHARS[Math.floor(Math.random() * CHARS.length)]; }).join(""));
-      iter += 0.35;
-      if (iter < target.length + 1) frameRef.current = requestAnimationFrame(run);
-      else setDisplay(target);
-    };
-    frameRef.current = requestAnimationFrame(run);
-  }, [target]);
-  useEffect(() => () => cancelAnimationFrame(frameRef.current), []);
-  return { display, scramble };
-}
-
-// ─────────────────────────────────────────────────────────────
-// useActiveSection v3.0 — IntersectionObserver-based scroll spy
-// ─────────────────────────────────────────────────────────────
-function useActiveSection(sectionIds) {
-  const [active, setActive] = useState(sectionIds[0] || "");
-  useEffect(() => {
-    const observers = [];
-    sectionIds.forEach((id) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        (entries) => entries.forEach((e) => { if (e.isIntersecting) setActive(id); }),
-        { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
-      );
-      obs.observe(el);
-      observers.push(obs);
-    });
-    return () => observers.forEach((o) => o.disconnect());
-  }, [sectionIds.join(",")]);
-  return active;
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -274,76 +187,6 @@ function BackToTop() {
       ↑
     </button>
   );
-}
-
-// ─────────────────────────────────────────────────────────────
-// SEOHead v3.0 — sets document title + meta tags + Person JSON-LD
-// (Drop-in for SPA. Replace with react-helmet-async after componentization.)
-// ─────────────────────────────────────────────────────────────
-function useSEO() {
-  useEffect(() => {
-    document.title = "Omkar Dhareshwar — Flow Artist, Performer & Storyteller, Mumbai";
-
-    const ensure = (selector, attrs) => {
-      let el = document.head.querySelector(selector);
-      if (!el) {
-        el = document.createElement(attrs.tag);
-        document.head.appendChild(el);
-      }
-      Object.keys(attrs).forEach((k) => { if (k !== "tag") el.setAttribute(k, attrs[k]); });
-      return el;
-    };
-
-    ensure('meta[name="description"]', { tag: "meta", name: "description", content: "Fire performances, corporate flow workshops, and brand storytelling. Featured in Nat Geo Traveller, Red Bull, Britannia, and Doordarshan. Based in Mumbai." });
-    ensure('meta[name="keywords"]', { tag: "meta", name: "keywords", content: "flow artist mumbai, fire performer india, corporate juggling workshop, flow workshop mumbai, manwith3balls, omkar dhareshwar, marol art village, street art mumbai, brand storytelling india" });
-    ensure('meta[name="author"]', { tag: "meta", name: "author", content: "Omkar Dhareshwar" });
-    ensure('meta[name="theme-color"]', { tag: "meta", name: "theme-color", content: "#2E6B4F" });
-    ensure('meta[name="viewport"]', { tag: "meta", name: "viewport", content: "width=device-width, initial-scale=1" });
-
-    // Open Graph
-    ensure('meta[property="og:type"]', { tag: "meta", property: "og:type", content: "profile" });
-    ensure('meta[property="og:title"]', { tag: "meta", property: "og:title", content: "Omkar Dhareshwar — Flow Artist & Performer" });
-    ensure('meta[property="og:description"]', { tag: "meta", property: "og:description", content: "Fire, flow, and stories that actually mean something." });
-    ensure('meta[property="og:url"]', { tag: "meta", property: "og:url", content: "https://www.omkardhareshwar.com" });
-    ensure('meta[property="og:image"]', { tag: "meta", property: "og:image", content: "https://www.omkardhareshwar.com/og-image.jpg" });
-    ensure('meta[property="og:site_name"]', { tag: "meta", property: "og:site_name", content: "Omkar Dhareshwar" });
-
-    // Twitter
-    ensure('meta[name="twitter:card"]', { tag: "meta", name: "twitter:card", content: "summary_large_image" });
-    ensure('meta[name="twitter:title"]', { tag: "meta", name: "twitter:title", content: "Omkar Dhareshwar — Flow Artist & Performer" });
-    ensure('meta[name="twitter:description"]', { tag: "meta", name: "twitter:description", content: "Fire, flow, and stories that actually mean something." });
-    ensure('meta[name="twitter:image"]', { tag: "meta", name: "twitter:image", content: "https://www.omkardhareshwar.com/og-image.jpg" });
-
-    // Canonical
-    let canonical = document.head.querySelector('link[rel="canonical"]');
-    if (!canonical) { canonical = document.createElement("link"); canonical.setAttribute("rel", "canonical"); document.head.appendChild(canonical); }
-    canonical.setAttribute("href", "https://www.omkardhareshwar.com");
-
-    // Person JSON-LD schema
-    let schema = document.getElementById("od-person-schema");
-    if (!schema) {
-      schema = document.createElement("script");
-      schema.id = "od-person-schema";
-      schema.type = "application/ld+json";
-      document.head.appendChild(schema);
-    }
-    schema.textContent = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Person",
-      name: "Omkar Dhareshwar",
-      alternateName: "ManWith3Balls",
-      jobTitle: "Flow Artist, Performer & Storyteller",
-      url: "https://www.omkardhareshwar.com",
-      email: "mailto:omkar.dhara@gmail.com",
-      sameAs: SOCIALS.map((s) => s.href),
-      address: { "@type": "PostalAddress", addressLocality: "Mumbai", addressRegion: "MH", addressCountry: "IN" },
-      knowsAbout: ["Flow Arts", "Juggling", "Fire Performance", "Street Art", "Brand Storytelling", "Performance Art"],
-    });
-
-    return () => {
-      // We don't strip meta on unmount — they're meant to persist for crawlers.
-    };
-  }, []);
 }
 
 // ─────────────────────────────────────────────────────────────
