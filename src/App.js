@@ -70,124 +70,19 @@ import { MW3BAside } from "./components/shared/MW3BAside";
 import { SectionHeading } from "./components/shared/SectionHeading";
 
 // ─────────────────────────────────────────────────────────────
-// CUSTOM CURSOR
+// LEAF COMPONENTS (Phase 4)
 // ─────────────────────────────────────────────────────────────
-function Cursor() {
-  const ball1Ref = useRef(null);
-  const ball2Ref = useRef(null);
-  const ball3Ref = useRef(null);
-  const wrapRef  = useRef(null);
-  const posRef   = useRef({ x: -100, y: -100 });
-  const b1 = useRef({ x: -100, y: -100 });
-  const b2 = useRef({ x: -100, y: -100 });
-  const b3 = useRef({ x: -100, y: -100 });
-  const rafRef = useRef(null);
-
-  useEffect(() => {
-    if (window.matchMedia("(hover: none)").matches) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const lerp = (a, b, t) => a + (b - a) * t;
-    const onMove = (e) => { posRef.current = { x: e.clientX, y: e.clientY }; };
-    const SELECTOR = "a, button, .work-card, .note-card, .offer-card, .vid-card, .cred-tag, .press-card, .timeline-row";
-    const onOver = (e) => { if (e.target.closest(SELECTOR)) wrapRef.current?.classList.add("cursor-hovered"); };
-    const onOut  = (e) => { if (e.target.closest(SELECTOR)) wrapRef.current?.classList.remove("cursor-hovered"); };
-    document.addEventListener("mouseover", onOver);
-    document.addEventListener("mouseout",  onOut);
-    const loop = () => {
-      b1.current.x = lerp(b1.current.x, posRef.current.x, 0.35);
-      b1.current.y = lerp(b1.current.y, posRef.current.y, 0.35);
-      b2.current.x = lerp(b2.current.x, b1.current.x, 0.22);
-      b2.current.y = lerp(b2.current.y, b1.current.y, 0.22);
-      b3.current.x = lerp(b3.current.x, b2.current.x, 0.14);
-      b3.current.y = lerp(b3.current.y, b2.current.y, 0.14);
-      if (ball1Ref.current) { ball1Ref.current.style.left = b1.current.x + "px"; ball1Ref.current.style.top = b1.current.y + "px"; }
-      if (ball2Ref.current) { ball2Ref.current.style.left = b2.current.x + "px"; ball2Ref.current.style.top = b2.current.y + "px"; }
-      if (ball3Ref.current) { ball3Ref.current.style.left = b3.current.x + "px"; ball3Ref.current.style.top = b3.current.y + "px"; }
-      rafRef.current = requestAnimationFrame(loop);
-    };
-    window.addEventListener("mousemove", onMove, { passive: true });
-    rafRef.current = requestAnimationFrame(loop);
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseover", onOver);
-      document.removeEventListener("mouseout", onOut);
-      cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
-
-  return (
-    <div ref={wrapRef} id="cursor-wrap">
-      <div id="ball-1" className="cursor-ball" ref={ball1Ref} />
-      <div id="ball-2" className="cursor-ball" ref={ball2Ref} />
-      <div id="ball-3" className="cursor-ball" ref={ball3Ref} />
-    </div>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────
-// ScrollProgress v3.0 — top bar showing read progress
-// ─────────────────────────────────────────────────────────────
-function ScrollProgress() {
-  const [pct, setPct] = useState(0);
-  useEffect(() => {
-    const onScroll = () => {
-      const h = document.documentElement;
-      const max = h.scrollHeight - h.clientHeight;
-      setPct(max > 0 ? (h.scrollTop / max) * 100 : 0);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
-  return <div className="scroll-progress" style={{ transform: `scaleX(${pct / 100})` }} aria-hidden="true" />;
-}
-
-// ─────────────────────────────────────────────────────────────
-// SideRail v3.0 — desktop dot navigation (right side, vertical)
-// ─────────────────────────────────────────────────────────────
-function SideRail({ activeSection, sections }) {
-  return (
-    <nav className="side-rail" aria-label="Section navigation">
-      {sections.map((s) => (
-        <a
-          key={s.id}
-          href={`#${s.id}`}
-          className={`side-rail-item${activeSection === s.id ? " active" : ""}`}
-          aria-label={`Jump to ${s.label}`}
-          aria-current={activeSection === s.id ? "true" : undefined}
-        >
-          <span className="side-rail-label">{s.label}</span>
-          <span className="side-rail-dot" />
-        </a>
-      ))}
-    </nav>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────
-// BackToTop v3.0 — mobile-only floating button
-// ─────────────────────────────────────────────────────────────
-function BackToTop() {
-  const [show, setShow] = useState(false);
-  useEffect(() => {
-    const onScroll = () => setShow(window.scrollY > window.innerHeight * 0.4);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-  return (
-    <button
-      className={`back-to-top${show ? " show" : ""}`}
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      aria-label="Scroll to top"
-    >
-      ↑
-    </button>
-  );
-}
+import { Cursor } from "./components/Cursor/Cursor";
+import { ScrollProgress } from "./components/Nav/ScrollProgress";
+import { SideRail } from "./components/Nav/SideRail";
+import { BackToTop } from "./components/Nav/BackToTop";
+import { CredStrip } from "./components/CredStrip/CredStrip";
+import { Offerings } from "./components/Offerings/Offerings";
+import { Testimonials } from "./components/Testimonials/Testimonials";
+import { Adventures } from "./components/Adventures/Adventures";
+import { FieldNotes } from "./components/FieldNotes/FieldNotes";
+import { Footer } from "./components/Footer/Footer";
+// MarqueeStrip kept in /components/MarqueeStrip/ but no longer rendered
 
 // ─────────────────────────────────────────────────────────────
 // NAVBAR — uses navHref() so "Story" routes to #timeline
@@ -318,65 +213,7 @@ function Hero() {
   );
 }
 
-// ─────────────────────────────────────────────────────────────
-// CREDIBILITY STRIP v3.0 — improved label + spacing
-// ─────────────────────────────────────────────────────────────
-function CredStrip() {
-  const items = [...CRED_CLIENTS, ...CRED_CLIENTS];
-  return (
-    <div style={{ background: "var(--surface)", borderTop: "1px solid var(--line-faint)", borderBottom: "1px solid var(--line-faint)", overflow: "hidden", padding: "20px 0" }}>
-      <div style={{ ...F.mono, fontSize: "11px", letterSpacing: "0.22em", color: "var(--text-3)", textTransform: "uppercase", textAlign: "center", marginBottom: "14px" }}>Work that's been trusted by</div>
-      <div style={{ overflow: "hidden" }} aria-label="Client logos marquee">
-        <div className="mq" style={{ display: "flex", width: "max-content", gap: "0" }}>
-          {items.map((c, i) => (
-            <div key={i} className="cred-tag" style={{ ...F.mono, fontSize: "13px", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--text-3)", padding: "0 32px", borderRight: "1px solid var(--line-faint)", whiteSpace: "nowrap", transition: "all 0.25s" }}>{c}</div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
-// ─────────────────────────────────────────────────────────────
-// OFFERINGS v3.0 — NEW. Three-door segmenter (Performances / Workshops / Brand)
-// ─────────────────────────────────────────────────────────────
-function Offerings() {
-  return (
-    <section id="offerings" style={{ padding: "var(--section-y) var(--section-x)", background: "var(--surface)" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div className="reveal" style={{ marginBottom: "56px", maxWidth: "760px" }}>
-          <ODLabel>Work With Me</ODLabel>
-          <SectionHeading style={{ marginBottom: "18px" }}>Three ways<br /><em style={{ color: "var(--gold)" }}>we can work together.</em></SectionHeading>
-          <p style={{ color: "var(--text-2)", fontSize: "16px", lineHeight: 1.75, marginBottom: "14px", maxWidth: "620px" }}>
-            Pick the door that fits your event, team, or brand. Or just write to me — we'll figure it out together.
-          </p>
-          <MW3BAside style={{ maxWidth: "440px" }}>No deck required. An honest brief is worth more.</MW3BAside>
-        </div>
-
-        <div className="offer-cols" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2px", background: "var(--line-faint)" }}>
-          {OFFERINGS.map((o, i) => (
-            <a
-              key={o.id}
-              href="#book"
-              className={`offer-tile reveal reveal-d${i + 1}`}
-              style={{ textDecoration: "none" }}
-              aria-label={`Enquire about ${o.label}`}
-            >
-              <div className="offer-tile-icon" aria-hidden="true">{o.icon}</div>
-              <div style={{ ...F.mono, fontSize: "11px", color: "var(--gold)", letterSpacing: "0.2em", textTransform: "uppercase" }}>{o.label}</div>
-              <h3 style={{ ...F.serif, fontSize: "clamp(22px,2.6vw,28px)", fontWeight: 500, lineHeight: 1.2, color: "var(--text)" }}>{o.title}</h3>
-              <p style={{ fontSize: "14.5px", color: "var(--text-2)", lineHeight: 1.8, flex: 1 }}>{o.desc}</p>
-              <div style={{ borderTop: "1px solid var(--line-faint)", paddingTop: "16px", marginTop: "8px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px" }}>
-                <span style={{ ...F.mono, fontSize: "11px", color: "var(--text-3)", letterSpacing: "0.14em", fontStyle: "italic" }}>{o.note}</span>
-                <span style={{ ...F.mono, fontSize: "11px", color: "var(--gold)", letterSpacing: "0.16em", textTransform: "uppercase", whiteSpace: "nowrap" }}>Enquire →</span>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // ─────────────────────────────────────────────────────────────
 // TIMELINE — reverse chronology, alternating spine
@@ -560,132 +397,7 @@ function Work() {
   );
 }
 
-// ─────────────────────────────────────────────────────────────
-// FIELD NOTES — featured-note class added for mobile fix
-// ─────────────────────────────────────────────────────────────
-function FieldNotes() {
-  const [featured, ...rest] = NOTES;
-  return (
-    <section id="writing" style={{ padding: "clamp(90px,13vw,160px) clamp(20px,6vw,80px)" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div className="reveal" style={{ marginBottom: "56px" }}>
-          <ODLabel>Writing</ODLabel>
-          <SectionHeading style={{ marginBottom: "20px" }}>Thoughts that<br /><em style={{ color: "var(--gold)" }}>wouldn't fit in a caption.</em></SectionHeading>
-          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: "16px", marginTop: "4px" }}>
-            <MW3BAside style={{ maxWidth: "380px" }}>I write when something refuses to leave me alone.</MW3BAside>
-            <span style={{ ...F.mono, fontSize: "11px", color: "var(--text-3)", letterSpacing: "0.16em", textTransform: "uppercase", whiteSpace: "nowrap", alignSelf: "center", fontStyle: "italic" }}>More writing coming soon</span>
-          </div>
-        </div>
 
-        {/* Featured note — "featured-note" class enables mobile stack via CSS */}
-        <div className={`reveal note-card featured-note`} style={{ border: "1px solid var(--line-faint)", background: "var(--surface)", marginBottom: "2px", cursor: "pointer", display: "grid", gridTemplateColumns: featured.image ? "1fr 380px" : "1fr", overflow: "hidden" }}>
-          <div style={{ padding: "clamp(36px,5vw,60px)" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", marginBottom: "28px" }}>
-              <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-                <span style={{ ...F.mono, fontSize: "9px", color: "var(--gold)", letterSpacing: "0.16em", textTransform: "uppercase", padding: "4px 10px", border: "1px solid var(--border)", background: "var(--gold-faint)" }}>{featured.tag}</span>
-                <span style={{ ...F.mono, fontSize: "9px", color: "var(--text-4)", letterSpacing: "0.12em" }}>✦ Featured</span>
-              </div>
-              <div style={{ display: "flex", gap: "20px" }}>
-                <span style={{ ...F.mono, fontSize: "11px", color: "var(--text-4)" }}>{featured.date}</span>
-                <span style={{ ...F.mono, fontSize: "11px", color: "var(--text-4)" }}>{featured.read} read</span>
-              </div>
-            </div>
-            <h3 style={{ ...F.serif, fontSize: "clamp(26px,4vw,44px)", fontWeight: 400, lineHeight: 1.15, marginBottom: "18px", color: "var(--text)", maxWidth: "680px" }}>{featured.title}</h3>
-            <p style={{ fontSize: "14px", color: "var(--text-2)", lineHeight: 1.9, maxWidth: "600px", marginBottom: "36px" }}>{featured.excerpt}</p>
-            <span style={{ ...F.mono, fontSize: "10px", color: "var(--gold)", letterSpacing: "0.16em", textTransform: "uppercase", borderBottom: "1px solid var(--border)", paddingBottom: "2px" }}>Read the piece →</span>
-          </div>
-          {/* Cover image — stacks on mobile via .featured-note CSS rule */}
-          {featured.image && (
-            <div className="featured-note-img" style={{ position: "relative", background: "var(--surface-3)", overflow: "hidden", minHeight: "240px" }}>
-              <img src={featured.image} alt={featured.title} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
-            </div>
-          )}
-        </div>
-
-        <div className="notes-cols" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2px" }}>
-          {rest.map((note, i) => (
-            <div key={note.id} className={`note-card reveal reveal-d${i + 1}`} style={{ border: "1px solid var(--line-faint)", background: "var(--surface)", cursor: "pointer", overflow: "hidden", display: "flex", flexDirection: "column" }}>
-              {note.image && <div style={{ height: "160px", overflow: "hidden", flexShrink: 0, background: "var(--surface-3)" }}><img src={note.image} alt={note.title} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1)" }} /></div>}
-              <div style={{ padding: "28px 26px", flex: 1, display: "flex", flexDirection: "column" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "18px" }}>
-                  <span style={{ ...F.mono, fontSize: "11px", color: "var(--gold)", letterSpacing: "0.14em", textTransform: "uppercase" }}>{note.tag}</span>
-                  <span style={{ ...F.mono, fontSize: "11px", color: "var(--text-4)" }}>{note.read}</span>
-                </div>
-                <h4 style={{ ...F.serif, fontSize: "20px", fontWeight: 400, lineHeight: 1.3, marginBottom: "12px", color: "var(--text)" }}>{note.title}</h4>
-                <p style={{ fontSize: "13px", color: "var(--text-2)", lineHeight: 1.85, flex: 1 }}>{note.excerpt}</p>
-                <div style={{ marginTop: "24px", paddingTop: "16px", borderTop: "1px solid var(--line-faint)", ...F.mono, fontSize: "12px", color: "var(--gold)", letterSpacing: "0.14em", textTransform: "uppercase" }}>Read →</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────
-// ADVENTURES
-// ─────────────────────────────────────────────────────────────
-function Adventures() {
-  return (
-    <section id="adventures" style={{ padding: "clamp(90px,13vw,160px) clamp(20px,6vw,80px)", background: "var(--bg-warm)" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div className="reveal" style={{ marginBottom: "56px" }}>
-          <ODLabel>Adventures</ODLabel>
-          <SectionHeading>Occasionally, I go<br /><em style={{ color: "var(--gold)" }}>completely off-script.</em></SectionHeading>
-          <MW3BAside style={{ marginTop: "14px", maxWidth: "400px" }}>The Rickshaw Run was not a safe decision. It was the right one.</MW3BAside>
-        </div>
-
-        <div className="adv-cols reveal" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", border: "1px solid var(--line)", overflow: "hidden" }}>
-          {(() => {
-            const ADVENTURE_PHOTO = "images/Rikshaw Run-Gangtok to Kochi-Omkar Dhareshwar.jpg";
-            return (
-              <div style={{ position: "relative", minHeight: "clamp(360px,55vw,620px)", background: "var(--surface-3)", overflow: "hidden" }}>
-                {ADVENTURE_PHOTO ? (
-                  <>
-                    <img src={ADVENTURE_PHOTO} alt="The Rickshaw Run" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
-                    <div style={{ position: "absolute", inset: 0, background: "rgba(15,15,13,0.38)" }} />
-                  </>
-                ) : (
-                  <>
-                    <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 25% 55%, rgba(196,98,29,0.18), rgba(46,107,79,0.07) 50%, transparent 75%)" }} />
-                    <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", zIndex: 1, gap: "14px" }}>
-                      <div style={{ fontSize: "clamp(64px,13vw,108px)", lineHeight: 1 }}>🛺</div>
-                    </div>
-                  </>
-                )}
-                <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: ADVENTURE_PHOTO ? 0.5 : 0.2, zIndex: 2 }} viewBox="0 0 400 500" preserveAspectRatio="none">
-                  <path d="M 80 80 Q 200 120 160 200 Q 120 280 220 340 Q 300 380 280 440" stroke={ADVENTURE_PHOTO ? "#ffffff" : "var(--gold)"} strokeWidth="1.5" fill="none" strokeDasharray="6 4" />
-                  <circle cx="80" cy="80" r="5" fill={ADVENTURE_PHOTO ? "#ffffff" : "var(--gold)"} />
-                  <circle cx="280" cy="440" r="5" fill="var(--ember)" />
-                </svg>
-                <div style={{ position: "absolute", bottom: "24px", left: "24px", zIndex: 3, ...F.mono, fontSize: "11px", color: ADVENTURE_PHOTO ? "rgba(255,255,255,0.9)" : "var(--ember)", letterSpacing: "0.18em", textTransform: "uppercase", padding: "6px 12px", border: "1px solid rgba(196,98,29,0.35)", background: ADVENTURE_PHOTO ? "rgba(15,15,13,0.55)" : "var(--surface)" }}>Gangtok → Kochi · 3,000 km</div>
-              </div>
-            );
-          })()}
-
-          <div style={{ padding: "clamp(44px,7vw,80px)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <div style={{ ...F.mono, fontSize: "11px", color: "var(--ember)", letterSpacing: "0.24em", textTransform: "uppercase", marginBottom: "22px" }}>The Rickshaw Run · January 2024</div>
-            <h3 style={{ ...F.serif, fontSize: "clamp(36px,5.5vw,56px)", fontWeight: 300, lineHeight: 1.02, marginBottom: "28px" }}>Gangtok to<br />Kochi.<br /><em style={{ color: "var(--gold)" }}>3,000 km.</em></h3>
-            <hr className="rule" style={{ marginBottom: "26px", opacity: 0.35 }} />
-            <p style={{ fontSize: "14px", color: "var(--text-2)", lineHeight: 1.9, marginBottom: "18px" }}>A mechanical nightmare dressed as an adventure. We took a three-wheeled rickshaw — a vehicle designed for flat city roads — across mountain passes, river crossings, and highways that showed up only on paper.</p>
-            <p style={{ fontSize: "14px", color: "var(--text-2)", lineHeight: 1.9, marginBottom: "16px" }}>The engine died six times. We pushed it uphill twice. We ran out of diesel once and out of patience never.</p>
-            <MW3BAside style={{ marginBottom: "36px" }}>Hardest thing I've done. Would do it again tomorrow.</MW3BAside>
-            <div style={{ display: "flex", gap: "36px", marginBottom: "36px", flexWrap: "wrap" }}>
-              {[["3,000+", "km covered"], ["14", "days on road"], ["6", "engine deaths"], ["∞", "chai stops"]].map(([n, l]) => (
-                <div key={l}>
-                  <div style={{ ...F.serif, fontSize: "clamp(28px,4.5vw,40px)", color: "var(--gold)", fontWeight: 400, lineHeight: 1 }}>{n}</div>
-                  <div style={{ ...F.mono, fontSize: "9px", color: "var(--text-3)", letterSpacing: "0.12em", marginTop: "7px" }}>{l}</div>
-                </div>
-              ))}
-            </div>
-            <span style={{ ...F.mono, fontSize: "11px", color: "var(--text-3)", letterSpacing: "0.18em", textTransform: "uppercase", fontStyle: "italic" }}>Full dispatch coming soon</span>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // ─────────────────────────────────────────────────────────────
 // MEDIA
@@ -856,32 +568,6 @@ function Press() {
   );
 }
 
-// ─────────────────────────────────────────────────────────────
-// TESTIMONIALS
-// ─────────────────────────────────────────────────────────────
-function Testimonials() {
-  return (
-    <div style={{ padding: "clamp(60px,9vw,100px) clamp(20px,6vw,80px)", background: "var(--bg-warm)" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div className="reveal" style={{ marginBottom: "40px" }}><ODLabel>What People Say</ODLabel></div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px,1fr))", gap: "2px" }}>
-          {TESTIMONIALS.map((t, i) => (
-            <div key={i} className="reveal" style={{ background: "var(--surface)", border: "1px solid var(--line-faint)", padding: "40px 36px", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: "28px" }}>
-              <div>
-                <div style={{ ...F.serif, fontSize: "48px", color: "var(--gold)", lineHeight: 0.8, marginBottom: "16px", opacity: 0.4 }}>"</div>
-                <p style={{ ...F.serif, fontSize: "clamp(16px,2vw,20px)", fontStyle: "italic", fontWeight: 300, lineHeight: 1.6, color: "var(--text)" }}>{t.quote}</p>
-              </div>
-              <div style={{ borderTop: "1px solid var(--line-faint)", paddingTop: "20px" }}>
-                <div style={{ ...F.sans, fontSize: "13px", color: "var(--gold-light)", fontWeight: 500, marginBottom: "4px" }}>{t.name}</div>
-                <div style={{ ...F.mono, fontSize: "9px", color: "var(--text-4)", letterSpacing: "0.12em" }}>{t.role}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ─────────────────────────────────────────────────────────────
 // CONTACT — replaces BookMe. No form. Just email + socials.
@@ -973,62 +659,7 @@ function Contact() {
   );
 }
 
-// ─────────────────────────────────────────────────────────────
-// MARQUEE STRIP
-// ─────────────────────────────────────────────────────────────
-function MarqueeStrip() {
-  const words = ["✦ Flow Arts", "— Performance", "✦ Activism", "— Installations", "✦ Brand Work", "— Storytelling", "✦ Workshops", "— Writing"];
-  const doubled = [...words, ...words, ...words, ...words];
-  return (
-    <div style={{ overflow: "hidden", background: "var(--surface)", borderTop: "1px solid var(--line-faint)", borderBottom: "1px solid var(--line-faint)", padding: "13px 0" }}>
-      <div className="mq" style={{ display: "flex", whiteSpace: "nowrap", width: "max-content" }}>
-        {doubled.map((w, i) => (
-          <span key={i} style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.18em", textTransform: "uppercase", color: i % 2 === 0 ? "var(--text-3)" : "var(--gold-dim)", padding: "0 28px" }}>{w}</span>
-        ))}
-      </div>
-    </div>
-  );
-}
 
-// ─────────────────────────────────────────────────────────────
-// FOOTER — uses navHref() so "Story" routes to #timeline
-// ─────────────────────────────────────────────────────────────
-function Footer() {
-  return (
-    <footer style={{ borderTop: "1px solid var(--line)", padding: "clamp(44px,7vw,72px) clamp(20px,6vw,80px)" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div className="footer-cols" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "40px", marginBottom: "48px" }}>
-          <div>
-            <div style={{ ...F.serif, fontSize: "36px", fontWeight: 300, color: "var(--gold)", lineHeight: 1, marginBottom: "12px" }}>Omkar <em style={{ color: "var(--text-3)" }}>×</em> MW3B</div>
-            <MW3BAside style={{ maxWidth: "280px" }}>Two names. One person. Infinite excuses to make things.</MW3BAside>
-          </div>
-
-          <div style={{ display: "flex", gap: "56px", flexWrap: "wrap" }}>
-            <div>
-              <div style={{ ...F.mono, fontSize: "9px", color: "var(--text-4)", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "18px" }}>Navigate</div>
-              {NAV.map((l) => (
-                <a key={l} href={navHref(l)} style={{ display: "block", ...F.mono, fontSize: "10px", color: "var(--text-3)", textDecoration: "none", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px", transition: "color 0.25s" }} onMouseEnter={(e) => (e.target.style.color = "var(--gold)")} onMouseLeave={(e) => (e.target.style.color = "var(--text-3)")}>{l}</a>
-              ))}
-            </div>
-            <div>
-              <div style={{ ...F.mono, fontSize: "9px", color: "var(--text-4)", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "18px" }}>Find me</div>
-              {SOCIALS.map((s) => (
-                <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" style={{ display: "block", ...F.mono, fontSize: "12px", color: "var(--text-3)", textDecoration: "none", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px", transition: "color 0.25s" }} onMouseEnter={(e) => (e.target.style.color = "var(--gold)")} onMouseLeave={(e) => (e.target.style.color = "var(--text-3)")}>{s.label}</a>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <hr className="rule" style={{ marginBottom: "28px", opacity: 0.3 }} />
-
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
-          <span style={{ ...F.mono, fontSize: "12px", color: "var(--text-4)", letterSpacing: "0.12em" }}>© {new Date().getFullYear()} Omkar Dhareshwar aka ManWith3Balls — All rights reserved</span>
-          <a href="mailto:omkar.dhara@gmail.com" style={{ ...F.mono, fontSize: "12px", color: "var(--gold)", letterSpacing: "0.14em", textDecoration: "none", transition: "color 0.25s" }} onMouseEnter={(e) => (e.target.style.color = "var(--gold-light)")} onMouseLeave={(e) => (e.target.style.color = "var(--gold)")}>omkar.dhara@gmail.com</a>
-        </div>
-      </div>
-    </footer>
-  );
-}
 
 // ─────────────────────────────────────────────────────────────
 // ROOT v3.0
