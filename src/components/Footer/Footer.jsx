@@ -1,6 +1,7 @@
 import { F } from "../../lib/typography";
 import { NAV, navHref } from "../../data/nav";
 import { SOCIALS } from "../../data/socials";
+import { MW3BAside } from "../shared/MW3BAside";
 
 // ─────────────────────────────────────────────────────────────
 // FOOTER — uses navHref() so "Story" routes to #timeline
