@@ -1,18 +1,36 @@
 /**
- * Omkar Dhareshwar × ManWith3Balls — Portfolio v2.2
+ * Omkar Dhareshwar × ManWith3Balls — Portfolio v3.0
  *
  * Design system:
  *  OD voice  → Cormorant Garamond, serif, structured, credible
  *  MW3B voice → DM Mono, raw, opinionated, slightly chaotic
  *
  * Standout interactions:
- *  1. Custom magnetic three-ball cursor (lerps, inflates on hover)
+ *  1. Custom magnetic three-ball cursor (lerps, inflates on hover) — now respects prefers-reduced-motion
  *  2. 3D perspective tilt on work cards (per-card mouse tracking)
  *  3. Text scramble / glitch on the ManWith3Balls alias (hover)
  *
+ * CHANGELOG v3.0 — Conversion + UX overhaul:
+ *  + Hero rewritten: value-led headline ("Fire, flow, and stories...") + subhead + 3-tier CTA
+ *  + NEW: Offerings section now rendered (Performances / Workshops / Brand Work) as 3-card segmenter
+ *  + Page reorder: Hero → CredStrip → Offerings → Work → Press → Testimonials → Timeline → ...
+ *  + NEW: ScrollProgress bar (top, 2px, gold)
+ *  + NEW: SideRail nav (desktop, dot indicator, active section)
+ *  + NEW: BackToTop button (mobile)
+ *  + NEW: Active section state in top nav (driven by IntersectionObserver)
+ *  + NEW: SEO meta tags + Person JSON-LD schema injected via useEffect
+ *  + Cursor honors prefers-reduced-motion (falls back to native cursor)
+ *  + CredStrip given a proper "Featured & trusted by" header
+ *  + Mobile menu CTA wording updated; logo now jumps to #hero
+ *  + A11y: semantic <main>, aria-labels on icon buttons, keyboard support on Press carousel
+ *  + Typography: body weight 300 → 400, base size 16px, mono labels min 11px
+ *  + Contrast: --text-4 darkened (#A09D96 → #87847C) to pass WCAG AA
+ *  + New variables: --ember-text (darker for body text use)
+ *  + Removed dead href="#" links (FieldNotes, Adventures dispatch)
+ *  + MarqueeStrip kept in code but no longer rendered (replaced by Offerings)
+ *
  * CHANGELOG v2.2:
  *  + Hero now contains trimmed About on the right (merged column)
- *  + Standalone About section removed from render
  *  + NEW: Timeline section — reverse-chronology story spine with circular image nodes
  *  + Nav updated: "About" replaced with "Story" → links to #timeline
  *
@@ -20,8 +38,6 @@
  *  + Press & Features section (carousel + featured cards + lightbox)
  *  + Contact section replaces BookMe (no form — prominent email + socials)
  *  + Mobile hamburger menu redesigned (light theme, readable text)
- *  + Featured note image fixed on mobile (stacks vertically)
- *  + "Press" added to nav
  */
 
 import { useState, useEffect, useRef, useCallback } from "react";
@@ -44,10 +60,11 @@ const CSS = `
   --gold-dim: #1F4D38;
   --gold-faint: rgba(46,107,79,0.07);
   --ember: #C4621D;
+  --ember-text: #A85215;     /* darker ember for body-sized text — passes 4.5:1 */
   --text: #0F0F0D;
   --text-2: #2C2C29;
   --text-3: #6B6860;
-  --text-4: #A09D96;
+  --text-4: #87847C;          /* v3.0: darkened from #A09D96 — passes WCAG AA on bg */
   --text-dim: #2C2C29;
   --text-muted: #6B6860;
   --line: rgba(15,15,13,0.14);
@@ -55,6 +72,9 @@ const CSS = `
   --line-strong: rgba(15,15,13,0.22);
   --border: rgba(46,107,79,0.2);
   --orange: #C4621D;
+  /* Spacing tokens */
+  --section-y: clamp(80px, 10vw, 140px);
+  --section-x: clamp(20px, 6vw, 80px);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -64,11 +84,25 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: 'DM Sans', sans-serif;
-  font-weight: 300;
+  font-weight: 400;            /* v3.0: was 300 — better readability */
+  font-size: 16px;             /* v3.0: explicit base */
+  line-height: 1.65;
   overflow-x: hidden;
   cursor: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Honor user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  body { cursor: auto !important; }
+  #cursor-wrap { display: none !important; }
 }
 
 @media (hover: none) { body { cursor: auto; } }
@@ -147,6 +181,79 @@ body::before {
 .nav-item { position:relative; }
 .nav-item::after { content:''; position:absolute; bottom:-3px; left:0; width:0; height:1px; background:var(--gold); transition: width 0.4s cubic-bezier(0.16,1,0.3,1); }
 .nav-item:hover::after { width:100%; }
+.nav-item.active { color: var(--gold) !important; }
+.nav-item.active::after { width: 100%; }
+
+/* ── Scroll progress bar (top of viewport) ── */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 2px; z-index: 600;
+  transform-origin: left;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold-bright));
+  pointer-events: none;
+}
+
+/* ── Side rail nav (desktop only) ── */
+.side-rail {
+  position: fixed; right: 24px; top: 50%; transform: translateY(-50%);
+  z-index: 400; display: flex; flex-direction: column; gap: 14px;
+}
+.side-rail-item {
+  display: flex; align-items: center; justify-content: flex-end; gap: 12px;
+  text-decoration: none; cursor: none;
+}
+.side-rail-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--text-3);
+  opacity: 0; transform: translateX(8px);
+  transition: opacity 0.25s, transform 0.25s;
+}
+.side-rail-item:hover .side-rail-label { opacity: 1; transform: translateX(0); }
+.side-rail-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(135,132,124,0.4);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+.side-rail-item:hover .side-rail-dot { background: var(--gold-light); transform: scale(1.4); }
+.side-rail-item.active .side-rail-dot { background: var(--gold); transform: scale(1.5); box-shadow: 0 0 0 4px rgba(46,107,79,0.12); }
+.side-rail-item.active .side-rail-label { opacity: 1; transform: translateX(0); color: var(--gold); }
+@media (max-width: 1024px) { .side-rail { display: none !important; } }
+
+/* ── Back-to-top (mobile only) ── */
+.back-to-top {
+  position: fixed; bottom: 24px; right: 24px; z-index: 400;
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--gold); color: var(--bg);
+  border: none; display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Sans', sans-serif; font-size: 18px;
+  cursor: pointer; box-shadow: 0 8px 24px rgba(46,107,79,0.28);
+  opacity: 0; transform: translateY(12px); pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s, background 0.25s;
+}
+.back-to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.back-to-top:hover { background: var(--gold-bright); }
+@media (min-width: 1025px) { .back-to-top { display: none !important; } }
+
+/* ── Hero proof bar (logos / clients line beneath CTAs) ── */
+.proof-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; opacity: 0.78; }
+.proof-bar-item {
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text-3); white-space: nowrap;
+}
+
+/* ── Offerings cards ── */
+.offer-tile {
+  background: var(--bg); padding: clamp(28px,3.5vw,44px);
+  border: 1px solid var(--line-faint);
+  display: flex; flex-direction: column; gap: 16px;
+  transition: background 0.3s, border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  cursor: pointer;
+}
+.offer-tile:hover { background: var(--surface-2); border-color: var(--gold); transform: translateY(-4px); }
+.offer-tile-icon { font-size: 32px; line-height: 1; }
 
 .btn-primary { background: var(--gold); color: var(--bg); transition: background 0.25s, transform 0.2s, box-shadow 0.25s; box-shadow: 0 0 0 0 rgba(191,155,69,0); }
 .btn-primary:hover { background: var(--gold-bright); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(191,155,69,0.22); }
@@ -193,7 +300,8 @@ body::before {
 .social-row:hover { padding-left: 8px !important; border-bottom-color: var(--gold) !important; }
 
 /* ── HERO grid (left = identity, right = trimmed about) ── */
-.hero-grid { max-width: 1100px; margin: 0 auto; width: 100%; }
+.hero-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(32px,5vw,72px); align-items: center; max-width: 1300px; margin: 0 auto; width: 100%; }
+.hero-about { border-left: 1px solid var(--line-faint); padding-left: clamp(24px,3vw,40px); }
 
 /* ── TIMELINE — alternating spine ── */
 .timeline-spine { position: relative; }
@@ -277,7 +385,11 @@ body::before {
   /* Press featured — stack on mobile */
   .press-featured { grid-template-columns: 1fr !important; }
 
-   /* Timeline — single-spine layout on mobile */
+  /* Hero — stack vertically on mobile */
+  .hero-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+  .hero-about { border-left: none !important; padding-left: 0 !important; border-top: 1px solid var(--line-faint); padding-top: 36px; }
+
+  /* Timeline — single-spine layout on mobile */
   .timeline-spine .spine-line { left: 24px !important; transform: none !important; }
   .timeline-row, .timeline-row.row-flip { grid-template-columns: 48px 1fr !important; }
   .timeline-row > .tl-node, .timeline-row.row-flip > .tl-node { grid-column: 1 !important; }
@@ -785,6 +897,7 @@ function Cursor() {
 
   useEffect(() => {
     if (window.matchMedia("(hover: none)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const lerp = (a, b, t) => a + (b - a) * t;
     const onMove = (e) => { posRef.current = { x: e.clientX, y: e.clientY }; };
     const SELECTOR = "a, button, .work-card, .note-card, .offer-card, .vid-card, .cred-tag, .press-card, .timeline-row";
@@ -857,28 +970,190 @@ function useScramble(target) {
 }
 
 // ─────────────────────────────────────────────────────────────
-// NAVBAR — uses navHref() so "Story" routes to #timeline
+// useActiveSection v3.0 — IntersectionObserver-based scroll spy
 // ─────────────────────────────────────────────────────────────
-function Navbar({ scrolled }) {
+function useActiveSection(sectionIds) {
+  const [active, setActive] = useState(sectionIds[0] || "");
+  useEffect(() => {
+    const observers = [];
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        (entries) => entries.forEach((e) => { if (e.isIntersecting) setActive(id); }),
+        { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach((o) => o.disconnect());
+  }, [sectionIds.join(",")]);
+  return active;
+}
+
+// ─────────────────────────────────────────────────────────────
+// ScrollProgress v3.0 — top bar showing read progress
+// ─────────────────────────────────────────────────────────────
+function ScrollProgress() {
+  const [pct, setPct] = useState(0);
+  useEffect(() => {
+    const onScroll = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      setPct(max > 0 ? (h.scrollTop / max) * 100 : 0);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+  return <div className="scroll-progress" style={{ transform: `scaleX(${pct / 100})` }} aria-hidden="true" />;
+}
+
+// ─────────────────────────────────────────────────────────────
+// SideRail v3.0 — desktop dot navigation (right side, vertical)
+// ─────────────────────────────────────────────────────────────
+function SideRail({ activeSection, sections }) {
+  return (
+    <nav className="side-rail" aria-label="Section navigation">
+      {sections.map((s) => (
+        <a
+          key={s.id}
+          href={`#${s.id}`}
+          className={`side-rail-item${activeSection === s.id ? " active" : ""}`}
+          aria-label={`Jump to ${s.label}`}
+          aria-current={activeSection === s.id ? "true" : undefined}
+        >
+          <span className="side-rail-label">{s.label}</span>
+          <span className="side-rail-dot" />
+        </a>
+      ))}
+    </nav>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// BackToTop v3.0 — mobile-only floating button
+// ─────────────────────────────────────────────────────────────
+function BackToTop() {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setShow(window.scrollY > window.innerHeight * 0.4);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return (
+    <button
+      className={`back-to-top${show ? " show" : ""}`}
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      aria-label="Scroll to top"
+    >
+      ↑
+    </button>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// SEOHead v3.0 — sets document title + meta tags + Person JSON-LD
+// (Drop-in for SPA. Replace with react-helmet-async after componentization.)
+// ─────────────────────────────────────────────────────────────
+function useSEO() {
+  useEffect(() => {
+    document.title = "Omkar Dhareshwar — Flow Artist, Performer & Storyteller, Mumbai";
+
+    const ensure = (selector, attrs) => {
+      let el = document.head.querySelector(selector);
+      if (!el) {
+        el = document.createElement(attrs.tag);
+        document.head.appendChild(el);
+      }
+      Object.keys(attrs).forEach((k) => { if (k !== "tag") el.setAttribute(k, attrs[k]); });
+      return el;
+    };
+
+    ensure('meta[name="description"]', { tag: "meta", name: "description", content: "Fire performances, corporate flow workshops, and brand storytelling. Featured in Nat Geo Traveller, Red Bull, Britannia, and Doordarshan. Based in Mumbai." });
+    ensure('meta[name="keywords"]', { tag: "meta", name: "keywords", content: "flow artist mumbai, fire performer india, corporate juggling workshop, flow workshop mumbai, manwith3balls, omkar dhareshwar, marol art village, street art mumbai, brand storytelling india" });
+    ensure('meta[name="author"]', { tag: "meta", name: "author", content: "Omkar Dhareshwar" });
+    ensure('meta[name="theme-color"]', { tag: "meta", name: "theme-color", content: "#2E6B4F" });
+    ensure('meta[name="viewport"]', { tag: "meta", name: "viewport", content: "width=device-width, initial-scale=1" });
+
+    // Open Graph
+    ensure('meta[property="og:type"]', { tag: "meta", property: "og:type", content: "profile" });
+    ensure('meta[property="og:title"]', { tag: "meta", property: "og:title", content: "Omkar Dhareshwar — Flow Artist & Performer" });
+    ensure('meta[property="og:description"]', { tag: "meta", property: "og:description", content: "Fire, flow, and stories that actually mean something." });
+    ensure('meta[property="og:url"]', { tag: "meta", property: "og:url", content: "https://www.omkardhareshwar.com" });
+    ensure('meta[property="og:image"]', { tag: "meta", property: "og:image", content: "https://www.omkardhareshwar.com/og-image.jpg" });
+    ensure('meta[property="og:site_name"]', { tag: "meta", property: "og:site_name", content: "Omkar Dhareshwar" });
+
+    // Twitter
+    ensure('meta[name="twitter:card"]', { tag: "meta", name: "twitter:card", content: "summary_large_image" });
+    ensure('meta[name="twitter:title"]', { tag: "meta", name: "twitter:title", content: "Omkar Dhareshwar — Flow Artist & Performer" });
+    ensure('meta[name="twitter:description"]', { tag: "meta", name: "twitter:description", content: "Fire, flow, and stories that actually mean something." });
+    ensure('meta[name="twitter:image"]', { tag: "meta", name: "twitter:image", content: "https://www.omkardhareshwar.com/og-image.jpg" });
+
+    // Canonical
+    let canonical = document.head.querySelector('link[rel="canonical"]');
+    if (!canonical) { canonical = document.createElement("link"); canonical.setAttribute("rel", "canonical"); document.head.appendChild(canonical); }
+    canonical.setAttribute("href", "https://www.omkardhareshwar.com");
+
+    // Person JSON-LD schema
+    let schema = document.getElementById("od-person-schema");
+    if (!schema) {
+      schema = document.createElement("script");
+      schema.id = "od-person-schema";
+      schema.type = "application/ld+json";
+      document.head.appendChild(schema);
+    }
+    schema.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: "Omkar Dhareshwar",
+      alternateName: "ManWith3Balls",
+      jobTitle: "Flow Artist, Performer & Storyteller",
+      url: "https://www.omkardhareshwar.com",
+      email: "mailto:omkar.dhara@gmail.com",
+      sameAs: SOCIALS.map((s) => s.href),
+      address: { "@type": "PostalAddress", addressLocality: "Mumbai", addressRegion: "MH", addressCountry: "IN" },
+      knowsAbout: ["Flow Arts", "Juggling", "Fire Performance", "Street Art", "Brand Storytelling", "Performance Art"],
+    });
+
+    return () => {
+      // We don't strip meta on unmount — they're meant to persist for crawlers.
+    };
+  }, []);
+}
+
+// ─────────────────────────────────────────────────────────────
+// NAVBAR — uses navHref() so "Story" routes to #timeline
+// v3.0: now receives activeSection for active-state underline
+// ─────────────────────────────────────────────────────────────
+function Navbar({ scrolled, activeSection }) {
   const [open, setOpen] = useState(false);
 
   return (
     <>
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 500, height: "62px", padding: "0 clamp(20px,5vw,56px)", display: "flex", alignItems: "center", justifyContent: "space-between", background: scrolled ? "rgba(248,246,241,0.92)" : "transparent", backdropFilter: scrolled ? "blur(20px) saturate(1.6)" : "none", borderBottom: scrolled ? "1px solid var(--line-faint)" : "none", transition: "all 0.6s ease" }}>
-        <a href="#" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "12px" }}>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 500, height: "62px", padding: "0 clamp(20px,5vw,56px)", display: "flex", alignItems: "center", justifyContent: "space-between", background: scrolled ? "rgba(248,246,241,0.92)" : "transparent", backdropFilter: scrolled ? "blur(20px) saturate(1.6)" : "none", borderBottom: scrolled ? "1px solid var(--line-faint)" : "none", transition: "all 0.6s ease" }} role="navigation" aria-label="Primary">
+        <a href="#hero" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "12px" }} aria-label="Home">
           <span style={{ ...F.serif, fontSize: "20px", fontWeight: 500, color: "var(--gold)", letterSpacing: "0.05em" }}>Omkar</span>
           <span style={{ ...F.mono, fontSize: "12px", color: "var(--text-3)", letterSpacing: "0.08em" }}>×</span>
           <span style={{ ...F.mono, fontSize: "12px", color: "var(--text-3)", letterSpacing: "0.1em" }}>MW3B</span>
         </a>
 
         <div className="d-nav" style={{ display: "flex", alignItems: "center", gap: "38px" }}>
-          {NAV.map((l) => (
-            <a key={l} href={navHref(l)} className="nav-item" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--text-3)", textDecoration: "none", transition: "color 0.25s" }} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")} onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-3)")}>{l}</a>
-          ))}
+          {NAV.map((l) => {
+            const id = navHref(l).slice(1);
+            const isActive = activeSection === id;
+            return (
+              <a key={l} href={navHref(l)} className={`nav-item${isActive ? " active" : ""}`} style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.16em", textTransform: "uppercase", color: isActive ? "var(--gold)" : "var(--text-3)", textDecoration: "none", transition: "color 0.25s" }} onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.color = "var(--text)"; }} onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.color = "var(--text-3)"; }}>{l}</a>
+            );
+          })}
           <a href="#book" className="btn-primary" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "9px 22px", fontWeight: 400 }}>Let's work</a>
         </div>
 
-        <button className="ham" onClick={() => setOpen((o) => !o)} style={{ display: "none", flexDirection: "column", gap: "5px", background: "none", border: "none", padding: "6px" }}>
+        <button className="ham" onClick={() => setOpen((o) => !o)} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} style={{ display: "none", flexDirection: "column", gap: "5px", background: "none", border: "none", padding: "6px" }}>
           {[0, 1, 2].map((i) => (
             <span key={i} style={{ display: "block", width: "20px", height: "1px", background: "var(--text-3)", transform: open ? i === 0 ? "rotate(45deg) translate(4px,5.5px)" : i === 2 ? "rotate(-45deg) translate(4px,-5.5px)" : "scaleX(0)" : "none", transition: "all 0.28s" }} />
           ))}
@@ -899,7 +1174,7 @@ function Navbar({ scrolled }) {
 }
 
 // ─────────────────────────────────────────────────────────────
-// HERO — left identity + right trimmed About (merged)
+// HERO v3.0 — value-led headline + 3-tier CTA + proof bar
 // ─────────────────────────────────────────────────────────────
 function Hero() {
   const { display, scramble } = useScramble("ManWith3Balls");
@@ -907,7 +1182,7 @@ function Hero() {
   return (
     <section id="hero" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "100px clamp(20px,6vw,80px) 80px", position: "relative", overflow: "hidden" }}>
       {/* Ambient orbs */}
-      <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }} aria-hidden="true">
         <div className="orb-a" style={{ position: "absolute", top: "8%", right: "5%", width: "clamp(240px,38vw,560px)", height: "clamp(240px,38vw,560px)", borderRadius: "50%", background: "radial-gradient(circle at 36% 36%, rgba(46,107,79,0.1), rgba(46,107,79,0.03) 50%, transparent 72%)", border: "1px solid rgba(46,107,79,0.07)" }} />
         <div className="orb-b" style={{ position: "absolute", top: "55%", right: "16%", width: "clamp(120px,18vw,260px)", height: "clamp(120px,18vw,260px)", borderRadius: "50%", background: "radial-gradient(circle, rgba(196,98,29,0.09), transparent 70%)", border: "1px solid rgba(196,98,29,0.06)" }} />
         <div className="orb-c" style={{ position: "absolute", top: "28%", right: "2%", width: "clamp(56px,7vw,96px)", height: "clamp(56px,7vw,96px)", borderRadius: "50%", background: "rgba(46,107,79,0.05)", border: "1px solid rgba(46,107,79,0.12)" }} />
@@ -916,33 +1191,90 @@ function Hero() {
 
       <div className="hero-grid" style={{ position: "relative" }}>
 
-        {/* LEFT — Identity */}
+        {/* LEFT — Identity + value prop + CTAs */}
         <div>
-          <div className="h-1" style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "36px", flexWrap: "wrap" }}>
-            <span style={{ ...F.serif, fontSize: "13px", fontWeight: 500, color: "var(--gold)", letterSpacing: "0.06em" }}>Omkar Dhareshwar</span>
-            <span style={{ ...F.mono, fontSize: "12px", color: "var(--text-4)", letterSpacing: "0.1em" }}>×</span>
-            <span className="glitch-wrap" data-text={display} onMouseEnter={scramble} style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--ember)", paddingBottom: "2px", borderBottom: "1px solid var(--ember)", opacity: 0.85 }}>{display}</span>
+          {/* Eyebrow */}
+          <div className="h-1" style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "32px", flexWrap: "wrap" }}>
+            <span style={{ ...F.serif, fontSize: "14px", fontWeight: 500, color: "var(--gold)", letterSpacing: "0.04em" }}>Omkar Dhareshwar</span>
+            <span style={{ ...F.mono, fontSize: "12px", color: "var(--text-3)", letterSpacing: "0.1em" }}>×</span>
+            <span className="glitch-wrap" data-text={display} onMouseEnter={scramble} style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--ember)", paddingBottom: "2px", borderBottom: "1px solid var(--ember)", opacity: 0.9 }}>{display}</span>
+            <span style={{ ...F.mono, fontSize: "11px", color: "var(--text-3)", letterSpacing: "0.18em", textTransform: "uppercase", marginLeft: "auto", paddingLeft: "12px" }}>Mumbai · IN</span>
           </div>
 
-          <h1 className="h-2" style={{ ...F.serif, fontSize: "clamp(54px, 9.5vw, 124px)", fontWeight: 300, lineHeight: 0.92, letterSpacing: "-0.025em", marginBottom: "32px" }}>
-            Omkar<br />
-            <em style={{ color: "var(--gold)", fontStyle: "italic" }}>Dhareshwar.</em>
+          {/* Headline — benefit-led, ladders to all three offerings */}
+          <h1 className="h-2" style={{ ...F.serif, fontSize: "clamp(44px, 7.5vw, 96px)", fontWeight: 300, lineHeight: 0.98, letterSpacing: "-0.02em", marginBottom: "28px", maxWidth: "920px" }}>
+            Fire, flow, and stories that<br />
+            <em style={{ color: "var(--gold)", fontStyle: "italic" }}>actually mean something.</em>
           </h1>
 
-          <div className="h-3" style={{ marginBottom: "40px" }}>
-            <p style={{ ...F.mono, fontSize: "clamp(10px,1.4vw,12px)", letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--text-3)", marginBottom: "14px" }}>Artist · Activist · Storyteller · Perpetual Work-in-Progress</p>
-            <MW3BAside style={{ marginTop: "10px", maxWidth: "440px" }}>Mechanical engineer by degree. Everything else by choice. Turns out the best use of an engineering brain is knowing which rules to break.</MW3BAside>
+          {/* Subhead — one-liner: what + for whom + promise */}
+          <p className="h-3" style={{ ...F.sans, fontSize: "clamp(16px,1.55vw,19px)", lineHeight: 1.65, color: "var(--text-2)", maxWidth: "640px", marginBottom: "32px", fontWeight: 400 }}>
+            I perform, run flow workshops, and direct culture-led brand work — for festivals, companies, and brands that want something memorable, not forgettable.
+          </p>
+
+          {/* MW3B aside */}
+          <div className="h-3" style={{ marginBottom: "36px" }}>
+            <MW3BAside style={{ maxWidth: "440px" }}>Mechanical engineer by degree. Everything else by choice. Turns out the best use of an engineering brain is knowing which rules to break.</MW3BAside>
           </div>
 
-          <div className="h-4" style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
-            <a href="#timeline" className="btn-primary" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "15px 36px", display: "inline-block" }}>The story →</a>
-            <a href="#book" className="btn-ghost" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "15px 36px", display: "inline-block" }}>Get in touch</a>
+          {/* CTAs — 3-tier hierarchy */}
+          <div className="h-4" style={{ display: "flex", gap: "14px", flexWrap: "wrap", alignItems: "center", marginBottom: "44px" }}>
+            <a href="#offerings" className="btn-primary" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "16px 36px", display: "inline-block", fontWeight: 500 }}>Book a performance →</a>
+            <a href="#work" className="btn-ghost" style={{ ...F.mono, fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "16px 32px", display: "inline-block" }}>See the work</a>
+            <a href="#timeline" style={{ ...F.mono, fontSize: "11px", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--text-3)", textDecoration: "none", marginLeft: "6px", paddingBottom: "2px", borderBottom: "1px solid var(--line-faint)", transition: "color 0.25s, border-color 0.25s" }} onMouseEnter={(e) => { e.currentTarget.style.color = "var(--gold)"; e.currentTarget.style.borderBottomColor = "var(--gold)"; }} onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-3)"; e.currentTarget.style.borderBottomColor = "var(--line-faint)"; }}>or read the story →</a>
+          </div>
+
+          {/* Proof bar — above the fold */}
+          <div className="h-5" style={{ borderTop: "1px solid var(--line-faint)", paddingTop: "20px" }}>
+            <div style={{ ...F.mono, fontSize: "11px", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--text-3)", marginBottom: "14px" }}>Featured & trusted by</div>
+            <div className="proof-bar">
+              {["Nat Geo Traveller", "Red Bull India", "Britannia", "Doordarshan", "Museum of Goa", "Mid-Day"].map((n) => (
+                <span key={n} className="proof-bar-item">{n}</span>
+              ))}
+              <span className="proof-bar-item" style={{ color: "var(--gold)" }}>+ 6 more</span>
+            </div>
           </div>
         </div>
-        </div>
 
-      <div className="drip h-5" style={{ position: "absolute", bottom: "32px", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
-        <span style={{ ...F.mono, fontSize: "8px", color: "var(--text-4)", letterSpacing: "0.3em", textTransform: "uppercase" }}>scroll</span>
+        {/* RIGHT — Brief about + stats + closing quote */}
+        <aside className="hero-about h-5">
+          <div style={{ ...F.mono, fontSize: "11px", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)", marginBottom: "18px" }}>About</div>
+
+          <p style={{ ...F.serif, fontSize: "clamp(20px,2.5vw,26px)", fontWeight: 300, lineHeight: 1.35, color: "var(--text)", marginBottom: "20px", fontStyle: "italic" }}>
+            I live and work <span style={{ color: "var(--gold)" }}>at the edges.</span>
+          </p>
+
+          <p style={{ color: "var(--text-2)", lineHeight: 1.85, fontSize: "14.5px", marginBottom: "14px" }}>
+            Flow artist, live performer, writer, activist. Audiences of five, audiences of five hundred. Gallery installations and unannounced train-station performances.
+          </p>
+
+          <p style={{ color: "var(--text-2)", lineHeight: 1.85, fontSize: "14.5px", marginBottom: "26px" }}>
+            Brand work for{" "}
+            <a href="https://www.redbull.com/in-en" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Red Bull India</a>
+            ,{" "}
+            <a href="https://museumofgoa.com/program/homo-ludens-the-art-of-play/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gold-light)", textDecoration: "none", borderBottom: "1px solid var(--border)" }}>Museum of Goa</a>
+            , and corporate workshops that change the room.
+          </p>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "1px", background: "var(--line-faint)", marginBottom: "24px" }}>
+            {[["10+", "yrs"], ["500+", "murals"], ["12+", "publications"], ["3,000km", "rickshaw"]].map(([n, l]) => (
+              <div key={l} style={{ background: "var(--bg)", padding: "14px 6px", textAlign: "center" }}>
+                <div style={{ ...F.serif, fontSize: "22px", color: "var(--gold)", fontWeight: 400, lineHeight: 1 }}>{n}</div>
+                <div style={{ ...F.mono, fontSize: "11px", color: "var(--text-3)", letterSpacing: "0.12em", marginTop: "5px", textTransform: "uppercase" }}>{l}</div>
+              </div>
+            ))}
+          </div>
+
+          <blockquote style={{ borderLeft: "2px solid var(--gold)", paddingLeft: "16px" }}>
+            <p style={{ ...F.serif, fontSize: "15px", fontStyle: "italic", fontWeight: 300, lineHeight: 1.45, color: "var(--text-2)" }}>
+              "Movement is how I think.<br />Performance is how I speak."
+            </p>
+          </blockquote>
+        </aside>
+      </div>
+
+      <div className="drip h-5" style={{ position: "absolute", bottom: "32px", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }} aria-hidden="true">
+        <span style={{ ...F.mono, fontSize: "11px", color: "var(--text-3)", letterSpacing: "0.3em", textTransform: "uppercase" }}>scroll</span>
         <div style={{ width: "1px", height: "36px", background: "linear-gradient(to bottom, var(--gold-dim), transparent)" }} />
       </div>
     </section>
@@ -950,14 +1282,14 @@ function Hero() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// CREDIBILITY STRIP
+// CREDIBILITY STRIP v3.0 — improved label + spacing
 // ─────────────────────────────────────────────────────────────
 function CredStrip() {
   const items = [...CRED_CLIENTS, ...CRED_CLIENTS];
   return (
-    <div style={{ background: "var(--surface)", borderTop: "1px solid var(--line-faint)", borderBottom: "1px solid var(--line-faint)", overflow: "hidden", padding: "16px 0" }}>
-      <div style={{ ...F.mono, fontSize: "11px", letterSpacing: "0.18em", color: "var(--text-4)", textTransform: "uppercase", textAlign: "center", marginBottom: "12px" }}>Work that's been trusted by</div>
-      <div style={{ overflow: "hidden" }}>
+    <div style={{ background: "var(--surface)", borderTop: "1px solid var(--line-faint)", borderBottom: "1px solid var(--line-faint)", overflow: "hidden", padding: "20px 0" }}>
+      <div style={{ ...F.mono, fontSize: "11px", letterSpacing: "0.22em", color: "var(--text-3)", textTransform: "uppercase", textAlign: "center", marginBottom: "14px" }}>Work that's been trusted by</div>
+      <div style={{ overflow: "hidden" }} aria-label="Client logos marquee">
         <div className="mq" style={{ display: "flex", width: "max-content", gap: "0" }}>
           {items.map((c, i) => (
             <div key={i} className="cred-tag" style={{ ...F.mono, fontSize: "13px", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--text-3)", padding: "0 32px", borderRight: "1px solid var(--line-faint)", whiteSpace: "nowrap", transition: "all 0.25s" }}>{c}</div>
@@ -969,105 +1301,41 @@ function CredStrip() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// MANIFESTO — single-line credo, full bleed, staggered reveal
+// OFFERINGS v3.0 — NEW. Three-door segmenter (Performances / Workshops / Brand)
 // ─────────────────────────────────────────────────────────────
-function Manifesto() {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          obs.disconnect();
-        }
-      },
-      { threshold: 0.35 }
-    );
-    obs.observe(node);
-    return () => obs.disconnect();
-  }, []);
-
-  // shared transition style
-  const fadeUp = (delay) => ({
-    opacity: visible ? 1 : 0,
-    transform: visible ? "translateY(0)" : "translateY(14px)",
-    transition: `opacity 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
-  });
-
+function Offerings() {
   return (
-    <section
-      ref={ref}
-      aria-label="Personal credo"
-      style={{
-        background: "var(--surface-3)",
-        padding: "clamp(100px,14vw,180px) clamp(24px,6vw,80px)",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%,-50%)",
-          width: "clamp(300px,40vw,560px)",
-          height: "clamp(300px,40vw,560px)",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(46,107,79,0.06), transparent 70%)",
-          pointerEvents: "none",
-        }}
-      />
-
-      <div style={{ maxWidth: "920px", margin: "0 auto", textAlign: "center", position: "relative" }}>
-        <div
-          style={{
-            ...F.mono,
-            fontSize: "11px",
-            letterSpacing: "0.32em",
-            textTransform: "uppercase",
-            color: "var(--gold)",
-            marginBottom: "40px",
-            ...fadeUp(0),
-          }}
-        >
-          — Credo —
+    <section id="offerings" style={{ padding: "var(--section-y) var(--section-x)", background: "var(--surface)" }}>
+      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+        <div className="reveal" style={{ marginBottom: "56px", maxWidth: "760px" }}>
+          <ODLabel>Work With Me</ODLabel>
+          <SectionHeading style={{ marginBottom: "18px" }}>Three ways<br /><em style={{ color: "var(--gold)" }}>we can work together.</em></SectionHeading>
+          <p style={{ color: "var(--text-2)", fontSize: "16px", lineHeight: 1.75, marginBottom: "14px", maxWidth: "620px" }}>
+            Pick the door that fits your event, team, or brand. Or just write to me — we'll figure it out together.
+          </p>
+          <MW3BAside style={{ maxWidth: "440px" }}>No deck required. An honest brief is worth more.</MW3BAside>
         </div>
 
-        <blockquote
-          style={{
-            ...F.serif,
-            fontStyle: "italic",
-            fontWeight: 300,
-            fontSize: "clamp(32px, 5.5vw, 64px)",
-            lineHeight: 1.18,
-            letterSpacing: "-0.015em",
-            color: "var(--text)",
-          }}
-        >
-          <span style={{ display: "block", ...fadeUp(220) }}>
-            Movement is how I <em style={{ color: "var(--gold)", fontStyle: "italic" }}>think</em>.
-          </span>
-          <span style={{ display: "block", ...fadeUp(680) }}>
-            Performance is how I <em style={{ color: "var(--gold)", fontStyle: "italic" }}>speak</em>.
-          </span>
-        </blockquote>
-
-        <div
-          style={{
-            width: "40px",
-            height: "1px",
-            background: "var(--gold)",
-            margin: "44px auto 0",
-            opacity: visible ? 0.6 : 0,
-            transition: "opacity 0.9s cubic-bezier(0.16,1,0.3,1) 1100ms",
-          }}
-        />
+        <div className="offer-cols" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2px", background: "var(--line-faint)" }}>
+          {OFFERINGS.map((o, i) => (
+            <a
+              key={o.id}
+              href="#book"
+              className={`offer-tile reveal reveal-d${i + 1}`}
+              style={{ textDecoration: "none" }}
+              aria-label={`Enquire about ${o.label}`}
+            >
+              <div className="offer-tile-icon" aria-hidden="true">{o.icon}</div>
+              <div style={{ ...F.mono, fontSize: "11px", color: "var(--gold)", letterSpacing: "0.2em", textTransform: "uppercase" }}>{o.label}</div>
+              <h3 style={{ ...F.serif, fontSize: "clamp(22px,2.6vw,28px)", fontWeight: 500, lineHeight: 1.2, color: "var(--text)" }}>{o.title}</h3>
+              <p style={{ fontSize: "14.5px", color: "var(--text-2)", lineHeight: 1.8, flex: 1 }}>{o.desc}</p>
+              <div style={{ borderTop: "1px solid var(--line-faint)", paddingTop: "16px", marginTop: "8px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px" }}>
+                <span style={{ ...F.mono, fontSize: "11px", color: "var(--text-3)", letterSpacing: "0.14em", fontStyle: "italic" }}>{o.note}</span>
+                <span style={{ ...F.mono, fontSize: "11px", color: "var(--gold)", letterSpacing: "0.16em", textTransform: "uppercase", whiteSpace: "nowrap" }}>Enquire →</span>
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -1268,7 +1536,7 @@ function FieldNotes() {
           <SectionHeading style={{ marginBottom: "20px" }}>Thoughts that<br /><em style={{ color: "var(--gold)" }}>wouldn't fit in a caption.</em></SectionHeading>
           <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: "16px", marginTop: "4px" }}>
             <MW3BAside style={{ maxWidth: "380px" }}>I write when something refuses to leave me alone.</MW3BAside>
-            <a href="#" style={{ ...F.mono, fontSize: "10px", color: "var(--gold)", letterSpacing: "0.16em", textTransform: "uppercase", textDecoration: "none", whiteSpace: "nowrap", alignSelf: "center", borderBottom: "1px solid var(--border)", paddingBottom: "2px", transition: "opacity 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.65")} onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}>All field notes &#8594;</a>
+            <span style={{ ...F.mono, fontSize: "11px", color: "var(--text-3)", letterSpacing: "0.16em", textTransform: "uppercase", whiteSpace: "nowrap", alignSelf: "center", fontStyle: "italic" }}>More writing coming soon</span>
           </div>
         </div>
 
@@ -1374,7 +1642,7 @@ function Adventures() {
                 </div>
               ))}
             </div>
-            <a href="#" style={{ ...F.mono, fontSize: "10px", color: "var(--gold)", letterSpacing: "0.18em", textTransform: "uppercase", textDecoration: "none" }}>Read the full dispatch →</a>
+            <span style={{ ...F.mono, fontSize: "11px", color: "var(--text-3)", letterSpacing: "0.18em", textTransform: "uppercase", fontStyle: "italic" }}>Full dispatch coming soon</span>
           </div>
         </div>
       </div>
@@ -1726,11 +1994,32 @@ function Footer() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// ROOT — Timeline added between CredStrip and MarqueeStrip
-//        Standalone About removed (merged into Hero)
+// SECTION MAP — used by SideRail + active section detection
+// ─────────────────────────────────────────────────────────────
+const SECTIONS = [
+  { id: "hero", label: "Intro" },
+  { id: "offerings", label: "Work With Me" },
+  { id: "work", label: "Work" },
+  { id: "press", label: "Press" },
+  { id: "timeline", label: "Story" },
+  { id: "writing", label: "Writing" },
+  { id: "adventures", label: "Adventures" },
+  { id: "media", label: "Media" },
+  { id: "book", label: "Contact" },
+];
+
+// ─────────────────────────────────────────────────────────────
+// ROOT v3.0
+//   + SEO + ScrollProgress + SideRail + BackToTop
+//   + New page order: Hero → CredStrip → Offerings → Work
+//                    → Press → Testimonials → Timeline → Field Notes
+//                    → Adventures → Media → Contact
+//   + MarqueeStrip kept in code (function below) but no longer rendered
 // ─────────────────────────────────────────────────────────────
 export default function Portfolio() {
   const [scrolled, setScrolled] = useState(false);
+  const activeSection = useActiveSection(SECTIONS.map((s) => s.id));
+  useSEO();
 
   useEffect(() => {
     const tag = document.createElement("style");
@@ -1760,20 +2049,24 @@ export default function Portfolio() {
   return (
     <>
       <Cursor />
-      <Navbar scrolled={scrolled} />
-      <Hero />
-      <Timeline />        {/* ← NEW: reverse-chronology story spine */}
-      <CredStrip />
-      <Manifesto /> 
-       <MarqueeStrip />
-      <Work />
-      <FieldNotes />
-      <Adventures />
-      <Media />
-      <Press />
-      <Testimonials />
-      <Contact />
+      <ScrollProgress />
+      <Navbar scrolled={scrolled} activeSection={activeSection} />
+      <SideRail activeSection={activeSection} sections={SECTIONS} />
+      <main>
+        <Hero />
+        <CredStrip />
+        <Offerings />        {/* v3.0: NEW — three-door segmenter */}
+        <Work />
+        <Press />
+        <Testimonials />
+        <Timeline />
+        <FieldNotes />
+        <Adventures />
+        <Media />
+        <Contact />
+      </main>
       <Footer />
+      <BackToTop />
     </>
   );
 }
