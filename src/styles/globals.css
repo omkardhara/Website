@@ -232,8 +232,13 @@ body::before {
 .play-btn { transition: transform 0.3s, background 0.3s; }
 .vid-card:hover .play-btn { transform: scale(1.15); background: rgba(191,155,69,0.18); }
 
-.cred-tag { transition: color 0.25s, border-color 0.25s; }
-.cred-tag:hover { color: var(--gold-light) !important; border-color: var(--gold) !important; }
+.cred-tag, .cred-tag-link { transition: background 0.25s; }
+.cred-tag-link:hover { background: var(--surface-2); }
+.cred-tag-link:hover .cred-logo-box { filter: grayscale(0) !important; opacity: 1 !important; border-color: var(--gold) !important; }
+.cred-tag-link:hover span { color: var(--gold-light) !important; }
+@media (max-width: 640px) {
+  .cred-logo-box { width: 80px !important; height: 32px !important; }
+}
 
 .rule { height:1px; border:none; background: linear-gradient(to right, transparent, var(--line-strong), transparent); }
 
@@ -258,6 +263,19 @@ body::before {
 
 /* ── HERO — single-column layout (stats row gets tighter on mobile) ── */
 .hero-stats { row-gap: 14px !important; }
+.hero-stat-link:hover { border-bottom-color: var(--gold) !important; transform: translateY(-1px); }
+.hero-stat-link:hover span:first-child { color: var(--gold-light) !important; }
+
+/* ── Timeline v3.1 — featured card + compact list ── */
+.tl-row:focus-visible { background: var(--surface-2) !important; box-shadow: inset 3px 0 0 var(--gold); }
+@media (max-width: 768px) {
+  .featured-tl-card { grid-template-columns: 1fr !important; }
+  .featured-tl-img { min-height: 220px !important; aspect-ratio: 16/10; }
+  .featured-tl-text { padding: 24px !important; }
+  .tl-row { grid-template-columns: 70px 1fr 20px !important; gap: 12px !important; padding: 16px 4px !important; }
+  .tl-expand { grid-template-columns: 1fr !important; }
+  .tl-expand > div:first-child { aspect-ratio: 16/10 !important; max-width: 100%; }
+}
 
 /* ── TIMELINE — alternating spine ── */
 .timeline-spine { position: relative; }
