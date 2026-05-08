@@ -4,6 +4,7 @@ import { ODLabel } from "../shared/ODLabel";
 import { MW3BAside } from "../shared/MW3BAside";
 import { SectionHeading } from "../shared/SectionHeading";
 import { SOCIALS } from "../../data/socials";
+import { OFFERINGS } from "../../data/offerings";
 
 // ─────────────────────────────────────────────────────────────
 // CONTACT — replaces BookMe. No form. Just email + socials.
