@@ -269,9 +269,9 @@ body::before {
 /* ── Timeline v3.1 — featured card + compact list ── */
 .tl-row:focus-visible { background: var(--surface-2) !important; box-shadow: inset 3px 0 0 var(--gold); }
 @media (max-width: 768px) {
-  .featured-tl-card { grid-template-columns: 1fr !important; }
+  .featured-tl-card { grid-template-columns: 1fr !important; height: auto !important; }
   .featured-tl-img { min-height: 220px !important; aspect-ratio: 16/10; }
-  .featured-tl-text { padding: 24px !important; }
+  .featured-tl-text { padding: 24px !important; overflow-y: visible !important; }
   .tl-row { grid-template-columns: 70px 1fr 20px !important; gap: 12px !important; padding: 16px 4px !important; }
   .tl-expand { grid-template-columns: 1fr !important; }
   .tl-expand > div:first-child { aspect-ratio: 16/10 !important; max-width: 100%; }
