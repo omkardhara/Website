@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import Cal, { getCalApi } from "@calcom/embed-react";
+import { useState } from "react";
 import { F } from "../../lib/typography";
 import { ODLabel } from "../shared/ODLabel";
 import { MW3BAside } from "../shared/MW3BAside";
@@ -12,13 +11,6 @@ import { OFFERINGS } from "../../data/offerings";
 // ─────────────────────────────────────────────────────────────
 export function Contact() {
   const [emailHovered, setEmailHovered] = useState(false);
-
-  useEffect(() => {
-    (async function () {
-      const cal = await getCalApi({ namespace: "15min" });
-      cal("ui", { hideEventTypeDetails: false, layout: "month_view" });
-    })();
-  }, []);
 
   return (
     <section id="book" style={{ padding: "clamp(90px,13vw,160px) clamp(20px,6vw,80px)", background: "var(--surface)" }}>
@@ -60,16 +52,6 @@ export function Contact() {
             <div style={{ ...F.mono, fontSize: "9px", color: "var(--text-3)", letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: "24px" }}>Get in touch</div>
 
             {/* Cal.com inline embed */}
-            <div style={{ marginBottom: "32px", paddingBottom: "32px", borderBottom: "1px solid var(--line-faint)" }}>
-              <div style={{ ...F.mono, fontSize: "9px", color: "var(--text-4)", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "14px" }}>Book a 15-min call</div>
-              <Cal
-                namespace="15min"
-                calLink="omkar/15min"
-                style={{ width: "100%", minHeight: "600px", overflow: "scroll" }}
-                config={{ layout: "month_view" }}
-              />
-            </div>
-
             {/* Email — large and prominent */}
             <a
               href="mailto:omkar.dhara@gmail.com"
