@@ -42,7 +42,7 @@ function FeaturedCard({ items, activeIdx, onSelect }) {
         border: "1px solid var(--line-faint)",
         borderRadius: "4px",
         overflow: "hidden",
-        minHeight: "360px",
+        height: "400px",
       }}>
         {/* Image side */}
         <div className="featured-tl-img" style={{
@@ -83,6 +83,7 @@ function FeaturedCard({ items, activeIdx, onSelect }) {
         <div className="featured-tl-text" style={{
           padding: "clamp(28px,3.5vw,44px)",
           display: "flex", flexDirection: "column", justifyContent: "center", gap: "16px",
+          overflowY: "auto",
         }}>
           <div style={{
             ...F.mono, fontSize: "11px", letterSpacing: "0.22em", textTransform: "uppercase",
