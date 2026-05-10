@@ -47,17 +47,20 @@
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--bg);
+  font-size: var(--body);          /* 17px */
+  line-height: var(--body-lh);     /* 1.6 */
+  font-weight: 400;
   color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 400;            /* v3.0: was 300 — better readability */
-  font-size: 16px;             /* v3.0: explicit base */
-  line-height: 1.65;
-  overflow-x: hidden;
-  cursor: none;
+  background: var(--bg);
+  font-family: "DM Sans", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
+
+p {
+  max-width: var(--measure-prose);
+}
+
 
 /* Honor user motion preferences */
 @media (prefers-reduced-motion: reduce) {
