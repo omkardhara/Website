@@ -72,9 +72,9 @@ const CHAPTERS = [
     tags:   ["Adventure", "Installation · Activism"],
   },
   {
-    id:     "Now",
+    id:     "Present",
     roman:  "VI",
-    label:  "MW3B",
+    label:  "Present",
     period: "Present",
     desc:   "Sky's the Limit",
     tags:   ["Present"],
