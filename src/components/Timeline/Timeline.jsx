@@ -361,7 +361,7 @@ function ChapterNode({ chapter, isActive, isDimmed, onClick }) {
         border:        "none",
         padding:       "28px 0",
         cursor:        "none",   // Site-wide custom cursor — intentional
-        opacity:       isDimmed ? 0.28 : 1,
+        opacity:       1,
         transition:    "opacity 0.4s ease",
       }}
     >
@@ -450,7 +450,7 @@ function EventNode({ event, index, isActive, isDimmed, onClick }) {
         cursor:          "none",  // Site-wide custom cursor — intentional
         padding:         0,
         maxWidth:        "110px",
-        opacity:         isDimmed ? 0.22 : 1,
+        opacity:         1,
         transition:      "opacity 0.3s ease",
         // `rise` keyframe — globals.css line 123. 70ms stagger per node.
         animation:       `rise 0.45s cubic-bezier(0.16,1,0.3,1) ${index * 70}ms both`,
