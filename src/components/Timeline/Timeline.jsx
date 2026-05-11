@@ -107,7 +107,7 @@ export function Timeline() {
 
   // With justify-content:space-around over 5 items, node centres
   // land at 10 / 30 / 50 / 70 / 90 % — so connector follows precisely.
-  const connectorLeftPct = activeChapterIdx >= 0 ? activeChapterIdx * 20 + 10 : 50;
+  const connectorLeftPct = activeChapterIdx >= 0 ? activeChapterIdx * 16.67 + 8.33 : 50;
 
   function handleSelectChapter(id) {
     if (id === activeChapterId) {
