@@ -73,7 +73,7 @@ const CHAPTERS = [
   },
   {
     id:     "Now",
-    roman:  "V",
+    roman:  "VI",
     label:  "MW3B",
     period: "Present",
     desc:   "Sky's the Limit",
