@@ -9,25 +9,18 @@ import { TimelineIcon } from "./TimelineIcons";
 // ─────────────────────────────────────────────────────────────
 // TIMELINE v4.1 — Interactive Node Graph + Illustrated Icons
 //
-// Desktop — 5 chapter circles sit on a horizontal spine.
-//           Click chapter → event nodes stagger in below.
-//           Click event   → detail card slides in beneath.
-//           Click active  → collapses.
+// Desktop — chapter circles on a spine → click → events stagger in
+//           → click event → detail card slides in
+// Mobile  — nested accordion
 //
-// Mobile  — Nested accordion: chapter → events → inline detail.
-//
-// Verified against globals.css (all CSS vars exist).
-// `rise` keyframe from globals.css.
-// `cursor: none` — site-wide custom cursor, intentional.
-// Only new file: TimelineIcons.jsx in same folder.
+// 6 chapters as edited by Omkar.
+// Only change from v4.0: number dots replaced with SVG icons.
+// cursor: none is intentional — site-wide custom cursor.
 // ─────────────────────────────────────────────────────────────
 
 // ─── CHAPTER CONFIGURATION ──────────────────────────────────
-// `period` → shown above the circle
-// `label`  → shown below the circle (this is what the visitor reads)
-// `desc`   → one-line caption below label
-// `tags`   → must match `tag` field in data/timeline.js exactly
-// `id`     → internal only, never displayed
+// These are Omkar's chapters — do not change unless updating
+// the timeline structure. Tags must match data/timeline.js exactly.
 // ─────────────────────────────────────────────────────────────
 const CHAPTERS = [
   {
@@ -42,33 +35,41 @@ const CHAPTERS = [
     id:     "marol",
     roman:  "II",
     label:  "Marol",
-    period: "2015–22",
+    period: "2015–16",
     desc:   "One wall, one district.",
-    tags:   ["Origin", "Expansion", "Inflection", "Community"],
+    tags:   ["Origin", "Activism"],
   },
   {
-    id:     "activism",
+    id:     "expansion",
     roman:  "III",
-    label:  "Activism",
-    period: "2016–17",
+    label:  "Expansion",
+    period: "2017–18",
     desc:   "Graffiti as civic language.",
-    tags:   ["Activism", "International"],
+    tags:   ["International", "Expansion"],
   },
   {
     id:     "recognition",
     roman:  "IV",
     label:  "Recognition",
-    period: "2019–20",
+    period: "2019–22",
     desc:   "Nat Geo. Red Bull. The world looks.",
-    tags:   ["Recognition"],
+    tags:   ["Inflection", "Recognition", "Reinvention", "Community"],
   },
   {
     id:     "mw3b",
     roman:  "V",
-    label:  "MW3B",
-    period: "2020–Now",
+    label:  "ManWith3Balls",
+    period: "2022–2025",
     desc:   "The artist steps forward.",
-    tags:   ["Reinvention", "Adventure", "Installation · Activism", "Present"],
+    tags:   ["Adventure", "Installation · Activism"],
+  },
+  {
+    id:     "present",
+    roman:  "VI",
+    label:  "Present",
+    period: "Present",
+    desc:   "Sky's the Limit",
+    tags:   ["Present"],
   },
 ];
 
@@ -102,8 +103,8 @@ export function Timeline() {
   const activeEvent      = activeEventIdx != null ? events[activeEventIdx] : null;
   const activeChapterIdx = CHAPTERS.findIndex((c) => c.id === activeChapterId);
 
-  // space-around over 5 → centres at 10 / 30 / 50 / 70 / 90 %
-  const connectorLeftPct = activeChapterIdx >= 0 ? activeChapterIdx * 20 + 10 : 50;
+  // space-around over 6 chapters → centres at 8.33 / 25 / 41.67 / 58.33 / 75 / 91.67 %
+  const connectorLeftPct = activeChapterIdx >= 0 ? activeChapterIdx * 16.67 + 8.33 : 50;
 
   function handleSelectChapter(id) {
     if (id === activeChapterId) {
@@ -173,10 +174,12 @@ function DesktopGraph({
   return (
     <div>
 
-      {/* ── CHAPTER RAIL ──────────────────────────────────────── */}
+      {/* ── CHAPTER RAIL ──────────────────────────────────── */}
       <div style={{ position: "relative" }}>
+        {/* Spine — trimmed to match space-around with 6 nodes */}
         <div aria-hidden="true" style={{
-          position: "absolute", top: "50%", left: "10%", right: "10%",
+          position: "absolute", top: "50%",
+          left: "8.33%", right: "8.33%",
           height: "1px", background: "var(--line)",
           transform: "translateY(-50%)", pointerEvents: "none",
         }} />
@@ -195,7 +198,7 @@ function DesktopGraph({
         </div>
       </div>
 
-      {/* ── CONNECTOR: chapter → event row ────────────────────── */}
+      {/* ── CONNECTOR: chapter → event row ────────────────── */}
       <div style={{
         position: "relative",
         height: hasActiveChapter ? "52px" : "0px",
@@ -213,7 +216,7 @@ function DesktopGraph({
         }} />
       </div>
 
-      {/* ── EVENT NODE ROW ─────────────────────────────────────── */}
+      {/* ── EVENT NODE ROW ────────────────────────────────── */}
       <div style={{
         overflow: "hidden",
         maxHeight: hasActiveChapter ? "320px" : "0px",
@@ -244,7 +247,7 @@ function DesktopGraph({
         </div>
       </div>
 
-      {/* ── CONNECTOR: event → detail card ─────────────────────── */}
+      {/* ── CONNECTOR: event → detail card ────────────────── */}
       <div style={{
         position: "relative",
         height: activeEvent ? "40px" : "0px",
@@ -260,7 +263,7 @@ function DesktopGraph({
         }} />
       </div>
 
-      {/* ── DETAIL CARD ────────────────────────────────────────── */}
+      {/* ── DETAIL CARD ───────────────────────────────────── */}
       <div style={{
         overflow: "hidden",
         maxHeight: activeEvent ? "700px" : "0px",
@@ -269,7 +272,6 @@ function DesktopGraph({
         {activeEvent && <DetailCard event={activeEvent} />}
       </div>
 
-      {/* ── Empty state ────────────────────────────────────────── */}
       {!hasActiveChapter && (
         <p aria-hidden="true" style={{
           ...F.mono, fontSize: "10px", letterSpacing: "0.22em",
@@ -296,7 +298,7 @@ function ChapterNode({ chapter, isActive, onClick }) {
         position: "relative", zIndex: 2,
         display: "flex", flexDirection: "column", alignItems: "center", gap: "14px",
         background: "none", border: "none", padding: "28px 0",
-        cursor: "none", opacity: 1, transition: "opacity 0.4s ease",
+        cursor: "none", opacity: 1,
       }}
     >
       <span style={{
@@ -318,8 +320,7 @@ function ChapterNode({ chapter, isActive, onClick }) {
         boxShadow: isActive ? "0 0 0 5px var(--bg), 0 0 0 6.5px var(--gold)" : "none",
       }}>
         <span style={{
-          ...F.serif,
-          fontSize: isActive ? "20px" : "17px",
+          ...F.serif, fontSize: isActive ? "20px" : "17px",
           fontWeight: 400, fontStyle: "italic",
           color: isActive ? "var(--bg)" : "var(--text-3)",
           transition: "all 0.3s ease", lineHeight: 1,
@@ -348,7 +349,7 @@ function ChapterNode({ chapter, isActive, onClick }) {
 }
 
 // ─── Event Node ─────────────────────────────────────────────
-// Number dot replaced with illustrated SVG icon.
+// Illustrated SVG icon replaces the number dot.
 function EventNode({ event, index, isActive, onClick }) {
   return (
     <button
@@ -359,15 +360,12 @@ function EventNode({ event, index, isActive, onClick }) {
       style={{
         display: "flex", flexDirection: "column", alignItems: "center", gap: "10px",
         background: "none", border: "none", cursor: "none", padding: 0,
-        maxWidth: "110px", opacity: 1, transition: "opacity 0.3s ease",
+        maxWidth: "110px", opacity: 1,
         animation: `rise 0.45s cubic-bezier(0.16,1,0.3,1) ${index * 70}ms both`,
       }}
     >
-      {/* Icon circle — gold fill when active */}
       <div style={{
-        width:  "42px",
-        height: "42px",
-        borderRadius: "50%",
+        width: "42px", height: "42px", borderRadius: "50%",
         background: isActive ? "var(--gold)"   : "var(--surface)",
         border: `1.5px solid ${isActive ? "var(--gold)" : "var(--line)"}`,
         display: "flex", alignItems: "center", justifyContent: "center",
@@ -422,12 +420,10 @@ function DetailCard({ event }) {
             style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
         </div>
       )}
-
       <div style={{
         padding: "clamp(32px,4vw,52px)",
         display: "flex", flexDirection: "column", justifyContent: "center", gap: "18px",
       }}>
-        {/* Tag row with inline icon */}
         <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
           <div style={{
             width: "30px", height: "30px", borderRadius: "50%",
@@ -486,14 +482,11 @@ function MobileAccordion() {
       {CHAPTERS.map((ch) => {
         const isChapterOpen = ch.id === openChapterId;
         const chEvents      = getEvents(ch);
-
         return (
           <div key={ch.id} style={{ borderTop: "1px solid var(--line-faint)" }}>
 
-            {/* Chapter row */}
             <button type="button" onClick={() => toggleChapter(ch.id)}
               aria-expanded={isChapterOpen}
-              aria-label={`Chapter ${ch.roman}: ${ch.label}, ${ch.period}`}
               style={{
                 width: "100%", display: "flex", alignItems: "center", gap: "18px",
                 padding: "22px 0", background: "none", border: "none",
@@ -515,7 +508,6 @@ function MobileAccordion() {
                   {ch.roman}
                 </span>
               </div>
-
               <div style={{ flex: 1 }}>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "10px" }}>
                   <span style={{
@@ -533,11 +525,9 @@ function MobileAccordion() {
                   {ch.desc}
                 </p>
               </div>
-
               <PlusMinusIcon isOpen={isChapterOpen} />
             </button>
 
-            {/* Events panel */}
             <div style={{
               overflow: "hidden",
               maxHeight: isChapterOpen ? `${chEvents.length * 600 + 48}px` : "0px",
@@ -548,18 +538,14 @@ function MobileAccordion() {
                   const isEventOpen = isChapterOpen && openEventIdx === ei;
                   return (
                     <div key={ei} style={{ borderTop: "1px solid var(--line-faint)" }}>
-
-                      {/* Event row */}
                       <button type="button" onClick={() => toggleEvent(ei)}
                         aria-expanded={isEventOpen}
-                        aria-label={`${ev.year}: ${ev.title}`}
                         style={{
                           width: "100%", display: "flex", alignItems: "center", gap: "14px",
                           padding: "16px 0", background: "none", border: "none",
                           cursor: "none", textAlign: "left",
                         }}
                       >
-                        {/* Icon replaces number dot */}
                         <div style={{
                           width: "34px", height: "34px", borderRadius: "50%", flexShrink: 0,
                           background: isEventOpen ? "var(--ember)"  : "var(--surface)",
@@ -573,7 +559,6 @@ function MobileAccordion() {
                             color={isEventOpen ? "var(--bg)" : "var(--text-4)"}
                           />
                         </div>
-
                         <div style={{ flex: 1 }}>
                           <span style={{
                             ...F.mono, fontSize: "9px", color: "var(--text-4)",
@@ -589,11 +574,9 @@ function MobileAccordion() {
                             {ev.title}
                           </span>
                         </div>
-
                         <PlusMinusIcon isOpen={isEventOpen} small />
                       </button>
 
-                      {/* Inline detail */}
                       <div style={{
                         overflow: "hidden",
                         maxHeight: isEventOpen ? "560px" : "0px",
@@ -613,9 +596,10 @@ function MobileAccordion() {
                           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
                             <TimelineIcon tag={ev.tag} size={14} color="var(--gold)" />
                             <span style={{
-                              ...F.mono, fontSize: "9px", letterSpacing: "0.18em", textTransform: "uppercase",
-                              color: "var(--gold)", padding: "3px 8px",
-                              border: "1px solid var(--line)", background: "var(--bg-warm)",
+                              ...F.mono, fontSize: "9px", letterSpacing: "0.18em",
+                              textTransform: "uppercase", color: "var(--gold)",
+                              padding: "3px 8px", border: "1px solid var(--line)",
+                              background: "var(--bg-warm)",
                             }}>
                               {ev.tag}
                             </span>
@@ -625,11 +609,9 @@ function MobileAccordion() {
                           </p>
                         </div>
                       </div>
-
                     </div>
                   );
                 })}
-
                 {chEvents.length === 0 && (
                   <p style={{
                     ...F.mono, fontSize: "10px", letterSpacing: "0.2em",
